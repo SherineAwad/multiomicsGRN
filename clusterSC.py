@@ -30,18 +30,30 @@ base_name = os.path.splitext(os.path.basename(newObject))[0]
 combined_adata = sc.read(myObject)
 
 # -----------------------------
+# Rename samples before anything else
+# -----------------------------
+rename_dict = {"TH1": "Control", "TH2": "KO"}
+if "sample" in combined_adata.obs.columns:
+    combined_adata.obs["sample"] = combined_adata.obs["sample"].replace(rename_dict)
+    print("✅ Renamed samples:", combined_adata.obs["sample"].unique())
+else:
+    print("⚠️ Column 'sample' not found. Available columns:", combined_adata.obs.columns.tolist())
+
+# -----------------------------
+# Plot UMAP colored by sample (after renaming)
+# -----------------------------
+sc.pl.umap(combined_adata, color="sample", legend_loc="on data", save=f"_{base_name}_Samples.png")
+
+# -----------------------------
 # Preprocessing & clustering
 # -----------------------------
-# If already normalized/logged, you can skip these two lines
 sc.pp.normalize_total(combined_adata, target_sum=1e4)
 sc.pp.log1p(combined_adata)
 
-# PCA → neighbors → clustering → UMAP
 sc.tl.pca(combined_adata, svd_solver="arpack")
 sc.pp.neighbors(combined_adata, n_neighbors=15, n_pcs=50)
 sc.tl.umap(combined_adata)
 
-# Leiden clustering (with recommended args)
 sc.tl.leiden(combined_adata, resolution=1.0, flavor="igraph", n_iterations=2, directed=False)
 
 # Save cluster plot
