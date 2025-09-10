@@ -29,7 +29,8 @@ This filtering step ensures removal of dead or dying cells and technical artifac
 
 ![Clusters UMAP](figures/umap_clustered_mNeurog2_Clusters.png)
 
-### Marker Genes UMAP 
+### DOTPLOT 
+![Dotplot](figures/Dotplot.png) 
 
 ### Marker Genes UMAP
 
