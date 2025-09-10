@@ -60,9 +60,12 @@ This filtering step ensures removal of dead or dying cells and technical artifac
 
 # Part 2: Analyzing scATAC Data  
 
-![ATAC UMAP](atac_umap.png)
+![ATAC UMAP](ATAC_samples.png)
 
-###GOING ON NEED MORE PLOTS TO ANNOTATE
+###Clustering 
+
+![ATAC CLUSTERS](ATAC_clusters.png)
+
 
 ## Barcode-to-Cluster Mapping
 
