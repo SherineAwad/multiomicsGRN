@@ -60,18 +60,18 @@ This filtering step ensures removal of dead or dying cells, doublets, and techni
 
 ![ATAC UMAP](ATAC_samples.png)
 
-###Clustering 
+### Clustering 
 
 ![ATAC CLUSTERS](ATAC_clusters.png)
 
 
-## Barcode-to-Cluster Mapping
+#### Barcode-to-Cluster Mapping
 
 The following file format (`CSV`) shows how barcodes are mapped to clusters:
 After annotation, we can replace the id with the cluster 
 
 
-## Header of the barcode to cluster mapping 
+#### Header of the barcode to cluster mapping 
 ```csv
 "barcode","cluster"
 "Control_CGCCTCATCCTAAGGT-1","4"
