@@ -1,7 +1,6 @@
 # -----------------------------
-# Full TH1/TH2 ATAC-seq workflow (EnsDb annotations)
+# Full corrected TH1/TH2 ATAC-seq workflow
 # -----------------------------
-
 library(Seurat)
 library(Signac)
 library(GenomicRanges)
@@ -14,7 +13,11 @@ library(future)
 # -----------------------------
 # 1. Parallelization for speed
 # -----------------------------
-plan("multisession", workers = 6)  # adjust cores per your SLURM job
+#plan("multisession", workers = 6)  # adjust cores per your SLURM job
+plan(sequential)  # prevents multiple copies in RAM
+
+# Increase max globals size for large Seurat objects
+options(future.globals.maxSize = 20 * 1024^3)  # 20 GB
 
 # -----------------------------
 # 2. Define files
@@ -34,7 +37,7 @@ counts_ko      <- Read10X_h5(matrix_ko_file)
 if (is.list(counts_control)) counts_control <- counts_control$Peaks
 if (is.list(counts_ko))      counts_ko      <- counts_ko$Peaks
 
-# Fix rownames to Signac format
+# Fix rownames to Signac format (chr-start-end)
 rownames(counts_control) <- gsub(":", "-", rownames(counts_control))
 rownames(counts_ko)      <- gsub(":", "-", rownames(counts_ko))
 
@@ -74,14 +77,20 @@ combined_seurat <- merge(
 # -----------------------------
 # 7. Add gene annotations for TSS enrichment
 # -----------------------------
-annotations <- GetGRangesFromEnsDb(EnsDb.Mmusculus.v79) 
-seqlevels(annotations) <- paste0("chr", seqlevels(annotations))  # match peak names
+annotations <- GetGRangesFromEnsDb(EnsDb.Mmusculus.v79)
+
+# Fix chromosome names and genome to match peaks
+seqlevels(annotations) <- paste0("chr", seqlevels(annotations))
+genome(annotations) <- "mm10"
+
 Annotation(combined_seurat) <- annotations
 
 # -----------------------------
 # 8. QC metrics
 # -----------------------------
 combined_seurat <- NucleosomeSignal(combined_seurat)
+
+# TSSEnrichment (will now work with large objects)
 combined_seurat <- TSSEnrichment(combined_seurat)
 
 combined_seurat <- subset(
@@ -103,7 +112,7 @@ combined_seurat <- FindClusters(combined_seurat, resolution = 0.5)
 combined_seurat <- RunUMAP(combined_seurat, reduction = 'lsi', dims = 2:30)
 
 # -----------------------------
-# Save Seurat object
+# 10. Save Seurat object
 # -----------------------------
 saveRDS(combined_seurat, file = "combined_ATAC_seurat.rds")
 

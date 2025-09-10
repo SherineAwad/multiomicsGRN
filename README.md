@@ -57,3 +57,38 @@ This filtering step ensures removal of dead or dying cells and technical artifac
 
 
 
+# Part 2: Analyzing scATAC Data  
+
+![ATAC UMAP](atac_umap.png)
+
+###GOING ON NEED MORE PLOTS TO ANNOTATE
+
+## Barcode-to-Cluster Mapping
+
+The following file format (`CSV`) shows how barcodes are mapped to clusters:
+After annotation, we can replace the id with the cluster 
+
+
+## Header of the barcode to cluster mapping 
+```csv
+"barcode","cluster"
+"Control_CGCCTCATCCTAAGGT-1","4"
+"Control_CCAGCCTGTTTGGGCG-1","0"
+"Control_TTGACTAAGTCATTTC-1","2"
+"Control_GACTATTCAAGGTCCT-1","0"
+"Control_GCTAGCTCACAGGAAT-1","10"
+"Control_AGCATCCCACCATATG-1","0"
+"Control_AGGTTAGAGCGATACT-1","11"
+"Control_TCTCACCAGCTTCTCA-1","2"
+"Control_GGCTCAATCCTAGTTT-1","0"
+"Control_TTGCATTTCTCTAGCC-1","10"
+"Control_CACCTCAGTGTTTGAG-1","8"
+"Control_AGTAGGATCACTCAAA-1","0"
+"Control_CCTAAAGGTAAGGTTT-1","4"
+"Control_GTGCTTACAGCCAGAA-1","0"
+"Control_CTCTTGATCGAGGTGG-1","10"
+"Control_CCTACTTCACATTGCA-1","0"
+"Control_GCCTACTTCTGTAATG-1","4"
+"Control_AATCCGTAGTATCGCG-1","0"
+"Control_GTGGATGCAAGACTCC-1","10"
+
