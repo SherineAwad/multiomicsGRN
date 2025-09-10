@@ -9,13 +9,13 @@ Violin plots displaying quality control metrics such as number of genes detected
 
 ### Filtering Criteria
 
-Quality filtering was applied to remove low-quality cells and potential doublets. Cells were retained only if they met all the following criteria:
+Quality control filtering was applied to exclude low-quality cells and potential doublets. Cells were retained only if they met all the following conditions:
 
-- Number of genes detected per cell between **800 and 8000**
-- Total counts per cell between **1200 and 30000**
-- Percentage of mitochondrial gene counts less than **25%**
+- Number of genes detected per cell between **500 and 7000**  
+- Total counts per cell between **1000 and 30,000**  
+- Percentage of mitochondrial gene counts less than **25%**  
 
-This filtering step ensures removal of dead or dying cells and technical artifacts to improve downstream analysis quality.
+This filtering step ensures removal of dead or dying cells, doublets, and technical artifacts, thereby improving the quality of downstream analyses.
 
 
 ### Additional Analysis Figure
