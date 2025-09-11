@@ -54,6 +54,11 @@ This filtering step ensures removal of dead or dying cells, doublets, and techni
 <img src="figures/umap_clustered_mNeurog2_Glul.png?v=3" alt="Glul" width="33%"><img src="figures/umap_clustered_mNeurog2_Neurog2.png?v=3" alt="Neurog2" width="33%"><img src="figures/umap_clustered_mNeurog2_Rho.png?v=3" alt="Rho" width="33%">
 <img src="figures/umap_clustered_mNeurog2_Vim.png?v=3" alt="Vim" width="33%">
 
+### Annotations 
+
+![Annotations ON](figures/annotated_clustered_mNeurog2_annotationsON.png)
+
+![Annotations](figures/annotated_clustered_mNeurog2_annotations.png)
 
 
 # Part 2: Analyzing scATAC Data  
