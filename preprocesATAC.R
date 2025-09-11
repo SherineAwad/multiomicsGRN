@@ -9,6 +9,16 @@ library(dplyr)
 library(plyr)
 library(EnsDb.Mmusculus.v79)
 library(future)
+library(argparse)
+
+# ----------------------------------------
+# 1. Load Seurat object
+# ----------------------------------------
+# Get command line arguments
+args <- commandArgs(trailingOnly = TRUE)
+
+# Assume the first argument is the path to the RDS file
+object_name <- args[1]
 
 # -----------------------------
 # 1. Parallelization for speed
@@ -68,7 +78,7 @@ ko_seurat$condition      <- "KO"
 # -----------------------------
 # 6. Merge Seurat objects
 # -----------------------------
-combined_seurat <- merge(
+myObject <- merge(
   control_seurat,
   y = ko_seurat,
   add.cell.ids = c("Control", "KO")
@@ -83,18 +93,18 @@ annotations <- GetGRangesFromEnsDb(EnsDb.Mmusculus.v79)
 seqlevels(annotations) <- paste0("chr", seqlevels(annotations))
 genome(annotations) <- "mm10"
 
-Annotation(combined_seurat) <- annotations
+Annotation(myObject) <- annotations
 
 # -----------------------------
 # 8. QC metrics
 # -----------------------------
-combined_seurat <- NucleosomeSignal(combined_seurat)
+myObject <- NucleosomeSignal(myObject)
 
 # TSSEnrichment (will now work with large objects)
-combined_seurat <- TSSEnrichment(combined_seurat)
+myObject <- TSSEnrichment(myObject)
 
-combined_seurat <- subset(
-  combined_seurat,
+myObject <- subset(
+  myObject,
   subset = nCount_peaks < 50000 &
            nucleosome_signal < 4 &
            TSS.enrichment > 2
@@ -103,16 +113,16 @@ combined_seurat <- subset(
 # -----------------------------
 # 9. TF-IDF normalization, LSI, clustering
 # -----------------------------
-combined_seurat <- RunTFIDF(combined_seurat)
-combined_seurat <- FindTopFeatures(combined_seurat)
-combined_seurat <- RunSVD(combined_seurat)
+myObject <- RunTFIDF(myObject)
+myObject <- FindTopFeatures(myObject)
+myObject <- RunSVD(myObject)
 
-combined_seurat <- FindNeighbors(combined_seurat, reduction = 'lsi', dims = 2:30)
-combined_seurat <- FindClusters(combined_seurat, resolution = 0.5)
-combined_seurat <- RunUMAP(combined_seurat, reduction = 'lsi', dims = 2:30)
+myObject <- FindNeighbors(myObject, reduction = 'lsi', dims = 2:30)
+myObject <- FindClusters(myObject, resolution = 0.5)
+myObject <- RunUMAP(myObject, reduction = 'lsi', dims = 2:30)
 
 # -----------------------------
 # 10. Save Seurat object
 # -----------------------------
-saveRDS(combined_seurat, file = "Neurog2_ATAC.rds")
+saveRDS(myObject, file = object_name) 
 
