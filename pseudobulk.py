@@ -1,10 +1,14 @@
 import os
+import argparse
 import pandas as pd
 import pycisTopic
 from pycisTopic.pseudobulk_peak_calling import export_pseudobulk
 
 print("pycisTopic version:", pycisTopic.__version__)
-
+parser = argparse.ArgumentParser(description="Load cell annotation CSV")
+parser.add_argument("input_barcode", help="Path to cell annotation CSV")  # positional argument
+args = parser.parse_args()
+barcode_mapping = args.input_barcode
 # -----------------------------
 # 1. Define fragments dictionary
 # -----------------------------
@@ -27,7 +31,8 @@ print(chromsizes.head())
 # -----------------------------
 # 3. Create output directories
 # -----------------------------
-out_dir = "outs"
+out_dir = os.getcwd()
+
 consensus_dir = os.path.join(out_dir, "consensus_peak_calling")
 bed_dir       = os.path.join(consensus_dir, "pseudobulk_bed_files")
 bw_dir        = os.path.join(consensus_dir, "pseudobulk_bw_files")
@@ -39,24 +44,23 @@ os.makedirs(bw_dir, exist_ok=True)
 # -----------------------------
 # 4. Load barcode-to-celltype CSV
 # -----------------------------
-cell_data = pd.read_csv("SC_celltype_annotations.csv")  # columns: barcode, celltype
+# Expected columns: barcode, celltype
+cell_data = pd.read_csv(barcode_mapping)
 print("Columns in cell_data:", cell_data.columns)
+print(cell_data.head())
 
 # -----------------------------
-# 5. Add sample column using rename_dict
+# 5. Create 'sample' column from barcode prefix
 # -----------------------------
-# Your current sample identifiers in the metadata are 'TH1' and 'TH2'
-# Map them to 'Control' and 'KO' as required
-rename_dict = {"TH1": "Control", "TH2": "KO"}
-cell_data['sample'] = cell_data['sample'].map(rename_dict)  # assumes 'sample' column exists
+# Your barcodes should look like: "Control_AAACGAAAGAGCCTA-1" or "KO_TTGGGAAAGTAGCTC-1"
+cell_data['sample'] = cell_data['barcode'].str.split("_").str[0]
 
-# Verify mapping
-print("Unique samples after renaming:", cell_data['sample'].unique())
-
-# Check that all samples have corresponding fragment files
+# Verify all sample names exist in fragments_dict
 missing_samples = set(cell_data['sample'].unique()) - set(fragments_dict.keys())
 if missing_samples:
     raise ValueError(f"No fragment file provided for these samples: {missing_samples}")
+
+print("Unique samples:", cell_data['sample'].unique())
 
 # -----------------------------
 # 6. Run pseudobulk export
@@ -76,7 +80,7 @@ bw_paths, bed_paths = export_pseudobulk(
 )
 
 # -----------------------------
-# 7. Save paths for reference
+# 7. Save bw_paths and bed_paths for reference
 # -----------------------------
 with open(os.path.join(consensus_dir, "bw_paths.tsv"), "wt") as f:
     for v in bw_paths:

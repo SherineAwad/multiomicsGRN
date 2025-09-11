@@ -114,5 +114,5 @@ combined_seurat <- RunUMAP(combined_seurat, reduction = 'lsi', dims = 2:30)
 # -----------------------------
 # 10. Save Seurat object
 # -----------------------------
-saveRDS(combined_seurat, file = "combined_ATAC_seurat.rds")
+saveRDS(combined_seurat, file = "Neurog2_ATAC.rds")
 

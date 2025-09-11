@@ -14,9 +14,12 @@ sys.modules['importlib.metadata'] = importlib_metadata
 # -----------------------------
 parser = argparse.ArgumentParser()
 parser.add_argument('myObject', help="Input AnnData file (.h5ad)")
+parser.add_argument('barcode_csv', help="Output CSV file for barcode annotations")
+
 args = parser.parse_args()
 
 myObject = args.myObject
+barcode_mapping = args.barcode_csv
 
 adata = sc.read_h5ad("annotated_clustered_mNeurog2.h5ad")
 
@@ -30,5 +33,5 @@ barcode_annotations.index.name = 'barcode'
 barcode_annotations.reset_index(inplace=True)
 
 # Save to CSV for SCENIC+
-barcode_annotations.to_csv("SC_celltype_annotations.csv", index=False)
+barcode_annotations.to_csv(barcode_mapping, index=False)
 
