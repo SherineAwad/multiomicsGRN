@@ -40,11 +40,6 @@ else:
     print("⚠️ Column 'sample' not found. Available columns:", combined_adata.obs.columns.tolist())
 
 # -----------------------------
-# Plot UMAP colored by sample (after renaming)
-# -----------------------------
-sc.pl.umap(combined_adata, color="sample", legend_loc="on data", save=f"_{base_name}_Samples.png")
-
-# -----------------------------
 # Preprocessing & clustering
 # -----------------------------
 sc.pp.normalize_total(combined_adata, target_sum=1e4)
@@ -59,9 +54,26 @@ sc.tl.leiden(combined_adata, resolution=1.0, flavor="igraph", n_iterations=2, di
 # Save cluster plot
 figure_name = f"_{base_name}_Clusters.png"
 sc.pl.umap(combined_adata, color=["leiden"], legend_loc="on data", save=figure_name)
-
+sc.pl.umap(combined_adata, color="sample", legend_loc="on data", save=f"_{base_name}_Samples.png")
 # -----------------------------
 # Marker gene plotting
+# -----------------------------
+with open(markers) as f:
+    marker_genes = [line.strip() for line in f]
+figurename = f"figures/{base_name}_Dotplot.png"
+combined_adata.obs["leiden"] = combined_adata.obs["leiden"].astype("category")
+marker_genes_present = [g for g in marker_genes if g in combined_adata.var_names]
+
+fig = sc.pl.dotplot(
+    combined_adata,
+    var_names=marker_genes_present,
+    groupby="leiden",
+    standard_scale=None,
+    show=False,
+    return_fig=True
+)
+# Save figure
+fig.savefig(figurename, dpi=600, bbox_inches="tight")
 # -----------------------------
 with open(markers) as f:
     marker_genes = [line.strip() for line in f]
@@ -76,7 +88,6 @@ for gene in marker_genes:
         )
     else:
         print(f"⚠️ Skipping {gene}: not in adata.var_names")
-
 # -----------------------------
 # Save clustered object
 # -----------------------------
