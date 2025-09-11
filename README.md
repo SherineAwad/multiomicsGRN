@@ -70,68 +70,7 @@ This filtering step ensures removal of dead or dying cells, doublets, and techni
 ![ATAC CLUSTERS](ATAC_clusters.png)
 
 
-### ATAC Markers UMAP 
-
-<img src="ATAC_FeaturePlot_Abca8a.png" width="33%"><img src="ATAC_FeaturePlot_Acta2.png" width="33%"><img src="ATAC_FeaturePlot_Apoe.png" width="33%">
-<img src="ATAC_FeaturePlot_Aqp4.png" width="33%"><img src="ATAC_FeaturePlot_Arr3.png" width="33%"><img src="ATAC_FeaturePlot_Ascl1.png" width="33%">
-<img src="ATAC_FeaturePlot_Atoh7.png" width="33%"><img src="ATAC_FeaturePlot_Bhlhe23.png" width="33%"><img src="ATAC_FeaturePlot_Bsn.png" width="33%">
-<img src="ATAC_FeaturePlot_Cabp5.png" width="33%"><img src="ATAC_FeaturePlot_Calb1.png" width="33%"><img src="ATAC_FeaturePlot_Calb2.png" width="33%">
-<img src="ATAC_FeaturePlot_Cbln4.png" width="33%"><img src="ATAC_FeaturePlot_Ccr2.png" width="33%"><img src="ATAC_FeaturePlot_Chat.png" width="33%">
-<img src="ATAC_FeaturePlot_Crx.png" width="33%"><img src="ATAC_FeaturePlot_Csf1r.png" width="33%"><img src="ATAC_FeaturePlot_Cx3cr1.png" width="33%">
-<img src="ATAC_FeaturePlot_Ebf3.png" width="33%"><img src="ATAC_FeaturePlot_Elavl3.png" width="33%"><img src="ATAC_FeaturePlot_Elavl4.png" width="33%">
-<img src="ATAC_FeaturePlot_Emx1.png" width="33%"><img src="ATAC_FeaturePlot_Fgf15.png" width="33%"><img src="ATAC_FeaturePlot_Foxn4.png" width="33%">
-<img src="ATAC_FeaturePlot_Gad1.png" width="33%"><img src="ATAC_FeaturePlot_Gad2.png" width="33%"><img src="ATAC_FeaturePlot_Gfap.png" width="33%">
-<img src="ATAC_FeaturePlot_Gli1.png" width="33%"><img src="ATAC_FeaturePlot_Glul.png" width="33%"><img src="ATAC_FeaturePlot_Gnat2.png" width="33%">
-<img src="ATAC_FeaturePlot_Grm6.png" width="33%"><img src="ATAC_FeaturePlot_Guca1b.png" width="33%"><img src="ATAC_FeaturePlot_Hes1.png" width="33%">
-<img src="ATAC_FeaturePlot_Hes5.png" width="33%"><img src="ATAC_FeaturePlot_Igf2.png" width="33%"><img src="ATAC_FeaturePlot_Insm1.png" width="33%">
-<img src="ATAC_FeaturePlot_Isl1.png" width="33%"><img src="ATAC_FeaturePlot_Isl2.png" width="33%"><img src="ATAC_FeaturePlot_Kcnj8.png" width="33%">
-<img src="ATAC_FeaturePlot_Lhx1.png" width="33%"><img src="ATAC_FeaturePlot_Lhx2.png" width="33%"><img src="ATAC_FeaturePlot_Lhx4.png" width="33%">
-<img src="ATAC_FeaturePlot_mt-Atp6.png" width="33%"><img src="ATAC_FeaturePlot_Nefl.png" width="33%"><img src="ATAC_FeaturePlot_Nefm.png" width="33%">
-<img src="ATAC_FeaturePlot_Neurog2.png" width="33%"><img src="ATAC_FeaturePlot_Notch1.png" width="33%"><img src="ATAC_FeaturePlot_Nr2e3.png" width="33%">
-<img src="ATAC_FeaturePlot_Olig2.png" width="33%"><img src="ATAC_FeaturePlot_Onecut1.png" width="33%"><img src="ATAC_FeaturePlot_Onecut2.png" width="33%">
-<img src="ATAC_FeaturePlot_Opn1mw.png" width="33%"><img src="ATAC_FeaturePlot_Opn1sw.png" width="33%"><img src="ATAC_FeaturePlot_Otx2.png" width="33%">
-<img src="ATAC_FeaturePlot_Pax2.png" width="33%"><img src="ATAC_FeaturePlot_Pax6.png" width="33%"><img src="ATAC_FeaturePlot_Pcp4.png" width="33%">
-<img src="ATAC_FeaturePlot_Pdgfra.png" width="33%"><img src="ATAC_FeaturePlot_Pecam1.png" width="33%"><img src="ATAC_FeaturePlot_Pou4f1.png" width="33%">
-<img src="ATAC_FeaturePlot_Pou4f2.png" width="33%"><img src="ATAC_FeaturePlot_Pou4f3.png" width="33%"><img src="ATAC_FeaturePlot_Prdm1.png" width="33%">
-<img src="ATAC_FeaturePlot_Prdx6.png" width="33%"><img src="ATAC_FeaturePlot_Prkca.png" width="33%"><img src="ATAC_FeaturePlot_Prox1.png" width="33%">
-<img src="ATAC_FeaturePlot_Ptprc.png" width="33%"><img src="ATAC_FeaturePlot_Rbfox3.png" width="33%"><img src="ATAC_FeaturePlot_Rbpms.png" width="33%">
-<img src="ATAC_FeaturePlot_Rho.png" width="33%"><img src="ATAC_FeaturePlot_Rlbp1.png" width="33%"><img src="ATAC_FeaturePlot_Rom1.png" width="33%">
-<img src="ATAC_FeaturePlot_Sall1.png" width="33%"><img src="ATAC_FeaturePlot_Sebox.png" width="33%"><img src="ATAC_FeaturePlot_Sfrp2.png" width="33%">
-<img src="ATAC_FeaturePlot_Slc17a7.png" width="33%"><img src="ATAC_FeaturePlot_Slc18a3.png" width="33%"><img src="ATAC_FeaturePlot_Slc1a3.png" width="33%">
-<img src="ATAC_FeaturePlot_Slc6a9.png" width="33%"><img src="ATAC_FeaturePlot_Sncg.png" width="33%"><img src="ATAC_FeaturePlot_Sox11.png" width="33%">
-<img src="ATAC_FeaturePlot_Sox2.png" width="33%"><img src="ATAC_FeaturePlot_Sox9.png" width="33%"><img src="ATAC_FeaturePlot_Tfap2a.png" width="33%">
-<img src="ATAC_FeaturePlot_Tfap2b.png" width="33%"><img src="ATAC_FeaturePlot_Thrb.png" width="33%"><img src="ATAC_FeaturePlot_Thy1.png" width="33%">
-<img src="ATAC_FeaturePlot_Tie1.png" width="33%"><img src="ATAC_FeaturePlot_Trpm1.png" width="33%"><img src="ATAC_FeaturePlot_Vim.png" width="33%">
-<img src="ATAC_FeaturePlot_Vsx1.png" width="33%"><img src="ATAC_FeaturePlot_Vsx2.png" width="33%">
 
 
 
-#### Barcode-to-Cluster Mapping
-
-The following file format (`CSV`) shows how barcodes are mapped to clusters:
-After annotation, we can replace the id with the cluster 
-
-
-#### Header of the barcode to cluster mapping 
-```csv
-"barcode","cluster"
-"Control_CGCCTCATCCTAAGGT-1","4"
-"Control_CCAGCCTGTTTGGGCG-1","0"
-"Control_TTGACTAAGTCATTTC-1","2"
-"Control_GACTATTCAAGGTCCT-1","0"
-"Control_GCTAGCTCACAGGAAT-1","10"
-"Control_AGCATCCCACCATATG-1","0"
-"Control_AGGTTAGAGCGATACT-1","11"
-"Control_TCTCACCAGCTTCTCA-1","2"
-"Control_GGCTCAATCCTAGTTT-1","0"
-"Control_TTGCATTTCTCTAGCC-1","10"
-"Control_CACCTCAGTGTTTGAG-1","8"
-"Control_AGTAGGATCACTCAAA-1","0"
-"Control_CCTAAAGGTAAGGTTT-1","4"
-"Control_GTGCTTACAGCCAGAA-1","0"
-"Control_CTCTTGATCGAGGTGG-1","10"
-"Control_CCTACTTCACATTGCA-1","0"
-"Control_GCCTACTTCTGTAATG-1","4"
-"Control_AATCCGTAGTATCGCG-1","0"
-"Control_GTGGATGCAAGACTCC-1","10"
 

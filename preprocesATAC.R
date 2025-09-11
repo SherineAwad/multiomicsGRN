@@ -121,8 +121,34 @@ myObject <- FindNeighbors(myObject, reduction = 'lsi', dims = 2:30)
 myObject <- FindClusters(myObject, resolution = 0.5)
 myObject <- RunUMAP(myObject, reduction = 'lsi', dims = 2:30)
 
+# ----------------------------------------
+# 10. Visualization
+# ----------------------------------------
+# Define output file
+png(filename = "ATAC_clusters.png", width = 2000, height = 1600, res = 300)
+# Generate the plot
+DimPlot(myObject,
+        reduction = "umap",
+        group.by = "seurat_clusters",
+        label = TRUE,
+        repel = TRUE) +
+  ggtitle("ATAC")
+
+# Close the device to save the file
+dev.off()
+png(filename = "ATAC_samples.png", width = 2000, height = 1600, res = 300)
+DimPlot(
+  myObject,
+  reduction = "umap",
+  group.by = "condition",
+  cols = c("Control" = "blue", "KO" = "red"),
+  label = TRUE,
+  repel = TRUE
+)
+dev.off()
+
 # -----------------------------
-# 10. Save Seurat object
+# 11. Save Seurat object
 # -----------------------------
 saveRDS(myObject, file = object_name) 
 
