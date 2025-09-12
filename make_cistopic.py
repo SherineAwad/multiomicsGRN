@@ -3,65 +3,50 @@ import os
 import argparse
 import pandas as pd
 from pycisTopic.cistopic_class import create_cistopic_object_from_fragments
+import pickle
 
 def main():
-    parser = argparse.ArgumentParser(description="Create cisTopic objects from ATAC fragments and consensus peaks")
+    parser = argparse.ArgumentParser(description="Create cisTopic objects from fragments")
     parser.add_argument("--fragments", nargs='+', required=True,
-                        help="Paths to fragment files (e.g. TH1_atac_fragments.tsv.gz TH2_atac_fragments.tsv.gz)")
-    parser.add_argument("--fragment_names", nargs='+', required=True,
-                        help="Names of the corresponding samples (e.g. Control KO)")
+                        help="Fragment files for each sample (space-separated)")
     parser.add_argument("--barcodes", required=True,
                         help="CSV file with columns: barcode,celltype,sample")
-    parser.add_argument("--consensus_peaks", required=True,
-                        help="BED file of consensus peaks")
-    parser.add_argument("--blacklist", required=False, default=None,
-                        help="BED file of blacklist regions (optional)")
-    parser.add_argument("--n_cpu", type=int, default=1,
-                        help="Number of CPU threads to use")
-    parser.add_argument("--split_pattern", default='-',
-                        help="Pattern to split barcodes (default '-')")
+    parser.add_argument("--consensus_bed", required=True,
+                        help="Consensus peaks BED file")
     parser.add_argument("--outdir", required=True,
-                        help="Directory to save cisTopic objects")
+                        help="Output directory to save cisTopic objects")
+    parser.add_argument("--cpu", type=int, default=1,
+                        help="Number of CPUs to use")
     args = parser.parse_args()
 
     os.makedirs(args.outdir, exist_ok=True)
 
-    # Load cell metadata
+    # Read barcodes CSV
     cell_data = pd.read_csv(args.barcodes)
-    # Strip quotes or spaces from column names
-    cell_data.columns = [c.strip().replace('"','') for c in cell_data.columns]
+    if "barcode" not in cell_data.columns or "sample" not in cell_data.columns:
+        raise ValueError("Barcode CSV must have columns: 'barcode', 'celltype', 'sample'")
 
-    cistopic_obj_list = []
-
-    if len(args.fragments) != len(args.fragment_names):
-        raise ValueError("Number of fragments and fragment_names must match!")
-
-    for frag_file, sample_name in zip(args.fragments, args.fragment_names):
-        # Filter metadata for this sample
+    # Loop over fragment files and generate cisTopic object
+    for frag_path in args.fragments:
+        sample_name = os.path.basename(frag_path).split("_")[0]  # e.g., TH1_fragments.tsv.gz -> TH1
         sample_metadata = cell_data[cell_data["sample"] == sample_name]
-        valid_barcodes = sample_metadata["barcode"].tolist()
 
-        print(f"Creating cisTopic object for sample {sample_name} with {len(valid_barcodes)} cells")
+        print(f"Processing sample: {sample_name}, {len(sample_metadata)} cells")
 
         cistopic_obj = create_cistopic_object_from_fragments(
-            path_to_fragments=frag_file,
-            path_to_regions=args.consensus_peaks,
-            path_to_blacklist=args.blacklist,
-            metrics=None,  # Optional QC metrics
-            valid_bc=valid_barcodes,
-            n_cpu=args.n_cpu,
+            path_to_fragments=frag_path,
+            path_to_regions=args.consensus_bed,
+            valid_bc=sample_metadata["barcode"].tolist(),
+            n_cpu=args.cpu,
             project=sample_name,
-            split_pattern=args.split_pattern
+            split_pattern="-"
         )
 
         # Save cisTopic object as pickle
-        out_file = os.path.join(args.outdir, f"cisTopic_{sample_name}.pkl")
-        cistopic_obj.save(out_file)
-        print(f"Saved cisTopic object to {out_file}")
-
-        cistopic_obj_list.append(cistopic_obj)
-
-    print("All cisTopic objects created successfully.")
+        out_file = os.path.join(args.outdir, f"{sample_name}_cistopic.pkl")
+        with open(out_file, "wb") as f:
+            pickle.dump(cistopic_obj, f)
+        print(f"Saved cisTopic object to: {out_file}")
 
 if __name__ == "__main__":
     main()
