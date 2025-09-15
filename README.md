@@ -73,4 +73,18 @@ This filtering step ensures removal of dead or dying cells, doublets, and techni
 
 
 
+## Running Pycistopic pre step for Scenic+ 
+
+
+#### QC 
+
+![General QC TH1](TH1_qc.png)
+
+![General QC TH2](TH2_qc.png)
+
+![Barcode QC TH1](TH1_barcode_qc.png)
+
+![Barcode QC TH2](TH2_barcode_qc.png)
+
+
 
