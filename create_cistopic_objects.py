@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+import os
+import argparse
+import pickle
+import polars as pl
+from pycisTopic.cistopic_class import create_cistopic_object_from_fragments
+
+def main(fragments_dict_path, qc_results_pickle, regions_bed, blacklist_bed,
+         qc_output_dir, output_pickle, n_cpu):
+    """
+    Create CistopicObjects from fragments after QC filtering.
+
+    fragments_dict_path: pickle file mapping sample_id -> fragment path
+    qc_results_pickle: pickle file with barcodes + thresholds (from QC filtering)
+    regions_bed: consensus regions BED file
+    blacklist_bed: blacklist BED file (mm10 in this case)
+    qc_output_dir: directory containing pycisTopic QC outputs (with per-cell stats parquet)
+    output_pickle: output pickle to save list of CistopicObjects
+    n_cpu: number of CPUs to use
+    """
+
+    # Load fragments_dict
+    if not os.path.exists(fragments_dict_path):
+        raise FileNotFoundError(f"Fragments dictionary not found: {fragments_dict_path}")
+    with open(fragments_dict_path, "rb") as f:
+        fragments_dict = pickle.load(f)
+
+    # Load QC results
+    if not os.path.exists(qc_results_pickle):
+        raise FileNotFoundError(f"QC results pickle not found: {qc_results_pickle}")
+    with open(qc_results_pickle, "rb") as f:
+        qc_results = pickle.load(f)
+    sample_id_to_barcodes_passing_filters = qc_results["barcodes"]
+
+    # Create list of CistopicObjects
+    cistopic_obj_list = []
+    for sample_id in fragments_dict:
+        print(f"Creating CistopicObject for sample: {sample_id}")
+
+        # Load per-cell metrics parquet
+        parquet_path = os.path.join(qc_output_dir, f"{sample_id}.fragments_stats_per_cb.parquet")
+        if not os.path.exists(parquet_path):
+            raise FileNotFoundError(f"QC parquet not found for sample {sample_id}: {parquet_path}")
+
+        sample_metrics = (
+            pl.read_parquet(parquet_path)
+              .to_pandas()
+              .set_index("CB")
+              .loc[sample_id_to_barcodes_passing_filters[sample_id]]
+        )
+
+        # Create CistopicObject
+        cistopic_obj = create_cistopic_object_from_fragments(
+            path_to_fragments=fragments_dict[sample_id],
+            path_to_regions=regions_bed,
+            path_to_blacklist=blacklist_bed,
+            metrics=sample_metrics,
+            valid_bc=sample_id_to_barcodes_passing_filters[sample_id],
+            n_cpu=n_cpu,
+            project=sample_id,
+            split_pattern="-"
+        )
+        cistopic_obj_list.append(cistopic_obj)
+
+    # Save all CistopicObjects
+    with open(output_pickle, "wb") as f:
+        pickle.dump(cistopic_obj_list, f)
+
+    print(f"Saved {len(cistopic_obj_list)} CistopicObjects to {output_pickle}")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Create CistopicObjects from fragments after QC")
+    parser.add_argument("--fragments_dict", required=True,
+                        help="Pickle file with sample_id -> fragment path mapping")
+    parser.add_argument("--qc_results_pickle", required=True,
+                        help="Pickle file with barcodes + thresholds from QC filtering")
+    parser.add_argument("--regions_bed", required=True,
+                        help="Consensus regions BED file")
+    parser.add_argument("--blacklist_bed", required=True,
+                        help="Blacklist BED file (mm10)")
+    parser.add_argument("--qc_output_dir", required=True,
+                        help="Directory containing pycisTopic QC outputs (with parquet files)")
+    parser.add_argument("--output_pickle", required=True,
+                        help="Path to save CistopicObjects as pickle")
+    parser.add_argument("--n_cpu", type=int, default=1,
+                        help="Number of CPUs to use for processing")
+    args = parser.parse_args()
+
+    main(
+        args.fragments_dict,
+        args.qc_results_pickle,
+        args.regions_bed,
+        args.blacklist_bed,
+        args.qc_output_dir,
+        args.output_pickle,
+        args.n_cpu
+    )
+
