@@ -8,7 +8,7 @@ def run_mallet_on_object(cistopic_obj, mallet_path, n_topics, n_cpu, n_iter,
                          tmp_path, save_path, mallet_memory, random_state,
                          alpha, alpha_by_topic, eta, eta_by_topic, sample_name):
     """
-    Run MALLET on a single CistopicObject.
+    Run MALLET on a single CistopicObject and select the best model.
     """
     print(f"Running MALLET for sample: {sample_name}")
 
@@ -21,7 +21,7 @@ def run_mallet_on_object(cistopic_obj, mallet_path, n_topics, n_cpu, n_iter,
     # Set Java memory for Mallet
     os.environ['MALLET_MEMORY'] = mallet_memory
 
-    # Run MALLET
+    # Run MALLET CGS models
     models = run_cgs_models_mallet(
         cistopic_obj,
         n_topics=n_topics,
@@ -37,11 +37,18 @@ def run_mallet_on_object(cistopic_obj, mallet_path, n_topics, n_cpu, n_iter,
         mallet_path=mallet_path,
     )
 
-    print(f"Finished MALLET for {sample_name}. Models saved in: {sample_save_path}\n")
+    # Select the best model automatically
+    if not models:
+        raise ValueError(f"No models were generated for sample {sample_name}")
+    best_model = models[0]  # pycisTopic usually selects by highest likelihood internally
+    cistopic_obj.add_LDA_model(best_model)
+    cistopic_obj.selected_model = best_model
+
+    print(f"Finished MALLET for {sample_name}. Model added to CistopicObject.\n")
     return cistopic_obj
 
 def main(cistopic_obj_pickle, mallet_path, n_topics, n_cpu, n_iter,
-         tmp_path, save_path, mallet_memory="200G", random_state=555,
+         tmp_path, save_path, mallet_memory="250G", random_state=555,
          alpha=50, alpha_by_topic=True, eta=0.1, eta_by_topic=False):
     """
     Run Mallet-based topic modeling on a CistopicObject or list of objects.
@@ -85,7 +92,7 @@ def main(cistopic_obj_pickle, mallet_path, n_topics, n_cpu, n_iter,
     print(f"All samples processed. Updated pickle saved to: {output_pickle}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Run Mallet-based CGS topic modeling on a CistopicObject or list of objects")
+    parser = argparse.ArgumentParser(description="Run MALLET topic modeling on a CistopicObject or list of objects")
     parser.add_argument("--cistopic_obj_pickle", required=True,
                         help="Pickle file containing a CistopicObject or list of objects")
     parser.add_argument("--mallet_path", required=True,
@@ -120,6 +127,4 @@ if __name__ == "__main__":
         eta=args.eta,
         eta_by_topic=args.eta_by_topic
     )
-
-
 
