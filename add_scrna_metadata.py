@@ -6,47 +6,44 @@ import pandas as pd
 
 def add_scrna_metadata(cistopic_pickle, scrna_csv, output_pickle):
     """
-    Add scRNA metadata to CistopicObjects.
+    Add scRNA metadata to a merged CistopicObject.
 
-    cistopic_pickle: pickle containing list of CistopicObjects after MALLET
+    cistopic_pickle: pickle containing a merged CistopicObject
     scrna_csv: CSV file with scRNA metadata (columns: 'barcode', 'Seurat_cell_type', etc.)
-    output_pickle: path to save updated list of CistopicObjects
+    output_pickle: path to save updated CistopicObject
     """
-    # Load CistopicObjects
+    # Load merged CistopicObject
     with open(cistopic_pickle, "rb") as f:
-        cistopic_objs = pickle.load(f)
-
-    if not isinstance(cistopic_objs, list):
-        cistopic_objs = [cistopic_objs]
+        cistopic_obj = pickle.load(f)
 
     # Load scRNA metadata
     scrna_meta = pd.read_csv(scrna_csv)
     scrna_meta.set_index('barcode', inplace=True)
 
-    for idx, obj in enumerate(cistopic_objs):
-        # Only keep metadata rows for barcodes in this CistopicObject
-        obj_barcodes = obj.cell_data.index
-        matched_meta = scrna_meta.loc[scrna_meta.index.intersection(obj_barcodes)]
+    # Only keep metadata rows for barcodes present in the merged object
+    obj_barcodes = cistopic_obj.cell_data.index
+    matched_meta = scrna_meta.loc[scrna_meta.index.intersection(obj_barcodes)]
 
-        # Add/merge metadata into CistopicObject.cell_data
-        obj.cell_data = obj.cell_data.join(matched_meta, how='left')
+    # Add/merge metadata into CistopicObject.cell_data
+    cistopic_obj.cell_data = cistopic_obj.cell_data.join(matched_meta, how='left')
 
-        print(f"Sample {idx}: Added {matched_meta.shape[1]} scRNA metadata columns for {matched_meta.shape[0]} cells.")
+    print(f"Added {matched_meta.shape[1]} scRNA metadata columns for {matched_meta.shape[0]} cells.")
 
-    # Save updated objects
+    # Save updated object
     with open(output_pickle, "wb") as f:
-        pickle.dump(cistopic_objs, f)
+        pickle.dump(cistopic_obj, f)
 
-    print(f"Updated CistopicObjects saved to {output_pickle}")
+    print(f"Updated merged CistopicObject saved to {output_pickle}")
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Add scRNA metadata to CistopicObjects")
+    parser = argparse.ArgumentParser(description="Add scRNA metadata to merged CistopicObject")
     parser.add_argument("--cistopic_pickle", required=True,
-                        help="Pickle file with list of CistopicObjects after MALLET")
+                        help="Pickle file with merged CistopicObject")
     parser.add_argument("--scrna_csv", required=True,
                         help="CSV file with scRNA metadata (must have 'barcode' column)")
     parser.add_argument("--output_pickle", required=True,
-                        help="Output pickle file for updated CistopicObjects")
+                        help="Output pickle file for updated CistopicObject")
     args = parser.parse_args()
 
     add_scrna_metadata(args.cistopic_pickle, args.scrna_csv, args.output_pickle)
