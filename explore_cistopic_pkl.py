@@ -134,6 +134,13 @@ def explore_cistopic_pickle(pkl_file):
                 except Exception:
                     print(f"  {attr} ({type(val)}) - could not inspect")
         print("\n" + "="*80 + "\n")
+        
+
+        print(cistopic_obj.selected_model)  # the current selected model
+        # Or if there's an internal list of models:
+        print(getattr(cistopic_obj, "models", "No models list found"))
+
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Explore CistopicObject pickle")

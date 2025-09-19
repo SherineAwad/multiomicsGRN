@@ -88,3 +88,8 @@ This filtering step ensures removal of dead or dying cells, doublets, and techni
 
 
 
+## Cluctering after add scRNA metadata to ATAC 
+
+
+![pycistopic clustering](metadata_UMAP.png)
+

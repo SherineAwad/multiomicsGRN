@@ -9,6 +9,7 @@ def filter_empty_scrna_cells(cistopic_pickle, output_pickle, metadata_col='cellt
     """
     Filter out cells with empty or missing scRNA metadata from a CistopicObject
     and save the filtered object.
+    Handles np.nan, 'nan' strings, and empty strings.
     """
     # Load CistopicObject(s)
     with open(cistopic_pickle, "rb") as f:
@@ -24,8 +25,11 @@ def filter_empty_scrna_cells(cistopic_pickle, output_pickle, metadata_col='cellt
         if metadata_col not in obj.cell_data.columns:
             raise ValueError(f"Metadata column '{metadata_col}' not found in CistopicObject")
 
-        # Replace empty strings with NaN
-        obj.cell_data[metadata_col] = obj.cell_data[metadata_col].astype(str).replace(r'^\s*$', np.nan, regex=True)
+        # Convert to string and strip whitespace
+        obj.cell_data[metadata_col] = obj.cell_data[metadata_col].astype(str).str.strip()
+
+        # Replace common empty values with np.nan
+        obj.cell_data[metadata_col] = obj.cell_data[metadata_col].replace(['', 'nan', 'NaN', 'None'], np.nan)
 
         # Keep only cells with non-empty annotation
         valid_cells = obj.cell_data[metadata_col].notna()
