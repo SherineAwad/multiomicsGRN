@@ -85,14 +85,14 @@ def explore_cistopic_pickle(pkl_file):
         # 8. Quick summaries
         if hasattr(cistopic_obj, "cell_data"):
             if 'sample_id' in cistopic_obj.cell_data.columns:
-                print("sample id", cistopic_obj.cell_data['sample_id'].value_counts())
+                print("sample id counts:\n", cistopic_obj.cell_data['sample_id'].value_counts())
             if 'celltype_atac' in cistopic_obj.cell_data.columns:
-                print("Celltype ATAC", cistopic_obj.cell_data['celltype_atac'].value_counts())
+                print("Celltype ATAC counts:\n", cistopic_obj.cell_data['celltype_atac'].value_counts())
             if 'celltype_scrna' in cistopic_obj.cell_data.columns:
                 print("Celltype scRNA (top 10):")
                 print(cistopic_obj.cell_data['celltype_scrna'].value_counts().head(10))
-                print(cistopic_obj.cell_data['celltype_scrna'].unique())
-                print(cistopic_obj.cell_data['celltype_scrna'].iloc[:20])
+                print("Unique scRNA celltypes:", cistopic_obj.cell_data['celltype_scrna'].unique())
+                print("First 20 scRNA entries:\n", cistopic_obj.cell_data['celltype_scrna'].iloc[:20])
                 print("Number of NaN in celltype_scrna:", cistopic_obj.cell_data['celltype_scrna'].isna().sum())
 
                 # Save all scRNA celltypes to a file
@@ -105,19 +105,32 @@ def explore_cistopic_pickle(pkl_file):
                 )
                 print(f"Saved full celltype_scrna column to {output_file}")
 
-        # 9. Transpose cell_topic (optional, keep your code)
-        if hasattr(cistopic_obj, "selected_model") and hasattr(cistopic_obj.selected_model, "cell_topic"):
-            meta = cistopic_obj.cell_data
-            cell_topic = pd.DataFrame(
-                cistopic_obj.selected_model.cell_topic.T,
-                index=cistopic_obj.cell_names,
-                columns=[f"Topic_{i}" for i in range(cistopic_obj.selected_model.cell_topic.shape[0])]
-            )
-            # Fix KeyError by selecting intersection of indices
-            common_index = cell_topic.index.intersection(meta.index)
-            cell_topic = cell_topic.loc[common_index]
+        # 9. Mapping of UMAP cells to scRNA / sample_id
+        if hasattr(cistopic_obj, "cell_names") and hasattr(cistopic_obj, "cell_data"):
+            print("\nMapping first 50 UMAP cells to celltype_scrna and sample_id:")
+            mapping_df = pd.DataFrame({
+                "cell_name": cistopic_obj.cell_names,
+                "celltype_scrna": [
+                    cistopic_obj.cell_data.loc[cell, "celltype_scrna"]
+                    if cell in cistopic_obj.cell_data.index else None
+                    for cell in cistopic_obj.cell_names
+                ],
+                "sample_id": [
+                    cistopic_obj.cell_data.loc[cell, "sample_id"]
+                    if cell in cistopic_obj.cell_data.index else None
+                    for cell in cistopic_obj.cell_names
+                ]
+            })
+            print(mapping_df.head(50))
+            mapping_file = "cellname_scrna_sample_mapping.tsv"
+            mapping_df.to_csv(mapping_file, sep="\t", index=False)
+            print(f"Saved full mapping to {mapping_file}")
 
-        # --- APPENDED SIMPLE ATTRIBUTE EXPLORATION ---
+            # Summary of missing scRNA labels
+            n_missing = mapping_df['celltype_scrna'].isna().sum()
+            print(f"Number of UMAP cells without scRNA label: {n_missing} / {len(mapping_df)}")
+
+        # 10. Top-level attributes
         print("\nTop-level attributes of the CistopicObject:")
         for attr in dir(cistopic_obj):
             if not attr.startswith("__"):
@@ -134,12 +147,10 @@ def explore_cistopic_pickle(pkl_file):
                 except Exception:
                     print(f"  {attr} ({type(val)}) - could not inspect")
         print("\n" + "="*80 + "\n")
-        
 
-        print(cistopic_obj.selected_model)  # the current selected model
-        # Or if there's an internal list of models:
-        print(getattr(cistopic_obj, "models", "No models list found"))
-
+        # Print selected_model
+        print("Selected model:", getattr(cistopic_obj, "selected_model", None))
+        print("Models list:", getattr(cistopic_obj, "models", "No models list found"))
 
 
 if __name__ == "__main__":

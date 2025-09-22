@@ -18,7 +18,7 @@ def main():
 
     # Save updated object
     os.makedirs(args.out_dir, exist_ok=True)
-    out_path = os.path.join(args.out_dir, "cistopic_obj.pkl")
+    out_path = os.path.join(args.out_dir, "cistopic_LDA_obj.pkl")
     with open(out_path, "wb") as f:
         pickle.dump(cistopic_obj, f)
 
