@@ -183,6 +183,7 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 
 ![qc metrics](outs/umap_clusters/qc_metrics_umap.png)
 
+#### The annotation is odd as only MG, working on this
 
 ![annotated clusters](outs/umap_clusters/annotated_clusters_umap.png)
 
