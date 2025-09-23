@@ -119,13 +119,13 @@ def cluster_cistopic(input_pickle, output_pickle, outdir, resolutions=[0.6, 1.2,
         obj,
         variables=['celltype_scrna'],
         scale=False,
-        legend_loc_x=1.0,
-        legend_loc_y=-1.2,
-        legend_dist_y=-1,
-        figsize=(10, 10)
+        legend_loc_x=0.95,  # move legend slightly inside
+        legend_loc_y=-1.0,  # adjust vertical offset
+        legend_dist_y=-0.5, 
+        figsize=(16, 12)
     )
     plt.savefig(os.path.join(outdir, "cell_topic_heatmap.png"), bbox_inches='tight')
-    plt.close()
+    plt.close() 
 
     # Save filtered and clustered object
     with open(output_pickle, "wb") as f:

@@ -22,10 +22,8 @@ def clean_cistopic_cellnames(input_pickle, output_pickle):
         Example:
             GCACTTACAACAGCCT-1-TH1___TH1 -> GCACTTACAACAGCCT-1-TH1
         """
-        name = str(name)  # Convert to string to avoid TypeError
-        if "___" in name:
-            return name.split("___")[0]
-        return name
+        name = str(name)  # Ensure it's a string
+        return name.split("___")[0] if "___" in name else name
 
     # --- Step 2: Clean cell_names ---
     if hasattr(cistopic_obj, "cell_names"):
@@ -34,18 +32,22 @@ def clean_cistopic_cellnames(input_pickle, output_pickle):
         cistopic_obj.cell_names = cleaned_cell_names
         print("Cleaned first 5 cell_names:", cistopic_obj.cell_names[:5])
 
-    # --- Step 3: Clean cell_data.index while preserving metadata ---
+    # --- Step 3: Clean cell_data.index to match cleaned cell_names ---
     if hasattr(cistopic_obj, "cell_data"):
         print("Cleaning cell_data.index to match cleaned cell_names...")
 
-        # Ensure 'barcode' column exists to preserve original cell identifiers
-        if 'barcode' not in cistopic_obj.cell_data.columns:
-            cistopic_obj.cell_data['barcode'] = cistopic_obj.cell_data.index.astype(str)
+        # If index is numeric, try using 'barcode' column as base
+        if pd.api.types.is_numeric_dtype(cistopic_obj.cell_data.index):
+            if 'barcode' not in cistopic_obj.cell_data.columns:
+                cistopic_obj.cell_data['barcode'] = cistopic_obj.cell_data.index.astype(str)
+            base_index = cistopic_obj.cell_data['barcode'].tolist()
+        else:
+            base_index = cistopic_obj.cell_data.index.tolist()
 
-        old_index = list(cistopic_obj.cell_data.index)
-        cleaned_index = [fix_suffix(c) for c in old_index]
+        # Clean base_index
+        cleaned_index = [fix_suffix(c) for c in base_index]
 
-        # Make duplicates unique while preserving all metadata
+        # Make duplicates unique
         counts = defaultdict(int)
         new_index = []
         for c in cleaned_index:
@@ -63,7 +65,7 @@ def clean_cistopic_cellnames(input_pickle, output_pickle):
         # Update cell_names to match cleaned cell_data.index
         cistopic_obj.cell_names = list(cistopic_obj.cell_data.index)
 
-        # Optional: verify metadata is preserved
+        # Optional sanity checks
         if 'celltype_scrna' in cistopic_obj.cell_data.columns:
             print("First 5 celltype_scrna entries:", cistopic_obj.cell_data['celltype_scrna'].head())
         if 'sample_id' in cistopic_obj.cell_data.columns:
