@@ -88,8 +88,95 @@ This filtering step ensures removal of dead or dying cells, doublets, and techni
 
 
 
-## Clustering after add scRNA metadata to ATAC 
+# pycisTopic Clustering in SCENIC+
 
+## 🚨🚨🚨 READ THIS FIRST — BIG WARNING! 🚨🚨🚨
+
+> ⚠️ **IMPORTANT: pycisTopic clusters are NOT the same as Seurat or Signac clusters!** ⚠️  
+>
+> pycisTopic **does not cluster cells based on gene expression (Seurat)** or **raw accessibility peaks (Signac)**.  
+> Instead, it clusters based on **topic modeling** of chromatin accessibility profiles — which capture **regulatory programs** (e.g., co-accessible enhancers), not direct gene activity.
+>
+> 🧠 So, when comparing pycisTopic clustering to Seurat/Signac clusters, remember:
+>
+> - ✅ **Same cells**, but  
+> - ❌ **Not the same clustering method**  
+> - ❌ **Not the same input data**  
+> - ✅ **Completely different biological focus**
+
+---
+
+## What Do These UMAPs Show?
+
+### Panel 1: `scRNA_cell_type`
+Using `scRNA_cell_type` as a **benchmark** means:
+
+* ✅ You're using **known transcriptomic identities** (from gene expression data) to **validate or interpret** the **regulatory clusters** generated from ATAC-seq data by pycisTopic.
+
+* ✅ You can assess whether **chromatin accessibility-based clustering** (via topic modeling) is able to **recapitulate known biology**, such as major cell types or subtypes.
+
+* ✅ It helps determine the **biological relevance** and **granularity (resolution)** of the pycisTopic clusters — revealing how well topic modeling captures meaningful regulatory variation across cells.
+
+You can think of it as a **"ground-truth check"**:
+If pycisTopic clusters align well with `scRNA_cell_type` labels, it increases confidence that the inferred topics reflect **real biological programs** rather than technical noise.
+
+
+### Panels 2–4: `pycisTopic_leiden_X_Y`
+
+These panels show **unsupervised clustering** of cells based on their **topic distributions**, as inferred from **pycisTopic**.
+
+Each cell is represented by its unique combination of topics — patterns of co-accessible regulatory regions. pycisTopic then applies **Leiden clustering** to group cells with similar topic profiles.
+
+This clustering reflects the cells’ **regulatory landscapes**, rather than their gene expression, offering insights into cell identity and state from an **epigenomic perspective**.
+
+The panels differ by **resolution**:
+
+* **Panel 2** (resolution = 0.6): Low granularity — broad clusters representing major cell types.
+* **Panel 3** (resolution = 1.2): Medium granularity — more refined clusters, possible subtypes.
+* **Panel 4** (resolution = 3.0): High granularity — fine-scale clusters, potentially revealing rare or transitional states.
+
+> Increasing the resolution creates more clusters and allows finer distinctions, but may also split biologically similar cells.
+
+These clustering results can be compared to `scRNA_cell_type` labels to evaluate how well the regulatory (ATAC-based) clustering reflects known transcriptomic cell types.
+
+---
+
+### ⚙️ How Is pycisTopic Clustering Done?
+
+1. **Input**: scATAC-seq peak-by-cell matrix
+2. **Topic Modeling**:
+   - Use Latent Dirichlet Allocation (LDA) to discover **topics**
+   - Each topic is a set of co-accessible genomic regions
+3. **Topic Matrix**:
+   - Each cell is represented by a **topic-proportion vector**
+4. **Dimensionality Reduction**:
+   - UMAP is applied to topic vectors (not raw peaks)
+5. **Clustering**:
+   - Leiden clustering is run on the topic matrix at different resolutions
+
+> ✅ **pycisTopic clustering does NOT use traditional PCA or LSI clustering.**
+
+> Instead, it groups cells based on their **regulatory landscape**, not just expression.
+
+---
+
+### 🎯 Why Use pycisTopic Clustering?
+
+- Captures **regulatory programs** that may not be visible in gene expression alone
+- Useful for annotating cell states based on **enhancer activity** or **TF binding**
+- Enables downstream integration with **SCENIC+**, where topics are linked to gene regulatory networks
+
+---
+
+### 📌 Summary
+
+- The pycisTopic clusters are based on **topic modeling**, not expression or raw peak counts.
+- Each topic reflects a set of co-accessible genomic regions (potentially linked to transcriptional regulation).
+- This clustering provides a **regulatory perspective** on cell identity and state.
+- Clustering resolution can be adjusted to explore broad vs. fine-grained patterns.
+
+
+# pycisTopic Clustering Plots 
 
 ![metadata](outs/umap_clusters/metadata_umap.png)
 
