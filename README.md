@@ -248,8 +248,77 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 ![topics heatmap ](outs/umap_clusters/cell_topic_heatmap.png)
 
 
-
+## Pending 
 ### Binarising Topics 
+
+## Why Binarise Topics?
+
+### The Problem
+- A topic distribution is usually **dense** (many peaks with small probabilities).  
+- Biologists often want a **clean list of peaks “belonging” to a topic**, not fractional weights.  
+
+### The Solution: Binarisation
+- Binarisation converts these continuous weights into a **binary set of topic-specific features (peaks)**:  
+  - `1` = peak is *assigned* to this topic  
+  - `0` = peak is *not assigned*  
+
+### Benefits
+- Run **motif enrichment** (find transcription factors driving a topic).  
+- Interpret topics as **regulatory programs**.  
+- Compare topics across **different experiments**.  
+
+
+# Understanding PySciTopic Binarisation Plots
+
+## 1. `cell_topic_li.png`
+- **LI = Likelihood Index (or Log-likelihood Index)**  
+- Shows how well different numbers of topics explain the data across cells.  
+- Used to check **model fit** or to decide if the chosen number of topics makes sense.  
+
+👉 Look for an **elbow point** or plateau, where adding more topics doesn’t improve the fit much.
+
+
+## 2. `region_bin_otsu.png`
+- Uses **Otsu’s method**, an automatic thresholding algorithm (borrowed from image processing).  
+- Applied to the **topic–peak weight distribution** to split peaks into “important” vs “background.”  
+- Plot shows a **histogram of peak weights** with a red cutoff line chosen by Otsu.  
+
+👉 Interpretation:
+- Left of cutoff = background peaks (0)  
+- Right of cutoff = binarised peaks (1)  
+
+## 3. `region_bin_top3k.png`
+- Selects the **top 3,000 peaks per topic** instead of using Otsu.  
+- Plot shows ranked peak weights, with a cutoff line at the 3,000th peak.  
+
+👉 Interpretation:
+- Above line = peaks kept  
+- Below line = peaks discarded  
+
+## 4. `region_bin_topics_otsu.png`
+- Same as `region_bin_otsu.png`, but aggregated **per topic**.  
+- Shows how many peaks passed Otsu thresholding in each topic.  
+
+👉 Interpretation:
+- Some topics will be **sharp** (few strong peaks).  
+- Others will be **broad** (many weaker peaks above cutoff).  
+
+
+## 5. `region_bin_topics_top_3000.png` / `region_bin_topics_top3k.png`
+- Same as above, but for the **top-3k-per-topic method**.  
+- Shows how many peaks were selected per topic (usually 3,000, unless a topic has fewer peaks).  
+
+👉 Interpretation:
+- Lets you compare **Otsu vs fixed top-N** binarisation strategies.  
+
+
+## Why These Plots Matter
+- **Quality check** → Did binarisation pick a reasonable number of peaks per topic?  
+- **Method choice**:
+  - *Otsu*: adaptive, good if topics have very different sharpness.  
+  - *Top-N*: consistent, good for comparing topics across experiments.  
+- **Downstream analysis**: The binarised sets feed into **motif enrichment** and **regulatory program discovery**, so checking these plots ensures binarisation wasn’t too loose or too strict.  
+
 
 
 ![li](outs/topics/cell_topic_li.png)  
