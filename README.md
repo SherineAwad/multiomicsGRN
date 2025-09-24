@@ -200,7 +200,8 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 3. **Assign that label to the entire cluster**  
    - Cluster 3 is renamed from `3` → `CellTypeX(3)`.
 
-### How to read Plot 2
+### How to read the annotation plot
+
 - Each colored region is still a Leiden cluster from the ATAC UMAP.  
 - But instead of numeric IDs, clusters are now labeled with:  
   - **The dominant biological identity** (from scRNA labels).  
