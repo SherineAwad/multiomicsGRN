@@ -331,5 +331,9 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 
 
 
+## References
+
+- [Pycistopic: Human Cerebellum Notebook](https://pycistopic.readthedocs.io/en/latest/notebooks/human_cerebellum.html#Getting-pseudobulk-profiles-from-cell-annotations)
+- [SCENIC+: Official Documentation](https://scenicplus.readthedocs.io/en/latest/index.html)
 
 
