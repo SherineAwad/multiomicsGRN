@@ -30,12 +30,16 @@ def run_binarizations(input_pickle, output_dir):
             if list(cell_topic.index) == obj.cell_names:
                 obj.selected_model.cell_topic = cell_topic.T
             # Assign Topic1, Topic2 ...
-            obj.selected_model.cell_topic.index = [f"Topic{i+1}" for i in range(obj.selected_model.cell_topic.shape[0])]
+            obj.selected_model.cell_topic.index = [
+                f"Topic{i+1}" for i in range(obj.selected_model.cell_topic.shape[0])
+            ]
         else:
             # numpy array
             if cell_topic.shape[1] == len(obj.cell_names):
                 obj.selected_model.cell_topic = cell_topic
-            obj.selected_model.topic_names = [f"Topic{i+1}" for i in range(cell_topic.shape[0])]
+            obj.selected_model.topic_names = [
+                f"Topic{i+1}" for i in range(cell_topic.shape[0])
+            ]
 
     print("[INFO] LDA model already has cell_topic. Proceeding to binarization...")
 
@@ -70,11 +74,18 @@ def run_binarizations(input_pickle, output_dir):
     plt.savefig(os.path.join(output_dir, "cell_topic_li.png"), bbox_inches='tight')
     plt.close()
 
-    # --- 4) Save binarized object ---
+    # --- 4) Save full binarized object ---
     binarized_file = os.path.join(output_dir, "cistopic_obj_binarized.pkl")
     with open(binarized_file, "wb") as f:
         pickle.dump(obj, f)
     print(f"[INFO] Saved binarized cistopic object -> {binarized_file}")
+
+    # --- 5) Save binarized cell_topic DataFrame separately ---
+    binarized_cell_topic_file = os.path.join(output_dir, "binarized_cell_topic.pkl")
+    with open(binarized_cell_topic_file, "wb") as f:
+        pickle.dump(binarized_cell_topic, f)
+    print(f"[INFO] Saved binarized cell_topic DataFrame -> {binarized_cell_topic_file}")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run binarization of CistopicObject topics")
