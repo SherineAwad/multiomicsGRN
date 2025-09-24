@@ -211,6 +211,32 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 - `CellTypeX(3)` = Leiden Cluster 3, annotated as CellTypeX.  
 - `CellTypeY(5)` = Leiden Cluster 5, annotated as CellTypeY.
 
+
+##  🚨🚨🚨 Difference between Plot 1 and Plot 2
+
+### Plot 1: scRNA mapping (`celltype_scrna`)
+- **Level:** Per-cell  
+- **How:** Each ATAC cell is assigned an scRNA label  
+  - Multiome → by shared barcode  
+  - Separate datasets → by similarity mapping (e.g., gene activity → scRNA reference)  
+- **Result:**  
+  - Individual cells show their scRNA identity.  
+  - A Leiden cluster may look mixed (e.g., some MG, some Rod, some Cone).  
+- **Interpretation:** Fine-grained view of how every single ATAC cell maps to RNA cell types.
+
+---
+
+### Plot 2: Cluster-level annotation (after annotation)
+- **Level:** Per-cluster  
+- **How:** Each Leiden cluster is renamed based on the **majority scRNA label** of its cells  
+  - Example: if 80% of cells in Cluster 2 are MG → Cluster 2 is annotated as `MG(2)`.  
+- **Result:**  
+  - Each cluster gets one “consensus” label.  
+  - Mixed identities inside a cluster are no longer shown.  
+- **Interpretation:** Coarse-grained view where clusters are given a single dominant biological identity.
+
+
+
 ### All MG? Checking and fixing !!!!
 
 ![annotated clusters](outs/umap_clusters/annotated_clusters_umap.png)
