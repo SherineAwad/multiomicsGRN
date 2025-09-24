@@ -237,7 +237,7 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 
 
 
-### All MG? Checking and fixing !!!!
+###  🚨🚨🚨 All MG? We trained the model with n_topic=5 very low probably a toy example  
 
 ![annotated clusters](outs/umap_clusters/annotated_clusters_umap.png)
 
@@ -246,6 +246,21 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 
 
 ![topics heatmap ](outs/umap_clusters/cell_topic_heatmap.png)
+
+
+
+### Binarising Topics 
+
+
+![li](outs/topics/cell_topic_li.png)  
+![otsu](outs/topics/region_bin_otsu.png)
+![top3k](outs/topics/region_bin_top3k.png)
+![otsu](outs/topics/region_bin_topics_otsu.png)  
+![top3000](outs/topics/region_bin_topics_top_3000.png)
+![top3k topics](outs/topics/region_bin_topics_top3k.png)
+
+
+
 
 
 
