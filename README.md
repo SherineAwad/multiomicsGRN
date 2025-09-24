@@ -212,9 +212,9 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 - `CellTypeY(5)` = Leiden Cluster 5, annotated as CellTypeY.
 
 
-##  🚨🚨🚨 Difference between Plot 1 and Plot 2
+##  🚨🚨🚨 Difference between scRNA mapping and annotation 
 
-### Plot 1: scRNA mapping (`celltype_scrna`)
+### scRNA mapping (`celltype_scrna`)
 - **Level:** Per-cell  
 - **How:** Each ATAC cell is assigned an scRNA label  
   - Multiome → by shared barcode  
@@ -226,7 +226,7 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 
 ---
 
-### Plot 2: Cluster-level annotation (after annotation)
+### Cluster-level annotation (after annotation)
 - **Level:** Per-cluster  
 - **How:** Each Leiden cluster is renamed based on the **majority scRNA label** of its cells  
   - Example: if 80% of cells in Cluster 2 are MG → Cluster 2 is annotated as `MG(2)`.  
