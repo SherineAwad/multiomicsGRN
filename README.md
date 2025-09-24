@@ -104,42 +104,6 @@ This filtering step ensures removal of dead or dying cells, doublets, and techni
 > - ❌ **Not the same input data**  
 > - ✅ **Completely different biological focus**
 
----
-
-## What Do These UMAPs Show?
-
-### Panel 1: `scRNA_cell_type`
-Using `scRNA_cell_type` as a **benchmark** means:
-
-* ✅ You're using **known transcriptomic identities** (from gene expression data) to **validate or interpret** the **regulatory clusters** generated from ATAC-seq data by pycisTopic.
-
-* ✅ You can assess whether **chromatin accessibility-based clustering** (via topic modeling) is able to **recapitulate known biology**, such as major cell types or subtypes.
-
-* ✅ It helps determine the **biological relevance** and **granularity (resolution)** of the pycisTopic clusters — revealing how well topic modeling captures meaningful regulatory variation across cells.
-
-You can think of it as a **"ground-truth check"**:
-If pycisTopic clusters align well with `scRNA_cell_type` labels, it increases confidence that the inferred topics reflect **real biological programs** rather than technical noise.
-
-
-### Panels 2–4: `pycisTopic_leiden_X_Y`
-
-These panels show **unsupervised clustering** of cells based on their **topic distributions**, as inferred from **pycisTopic**.
-
-Each cell is represented by its unique combination of topics — patterns of co-accessible regulatory regions. pycisTopic then applies **Leiden clustering** to group cells with similar topic profiles.
-
-This clustering reflects the cells’ **regulatory landscapes**, rather than their gene expression, offering insights into cell identity and state from an **epigenomic perspective**.
-
-The panels differ by **resolution**:
-
-* **Panel 2** (resolution = 0.6): Low granularity — broad clusters representing major cell types.
-* **Panel 3** (resolution = 1.2): Medium granularity — more refined clusters, possible subtypes.
-* **Panel 4** (resolution = 3.0): High granularity — fine-scale clusters, potentially revealing rare or transitional states.
-
-> Increasing the resolution creates more clusters and allows finer distinctions, but may also split biologically similar cells.
-
-These clustering results can be compared to `scRNA_cell_type` labels to evaluate how well the regulatory (ATAC-based) clustering reflects known transcriptomic cell types.
-
----
 
 ### ⚙️ How Is pycisTopic Clustering Done?
 
@@ -176,14 +140,77 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 - Clustering resolution can be adjusted to explore broad vs. fine-grained patterns.
 
 
-# pycisTopic Clustering Plots 
+
+##  UMAPs
+
+### Panel 1: `scRNA_cell_type`
+Using `scRNA_cell_type` as a **benchmark** means:
+
+* ✅ You're using **known transcriptomic identities** (from gene expression data) to **validate or interpret** the **regulatory clusters** generated from ATAC-seq data by pycisTopic.
+
+* ✅ You can assess whether **chromatin accessibility-based clustering** (via topic modeling) is able to **recapitulate known biology**, such as major cell types or subtypes.
+
+* ✅ It helps determine the **biological relevance** and **granularity (resolution)** of the pycisTopic clusters — revealing how well topic modeling captures meaningful regulatory variation across cells.
+
+You can think of it as a **"ground-truth check"**:
+If pycisTopic clusters align well with `scRNA_cell_type` labels, it increases confidence that the inferred topics reflect **real biological programs** rather than technical noise.
+
+
+### Panels 2–4: `pycisTopic_leiden_X_Y`
+
+These panels show **unsupervised clustering** of cells based on their **topic distributions**, as inferred from **pycisTopic**.
+
+Each cell is represented by its unique combination of topics — patterns of co-accessible regulatory regions. pycisTopic then applies **Leiden clustering** to group cells with similar topic profiles.
+
+This clustering reflects the cells’ **regulatory landscapes**, rather than their gene expression, offering insights into cell identity and state from an **epigenomic perspective**.
+
+The panels differ by **resolution**:
+
+* **Panel 2** (resolution = 0.6): Low granularity — broad clusters representing major cell types.
+* **Panel 3** (resolution = 1.2): Medium granularity — more refined clusters, possible subtypes.
+* **Panel 4** (resolution = 3.0): High granularity — fine-scale clusters, potentially revealing rare or transitional states.
+
+> Increasing the resolution creates more clusters and allows finer distinctions, but may also split biologically similar cells.
+
+These clustering results can be compared to `scRNA_cell_type` labels to evaluate how well the regulatory (ATAC-based) clustering reflects known transcriptomic cell types.
+
+
 
 ![metadata](outs/umap_clusters/metadata_umap.png)
 
 
 ![qc metrics](outs/umap_clusters/qc_metrics_umap.png)
 
-#### The annotation is odd as only MG, working on this
+
+## Annotations  (cluster-level labels)
+
+- After running Leiden clustering on the ATAC data, each cell belongs to a numeric cluster (0, 1, 2, …).  
+- Each cell also carries a suggested reference label (from scRNA), either by:
+  - **Barcode transfer** (if multiome), or  
+  - **Similarity mapping** (if separate scRNA + scATAC).  
+
+### How the cluster annotation is assigned:
+1. **Look at all cells in a cluster**  
+   - For example, Cluster 3 contains many cells that were individually labeled by the scRNA reference.
+
+2. **Check which label is most common**  
+   - If 80% of cells in Cluster 3 are labeled `CellTypeX`, and 20% are mixed (`CellTypeY`, `CellTypeZ`),  
+     then the dominant identity is `CellTypeX`.
+
+3. **Assign that label to the entire cluster**  
+   - Cluster 3 is renamed from `3` → `CellTypeX(3)`.
+
+### How to read Plot 2
+- Each colored region is still a Leiden cluster from the ATAC UMAP.  
+- But instead of numeric IDs, clusters are now labeled with:  
+  - **The dominant biological identity** (from scRNA labels).  
+  - **The original cluster number** in parentheses for reference.  
+
+➡️ Example:  
+- `CellTypeX(3)` = Leiden Cluster 3, annotated as CellTypeX.  
+- `CellTypeY(5)` = Leiden Cluster 5, annotated as CellTypeY.
+
+### All MG? Checking and fixing !!!!
 
 ![annotated clusters](outs/umap_clusters/annotated_clusters_umap.png)
 
