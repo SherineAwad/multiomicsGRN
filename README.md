@@ -331,6 +331,10 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 
 ## Pending Differentially Accessible Regions (DAR) Analysis 
 
+![Higly variable Regions](outs/DAR_results/highly_variable_regions.png)
+
+
+
 ## References
 
 - [Pycistopic: Human Cerebellum Notebook](https://pycistopic.readthedocs.io/en/latest/notebooks/human_cerebellum.html#Getting-pseudobulk-profiles-from-cell-annotations)
