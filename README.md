@@ -34,25 +34,25 @@ This filtering step ensures removal of dead or dying cells, doublets, and techni
 
 ### Marker Genes UMAP
 
-<img src="figures/umap_clustered_mNeurog2_Abca8a.png?v=3" alt="Abca8a" width="33%"><img src="figures/umap_clustered_mNeurog2_Ccr2.png?v=3" alt="Ccr2" width="33%"><img src="figures/umap_clustered_mNeurog2_Hes1.png?v=3" alt="Hes1" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Notch1.png?v=3" alt="Notch1" width="33%"><img src="figures/umap_clustered_mNeurog2_Rlbp1.png?v=3" alt="Rlbp1" width="33%"><img src="figures/umap_clustered_mNeurog2_Acta2.png?v=3" alt="Acta2" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Chat.png?v=3" alt="Chat" width="33%"><img src="figures/umap_clustered_mNeurog2_Hes5.png?v=3" alt="Hes5" width="33%"><img src="figures/umap_clustered_mNeurog2_Nrl.png?v=3" alt="Nrl" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Rpe65.png?v=3" alt="Rpe65" width="33%"><img src="figures/umap_clustered_mNeurog2_Apoe.png?v=3" alt="Apoe" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Insm1.png?v=3" alt="Insm1" width="33%"><img src="figures/umap_clustered_mNeurog2_Olig2.png?v=3" alt="Olig2" width="33%"><img src="figures/umap_clustered_mNeurog2_Sebox.png?v=3" alt="Sebox" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Aqp4.png?v=3" alt="Aqp4" width="33%"><img src="figures/umap_clustered_mNeurog2_Csf1r.png?v=3" alt="Csf1r" width="33%"><img src="figures/umap_clustered_mNeurog2_Isl1.png?v=3" alt="Isl1" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Otx2.png?v=3" alt="Otx2" width="33%"><img src="figures/umap_clustered_mNeurog2_Slc17a7.png?v=3" alt="Slc17a7" width="33%"><img src="figures/umap_clustered_mNeurog2_Arr3.png?v=3" alt="Arr3" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Elavl3.png?v=3" alt="Elavl3" width="33%"><img src="figures/umap_clustered_mNeurog2_Kcnj8.png?v=3" alt="Kcnj8" width="33%"><img src="figures/umap_clustered_mNeurog2_Pax2.png?v=3" alt="Pax2" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Slc1a3.png?v=3" alt="Slc1a3" width="33%"><img src="figures/umap_clustered_mNeurog2_Ascl1.png?v=3" alt="Ascl1" width="33%"><img src="figures/umap_clustered_mNeurog2_Elavl4.png?v=3" alt="Elavl4" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Lhx1.png?v=3" alt="Lhx1" width="33%"><img src="figures/umap_clustered_mNeurog2_Pax6.png?v=3" alt="Pax6" width="33%"><img src="figures/umap_clustered_mNeurog2_Slc6a9.png?v=3" alt="Slc6a9" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Atoh7.png?v=3" alt="Atoh7" width="33%"><img src="figures/umap_clustered_mNeurog2_Emx1.png?v=3" alt="Emx1" width="33%"><img src="figures/umap_clustered_mNeurog2_Lhx2.png?v=3" alt="Lhx2" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Pou4f2.png?v=3" alt="Pou4f2" width="33%"><img src="figures/umap_clustered_mNeurog2_Sox11.png?v=3" alt="Sox11" width="33%"><img src="figures/umap_clustered_mNeurog2_Bsn.png?v=3" alt="Bsn" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Foxn4.png?v=3" alt="Foxn4" width="33%"><img src="figures/umap_clustered_mNeurog2_Lhx4.png?v=3" alt="Lhx4" width="33%"><img src="figures/umap_clustered_mNeurog2_Prdm1.png?v=3" alt="Prdm1" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Sox9.png?v=3" alt="Sox9" width="33%"><img src="figures/umap_clustered_mNeurog2_Cabp5.png?v=3" alt="Cabp5" width="33%"><img src="figures/umap_clustered_mNeurog2_Gad1.png?v=3" alt="Gad1" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Malat1.png?v=3" alt="Malat1" width="33%"><img src="figures/umap_clustered_mNeurog2_Prdx6.png?v=3" alt="Prdx6" width="33%"><img src="figures/umap_clustered_mNeurog2_Tfap2a.png?v=3" alt="Tfap2a" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Calb1.png?v=3" alt="Calb1" width="33%"><img src="figures/umap_clustered_mNeurog2_Gfap.png?v=3" alt="Gfap" width="33%"><img src="figures/umap_clustered_mNeurog2_mt-Atp6.png?v=3" alt="mt-Atp6" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Rbfox3.png?v=3" alt="Rbfox3" width="33%"><img src="figures/umap_clustered_mNeurog2_Tie1.png?v=3" alt="Tie1" width="33%"><img src="figures/umap_clustered_mNeurog2_Calb2.png?v=3" alt="Calb2" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Glul.png?v=3" alt="Glul" width="33%"><img src="figures/umap_clustered_mNeurog2_Neurog2.png?v=3" alt="Neurog2" width="33%"><img src="figures/umap_clustered_mNeurog2_Rho.png?v=3" alt="Rho" width="33%">
-<img src="figures/umap_clustered_mNeurog2_Vim.png?v=3" alt="Vim" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Abca8a.png?v=4" alt="Abca8a" width="33%"><img src="figures/umap_clustered_mNeurog2_Ccr2.png?v=4" alt="Ccr2" width="33%"><img src="figures/umap_clustered_mNeurog2_Hes1.png?v=4" alt="Hes1" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Notch1.png?v=4" alt="Notch1" width="33%"><img src="figures/umap_clustered_mNeurog2_Rlbp1.png?v=4" alt="Rlbp1" width="33%"><img src="figures/umap_clustered_mNeurog2_Acta2.png?v=4" alt="Acta2" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Chat.png?v=4" alt="Chat" width="33%"><img src="figures/umap_clustered_mNeurog2_Hes5.png?v=4" alt="Hes5" width="33%"><img src="figures/umap_clustered_mNeurog2_Nrl.png?v=4" alt="Nrl" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Rpe65.png?v=4" alt="Rpe65" width="33%"><img src="figures/umap_clustered_mNeurog2_Apoe.png?v=4" alt="Apoe" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Insm1.png?v=4" alt="Insm1" width="33%"><img src="figures/umap_clustered_mNeurog2_Olig2.png?v=4" alt="Olig2" width="33%"><img src="figures/umap_clustered_mNeurog2_Sebox.png?v=4" alt="Sebox" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Aqp4.png?v=4" alt="Aqp4" width="33%"><img src="figures/umap_clustered_mNeurog2_Csf1r.png?v=4" alt="Csf1r" width="33%"><img src="figures/umap_clustered_mNeurog2_Isl1.png?v=4" alt="Isl1" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Otx2.png?v=4" alt="Otx2" width="33%"><img src="figures/umap_clustered_mNeurog2_Slc17a7.png?v=4" alt="Slc17a7" width="33%"><img src="figures/umap_clustered_mNeurog2_Arr3.png?v=4" alt="Arr3" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Elavl3.png?v=4" alt="Elavl3" width="33%"><img src="figures/umap_clustered_mNeurog2_Kcnj8.png?v=4" alt="Kcnj8" width="33%"><img src="figures/umap_clustered_mNeurog2_Pax2.png?v=4" alt="Pax2" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Slc1a3.png?v=4" alt="Slc1a3" width="33%"><img src="figures/umap_clustered_mNeurog2_Ascl1.png?v=4" alt="Ascl1" width="33%"><img src="figures/umap_clustered_mNeurog2_Elavl4.png?v=4" alt="Elavl4" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Lhx1.png?v=4" alt="Lhx1" width="33%"><img src="figures/umap_clustered_mNeurog2_Pax6.png?v=4" alt="Pax6" width="33%"><img src="figures/umap_clustered_mNeurog2_Slc6a9.png?v=4" alt="Slc6a9" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Atoh7.png?v=4" alt="Atoh7" width="33%"><img src="figures/umap_clustered_mNeurog2_Emx1.png?v=4" alt="Emx1" width="33%"><img src="figures/umap_clustered_mNeurog2_Lhx2.png?v=4" alt="Lhx2" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Pou4f2.png?v=4" alt="Pou4f2" width="33%"><img src="figures/umap_clustered_mNeurog2_Sox11.png?v=4" alt="Sox11" width="33%"><img src="figures/umap_clustered_mNeurog2_Bsn.png?v=4" alt="Bsn" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Foxn4.png?v=4" alt="Foxn4" width="33%"><img src="figures/umap_clustered_mNeurog2_Lhx4.png?v=4" alt="Lhx4" width="33%"><img src="figures/umap_clustered_mNeurog2_Prdm1.png?v=4" alt="Prdm1" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Sox9.png?v=4" alt="Sox9" width="33%"><img src="figures/umap_clustered_mNeurog2_Cabp5.png?v=4" alt="Cabp5" width="33%"><img src="figures/umap_clustered_mNeurog2_Gad1.png?v=4" alt="Gad1" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Malat1.png?v=4" alt="Malat1" width="33%"><img src="figures/umap_clustered_mNeurog2_Prdx6.png?v=4" alt="Prdx6" width="33%"><img src="figures/umap_clustered_mNeurog2_Tfap2a.png?v=4" alt="Tfap2a" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Calb1.png?v=4" alt="Calb1" width="33%"><img src="figures/umap_clustered_mNeurog2_Gfap.png?v=4" alt="Gfap" width="33%"><img src="figures/umap_clustered_mNeurog2_mt-Atp6.png?v=4" alt="mt-Atp6" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Rbfox3.png?v=4" alt="Rbfox3" width="33%"><img src="figures/umap_clustered_mNeurog2_Tie1.png?v=4" alt="Tie1" width="33%"><img src="figures/umap_clustered_mNeurog2_Calb2.png?v=4" alt="Calb2" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Glul.png?v=4" alt="Glul" width="33%"><img src="figures/umap_clustered_mNeurog2_Neurog2.png?v=4" alt="Neurog2" width="33%"><img src="figures/umap_clustered_mNeurog2_Rho.png?v=4" alt="Rho" width="33%">
+<img src="figures/umap_clustered_mNeurog2_Vim.png?v=4" alt="Vim" width="33%">
 
 ### Annotations 
 
@@ -312,9 +312,9 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 - **Downstream analysis**: The binarised sets feed into **motif enrichment** and **regulatory program discovery**, so checking these plots ensures binarisation wasn’t too loose or too strict.  
 
 
-![li](outs/topics/cell_topic_li.png)  
-![otsu](outs/topics/region_bin_otsu.png)
-![top3k](outs/topics/region_bin_top3k.png)
+![li](outs/topics/cell_topic_li.png?v=2)  
+![otsu](outs/topics/region_bin_otsu.png?v=2)
+![top3k](outs/topics/region_bin_top3k.png?v=2)
 
 
 ###  🚨🚨🚨 Investigating why all MG? 
@@ -348,9 +348,9 @@ Run differential accessibility analysis (DAR) on the clustered Cistopic object u
 Imputation and normalization are scaled by **1e7** and **1e4**, respectively, using **1 CPU** and temporary files stored in `DAR_TMP`.
 
 
-![Higly variable Regions](outs/DAR_results/highly_variable_regions.png?v=3)
+![Higly variable Regions](outs/DAR_results/highly_variable_regions.png?v=4)
 
-![Imputed features](outs/DAR_results/imputed_features.png?v=3)
+![Imputed features](outs/DAR_results/imputed_features.png?v=4)
 
 ## References
 
