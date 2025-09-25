@@ -175,14 +175,12 @@ The panels differ by **resolution**:
 These clustering results can be compared to `scRNA_cell_type` labels to evaluate how well the regulatory (ATAC-based) clustering reflects known transcriptomic cell types.
 
 
+![metadata](outs/umap_clusters/metadata_umap.png?v=2)
 
-![metadata](outs/umap_clusters/metadata_umap.png)
+![qc metrics](outs/umap_clusters/qc_metrics_umap.png?v=2)
 
+![leidend](outs/umap_clusters/pycistopic_leiden_umap.png?v=2)
 
-![qc metrics](outs/umap_clusters/qc_metrics_umap.png)
-
-
-![leidend](outs/umap_clusters/pycistopic_leiden_umap.png)
 
 
 ## Annotations  (cluster-level labels)
@@ -239,12 +237,11 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 - **Interpretation:** Coarse-grained view where clusters are given a single dominant biological identity.
 
 
-![annotated clusters](outs/umap_clusters/annotated_clusters_umap.png)
+![annotated clusters](outs/umap_clusters/annotated_clusters_umap.png?v=2)
 
-![topics umap](outs/umap_clusters/topic_umap.png)
+![topics umap](outs/umap_clusters/topic_umap.png?v=2)
 
-![topics heatmap ](outs/umap_clusters/cell_topic_heatmap.png)
-
+![topics heatmap ](outs/umap_clusters/cell_topic_heatmap.png?v=2)
 
 
 ### Binarising Topics 
@@ -354,9 +351,9 @@ Run differential accessibility analysis (DAR) on the clustered Cistopic object u
 Imputation and normalization are scaled by **1e7** and **1e4**, respectively, using **1 CPU** and temporary files stored in `DAR_TMP`.
 
 
-![Higly variable Regions](outs/DAR_results/highly_variable_regions.png)
+![Higly variable Regions](outs/DAR_results/highly_variable_regions.png?v=2)
 
-![Imputed features](outs/DAR_results/imputed_features.png)
+![Imputed features](outs/DAR_results/imputed_features.png?v=2)
 
 
 ## References
