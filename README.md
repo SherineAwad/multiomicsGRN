@@ -179,9 +179,6 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 
 ![qc metrics](outs/umap_clusters/qc_metrics_umap.png?v=2)
 
-![leidend](outs/umap_clusters/pycistopic_leiden_umap.png?v=2)
-
-
 
 ## Annotations  (cluster-level labels)
 
