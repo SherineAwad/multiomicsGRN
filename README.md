@@ -242,13 +242,7 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 
 ![topics heatmap ](outs/umap_clusters/cell_topic_heatmap.png)
 
-![leiden](outs/umap_clusters/pycistopic_leiden_umap.png)
 
-![clusters](outs/umap_clusters/pycistopic_clusters_umap.png)
-
-
-
-## Pending 
 ### Binarising Topics 
 
 ## Why Binarise Topics?
@@ -354,6 +348,7 @@ and the barplots:
 
 ![Higly variable Regions](outs/DAR_results/highly_variable_regions.png)
 
+![Imputed features](outs/DAR_results/imputed_features.png)
 
 
 ## References
