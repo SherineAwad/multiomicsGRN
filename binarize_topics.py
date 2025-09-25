@@ -74,6 +74,11 @@ def run_binarizations(input_pickle, output_dir):
     plt.savefig(os.path.join(output_dir, "cell_topic_li.png"), bbox_inches='tight')
     plt.close()
 
+    # --- Attach binarized outputs to the object ---
+    obj.region_bin_topics_top_3k = region_bin_topics_top_3k
+    obj.region_bin_topics_otsu = region_bin_topics_otsu
+    obj.binarized_cell_topic = binarized_cell_topic
+
     # --- 4) Save full binarized object ---
     binarized_file = os.path.join(output_dir, "cistopic_obj_binarized.pkl")
     with open(binarized_file, "wb") as f:

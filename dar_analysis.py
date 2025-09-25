@@ -71,6 +71,15 @@ def run_dar(cistopic_pickle, output_dir, var_column, scale_factor_impute=1e7, sc
         df.to_csv(out_file, sep="\t")
         print(f"[INFO] Saved markers for {celltype} -> {out_file}")
 
+    # Attach markers_dict to the object so export_region_sets can access it
+    cistopic_obj.markers_dict = markers_dict
+
+    # Save the updated CistopicObject
+    cistopic_obj_file = os.path.join(output_dir, "cistopic_obj_with_DARs.pkl")
+    with open(cistopic_obj_file, "wb") as f:
+        pickle.dump(cistopic_obj, f)
+    print(f"[INFO] Saved CistopicObject with DARs -> {cistopic_obj_file}")
+
     # Plot imputed accessibility for selected features
     selected_features = []
     for x in markers_dict:
