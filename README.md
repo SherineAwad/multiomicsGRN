@@ -182,6 +182,9 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 ![qc metrics](outs/umap_clusters/qc_metrics_umap.png)
 
 
+![leidend](outs/umap_clusters/pycistopic_leiden_umap.png)
+
+
 ## Annotations  (cluster-level labels)
 
 - After running Leiden clustering on the ATAC data, each cell belongs to a numeric cluster (0, 1, 2, …).  
@@ -241,6 +244,7 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 ![topics umap](outs/umap_clusters/topic_umap.png)
 
 ![topics heatmap ](outs/umap_clusters/cell_topic_heatmap.png)
+
 
 
 ### Binarising Topics 
@@ -345,6 +349,10 @@ and the barplots:
 
 
 ## Pending Differentially Accessible Regions (DAR) Analysis 
+
+Run differential accessibility analysis (DAR) on the clustered Cistopic object using **`celltype_scrna`** as the grouping variable, with **adjusted p-value threshold = 0.8** and **log2 fold-change threshold = 0.09**.  
+Imputation and normalization are scaled by **1e7** and **1e4**, respectively, using **1 CPU** and temporary files stored in `DAR_TMP`.
+
 
 ![Higly variable Regions](outs/DAR_results/highly_variable_regions.png)
 
