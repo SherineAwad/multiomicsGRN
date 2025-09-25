@@ -348,10 +348,9 @@ Run differential accessibility analysis (DAR) on the clustered Cistopic object u
 Imputation and normalization are scaled by **1e7** and **1e4**, respectively, using **1 CPU** and temporary files stored in `DAR_TMP`.
 
 
-![Higly variable Regions](outs/DAR_results/highly_variable_regions.png?v=2)
+![Higly variable Regions](outs/DAR_results/highly_variable_regions.png?v=3)
 
-![Imputed features](outs/DAR_results/imputed_features.png?v=2)
-
+![Imputed features](outs/DAR_results/imputed_features.png?v=3)
 
 ## References
 
