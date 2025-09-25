@@ -1,8 +1,125 @@
+
 # Multi-omics GRN Construction with SCENIC+  
 
 We are using **multi-omics data for Neurog2** to construct a gene regulatory network (GRN) with **SCENIC+**.  
 
-# Part 1: Analyzing scRNA-seq Data  
+
+
+Absolutely! The main missing piece in your summary is **DAR (Differential Accessible Regions) analysis**, which is an important intermediate step in SCENIC+ between PySciTopic and cisTarget. I’ve rewritten your workflow in full, hierarchical Markdown format, integrating DAR and clarifying inputs/outputs.
+
+---
+
+# SCENIC+ Full Workflow (Hierarchical Steps)
+
+## Step 1: PySciTopic (Topic Modeling for scATAC-seq)
+
+* **Purpose:** Identify latent topics representing co-accessible chromatin regions in single-cell ATAC-seq data.
+
+### 1.a Data preprocessing
+
+* **What it does:** Filter cells and peaks, normalize counts, remove low-quality data.
+* **Input:** Raw scATAC-seq count matrix
+* **Output:** Filtered and normalized count matrix
+* **Required:** ✅ Yes
+
+### 1.b Topic modeling
+
+* **What it does:** Learn topics representing sets of co-accessible peaks.
+* **Input:** Filtered scATAC matrix
+* **Output:** Topic–cell matrix, topic–peak matrix
+* **Required:** ✅ Yes
+
+### 1.c Topic binarization
+
+* **What it does:** Convert continuous topic–peak weights into binary sets of peaks per topic (Otsu thresholding or top-N selection).
+* **Input:** Topic–peak matrix
+* **Output:** Binarized topic–peak sets
+* **Required:** ✅ Yes
+
+---
+
+## Step 2: DAR Analysis (Differential Accessible Regions)
+
+* **Purpose:** Identify peaks that are differentially accessible across cell types or conditions.
+
+### 2.a Differential testing
+
+* **What it does:** Compare peak accessibility between groups of cells (clusters, conditions) to detect DARs.
+* **Input:** Filtered scATAC-seq matrix, cell metadata or clusters
+* **Output:** List of DARs with statistical significance (logFC, p-value)
+* **Required:** ✅ Yes
+
+### 2.b DAR filtering
+
+* **What it does:** Filter significant DARs for downstream motif enrichment and regulon analysis.
+* **Input:** List of DARs
+* **Output:** High-confidence DAR set per cell type/cluster
+* **Required:** ✅ Yes
+
+---
+
+## Step 3: cisTarget (Motif Enrichment / Regulon Inference)
+
+* **Purpose:** Infer transcription factors regulating the DARs or topic-specific peaks.
+
+### 3.a Peak-to-gene mapping
+
+* **What it does:** Assign peaks (or DARs) to nearby genes to connect regulatory regions to potential targets.
+* **Input:** Binarized topic–peak sets or DARs, genome annotation
+* **Output:** Peak-to-gene associations
+* **Required:** ✅ Yes
+
+### 3.b Motif enrichment
+
+* **What it does:** Identify transcription factor motifs enriched in DARs or topic-specific peaks.
+* **Input:** Peak-to-gene associations
+* **Output:** Candidate TF regulons
+* **Required:** ✅ Yes
+
+### 3.c Regulon refinement
+
+* **What it does:** Prune false positives and retain high-confidence TF–target interactions.
+* **Input:** Candidate TF regulons
+* **Output:** Refined regulons
+* **Required:** ✅ Yes
+
+---
+
+## Step 4: SCENIC+ (Regulon Activity & Downstream Analysis)
+
+* **Purpose:** Quantify regulon activity per cell and explore regulatory programs.
+
+### 4.a Regulon activity scoring
+
+* **What it does:** Compute activity of each regulon in each cell (AUCell or similar).
+* **Input:** Refined regulons, topic–cell matrix or gene expression matrix
+* **Output:** Cell × regulon activity matrix
+* **Required:** ✅ Yes
+
+### 4.b Clustering / Dimensionality reduction
+
+* **What it does:** Reduce dimensionality using regulon activity, cluster cells, and visualize cell states.
+* **Input:** Cell × regulon activity matrix
+* **Output:** UMAP/tSNE plots, cell clusters
+* **Required:** ⚪ Optional (visualization)
+
+### 4.c Network visualization
+
+* **What it does:** Build TF–target regulatory network plots.
+* **Input:** Refined regulons
+* **Output:** Regulatory network graphs
+* **Required:** ⚪ Optional
+
+### 4.d Multi-omic integration (optional)
+
+* **What it does:** Combine scRNA-seq and scATAC-seq regulons for more comprehensive regulatory inference.
+* **Input:** Regulons, scRNA-seq/scATAC-seq matrices
+* **Output:** Integrated regulon activity
+* **Required:** ⚪ Optional
+
+---
+
+#  Analyzing scRNA-seq Data  
 
 ![Before Filtering QC metrics](figures/violin_QC.png)
 Violin plots displaying quality control metrics such as number of genes detected per cell, total counts, and percentage of mitochondrial gene expression.
