@@ -236,16 +236,16 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 - **Interpretation:** Coarse-grained view where clusters are given a single dominant biological identity.
 
 
-
-###  🚨🚨🚨 All MG? We trained the model with n_topic=5 very low probably a toy example  
-
 ![annotated clusters](outs/umap_clusters/annotated_clusters_umap.png)
-
 
 ![topics umap](outs/umap_clusters/topic_umap.png)
 
-
 ![topics heatmap ](outs/umap_clusters/cell_topic_heatmap.png)
+
+![leiden](outs/umap_clusters/pycistopic_leiden_umap.png)
+
+![clusters](outs/umap_clusters/pycistopic_clusters_umap.png)
+
 
 
 ## Pending 
@@ -320,13 +320,34 @@ These clustering results can be compared to `scRNA_cell_type` labels to evaluate
 - **Downstream analysis**: The binarised sets feed into **motif enrichment** and **regulatory program discovery**, so checking these plots ensures binarisation wasn’t too loose or too strict.  
 
 
-
 ![li](outs/topics/cell_topic_li.png)  
 ![otsu](outs/topics/region_bin_otsu.png)
 ![top3k](outs/topics/region_bin_top3k.png)
-![otsu](outs/topics/region_bin_topics_otsu.png)  
-![top3000](outs/topics/region_bin_topics_top_3000.png)
-![top3k topics](outs/topics/region_bin_topics_top3k.png)
+
+
+###  🚨🚨🚨 Investigating why all MG? 
+
+
+This is the cell counts in clusters based on barcodes:
+
+| Cluster      | Cell Count |
+|--------------|-----------|
+| MG           | 3206      |
+| BC           | 1298      |
+| Rod          | 997       |
+| MGPC         | 612       |
+| Microglia    | 344       |
+| AC           | 103       |
+| Cone         | 48        |
+| Astrocyte    | 4         |
+|**Total cells** | **6612** |
+ 
+
+and the barplots: 
+
+![0.6](outs/stats/pycisTopic_leiden_10_0.6_composition_barplot.png)
+![1.2](outs/stats/pycisTopic_leiden_10_1.2_composition_barplot.png)
+![3.0](outs/stats/pycisTopic_leiden_10_3.0_composition_barplot.png)
 
 
 ## Pending Differentially Accessible Regions (DAR) Analysis 
