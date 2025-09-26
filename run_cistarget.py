@@ -29,6 +29,7 @@ def load_region_sets(region_dir):
             if pr_obj is not None:
                 name = os.path.splitext(bed_file)[0]
                 region_sets[name] = pr_obj
+    print(f"Loaded {len(region_sets)} region sets")
     return region_sets
 
 def main():
@@ -52,12 +53,15 @@ def main():
         print("No valid region sets found")
         return
 
-    # Load database properly
+    # Load regions vs motifs database
+    print(f"Loading database: {args.feather_file}")
     ctx_db = cisTargetDatabase(args.feather_file)
+    print("Database loaded successfully")
 
     results = {}
     for name, region_set in region_sets.items():
         try:
+            print(f"Processing {name}...")
             ct = cisTarget(
                 region_set,
                 name,
