@@ -1,5 +1,4 @@
-# Clustering and Visualization Step in scRNA-seq
-
+# Preprcessing of scRNA part: Clustering and Visualization 
 ## Overview
 
 This step performs **cell-level preprocessing, dimensionality reduction, clustering, and visualization** for single-cell RNA-seq data.  
@@ -67,10 +66,10 @@ The goal is to **group similar cells together** based on their gene expression p
 
 
 
-# Pycistopic 
+# Pycistopic: preprocessing the ATAC part and integrating metadata from scRNA 
 
 
-## 1. Preprocessing Step in scATAC-seq 
+## 1. Preprocessing  scATAC-seq 
 
 ## Overview
 
@@ -485,4 +484,213 @@ This step merges **one or more cistopic objects** into a single unified object.
 - **Purpose:** Create a single unified cistopic object from multiple inputs.  
 - **Inputs:** One or more cistopic objects (pickle files).  
 - **Outputs:** Merged cistopic object ready for topic modeling and downstream analyses.
+
+
+
+# 9. Adding scRNA-seq Metadata to Cistopic Objects
+
+## Overview
+
+This step integrates **scRNA-seq-derived metadata** into the merged cistopic object.  
+
+- Single-cell RNA-seq preprocessing (clustering, cell type annotation) provides **cell type labels, sample IDs, or other metadata**.  
+- Attaching this information to the cistopic object allows **linking chromatin accessibility topics to known cell types** for interpretation.  
+
+---
+
+## Inputs
+
+1. **Merged cistopic object (`merged_cistopic.pkl`)**  
+   - Created in the previous merge step.  
+   - Contains the **ATAC-seq peak-by-cell matrix** and ATAC metadata.  
+
+2. **scRNA-seq metadata CSV (`scRNA_barcodes.csv`)**  
+   - Contains cell barcodes and associated information such as:
+     - Cell type labels  
+     - Sample ID  
+     - Cluster assignments  
+
+3. **Output pickle path (`merged_with_meta.pkl`)**  
+   - Where the updated cistopic object with metadata will be saved.  
+
+---
+
+## Process (conceptual)
+
+1. **Load merged cistopic object**  
+   - Contains all ATAC-seq cells in a single structure.  
+
+2. **Load scRNA metadata**  
+   - Map cell barcodes to those in the cistopic object.  
+
+3. **Attach metadata to cistopic object**  
+   - Adds new columns in the cell metadata (obs) of the cistopic object.  
+   - This allows **annotating cells with known cell types or clusters** derived from scRNA-seq.  
+
+4. **Save updated cistopic object**  
+   - The new object contains both chromatin accessibility data and scRNA-derived annotations.  
+
+---
+
+## Outputs
+
+1. **Cistopic object with scRNA metadata (`merged_with_meta.pkl`)**  
+   - Each cell now has ATAC-seq data **and** associated scRNA-seq-derived labels.  
+   - Enables cell type–specific analyses in topic modeling, DAR identification, and visualization.  
+
+---
+
+## Connection to Previous Steps
+
+- **Takes the merged cistopic object** from the previous merging step.  
+- **Takes metadata from scRNA preprocessing**, including clusters and cell type labels.  
+- **Purpose:** Link ATAC-seq profiles to known cell types for biological interpretation and downstream analyses.  
+
+✅ **Summary:**  
+- **Why needed:** Without scRNA metadata, ATAC-seq topics cannot be directly assigned to cell types.  
+- **Input:** Merged cistopic object + scRNA metadata.  
+- **Output:** Annotated cistopic object ready for topic modeling and cell type–specific analysis.
+
+
+# 10. Topic Modeling with Mallet (run_mallet.py)
+
+## Overview
+
+This step performs **Latent Dirichlet Allocation (LDA) topic modeling** on the chromatin accessibility data stored in the cistopic object.  
+
+- Each **topic represents a set of genomic regions (peaks) that tend to be accessible together** across cells.  
+- Topic modeling reduces the high-dimensional peak-by-cell matrix into a **smaller number of interpretable patterns**, capturing regulatory programs or cell type–specific accessibility.  
+- Mallet is a high-performance Java-based LDA implementation used here to efficiently handle large single-cell ATAC datasets.  
+
+---
+
+## Inputs
+
+1. **Annotated cistopic object (`merged_with_meta.pkl`)**  
+   - Contains:
+     - Peak-by-cell matrix (from previous steps)  
+     - scRNA-seq metadata for each cell (cell type, cluster, sample)  
+
+2. **Mallet software path**  
+   - The executable used to run LDA.  
+
+3. **Topic modeling parameters**  
+   - `n_topics`: number of topics to infer (e.g., 15, 20, 25, 30)  
+   - `n_iter`: number of iterations for the LDA algorithm  
+   - `alpha` / `eta`: Dirichlet priors controlling sparsity and topic distribution  
+   - `random_state`: ensures reproducibility  
+
+4. **Computational settings**  
+   - `n_cpu`: number of CPUs for parallel processing  
+   - `mallet_memory`: memory allocated for Mallet  
+   - Temporary and save directories (`tmp_path`, `save_path`)  
+
+---
+
+## Process (conceptual)
+
+1. **Prepare the peak-by-cell matrix**  
+   - Converts the cistopic object data into a format compatible with Mallet.  
+
+2. **Run LDA topic modeling**  
+   - Mallet iteratively assigns peaks to topics based on co-accessibility patterns across cells.  
+   - Each cell gets a **topic distribution** (proportion of reads assigned to each topic).  
+   - Each topic gets a **peak distribution** (peaks enriched in that topic).  
+
+3. **Store results**  
+   - Saves Mallet output files in the specified directory, including topic assignments for cells and peaks.  
+
+---
+
+## Outputs
+
+1. **Cistopic object with topic models**  
+   - Contains updated metadata:
+     - Each cell’s topic proportions  
+     - Each topic’s peak composition  
+
+2. **Mallet model files**  
+   - Intermediate files for each topic and iteration  
+   - Useful for diagnostics or rerunning analyses  
+
+3. **Saved directories** (`MALLET/`)  
+   - Organizes all output for downstream steps, including LDA visualization and DAR analysis.  
+
+---
+
+## Connection to Previous Steps
+
+- **Takes the annotated cistopic object** from `add_scrna_metadata.py`  
+- Uses the **peak-by-cell matrix** (from consensus peaks) and **cell metadata** (from scRNA annotations)  
+- This is the core analytical step where the **high-dimensional ATAC-seq data is reduced into interpretable topics**, which will be used in clustering, DAR analysis, and visualization.
+
+---
+
+✅ **Summary:**  
+- **Purpose:** Identify patterns of co-accessible genomic regions (topics) across cells.  
+- **Inputs:** Annotated cistopic object, Mallet path, topic modeling parameters.  
+- **Outputs:** Topic-assigned cistopic object, Mallet model files, ready for downstream analyses such as clustering and DAR detection.
+
+# 11. Adding LDA Model to Cistopic Object
+
+## Overview
+
+This step integrates the **topic modeling results generated by Mallet** back into the cistopic object.  
+
+- After running Mallet, the topic assignments and distributions are stored in external files.  
+- To continue downstream pycisTopic analyses (clustering, DAR, visualization), the **cistopic object must include the LDA model results** internally.  
+
+---
+
+## Inputs
+
+1. **Cistopic object with Mallet outputs (`MALLET/merged_cistopic_with_models.pkl`)**  
+   - Contains:
+     - Peak-by-cell matrix  
+     - Cell metadata (including scRNA annotations)  
+     - Placeholder for LDA topics  
+
+2. **Output path (`outs/`)**  
+   - Where the updated cistopic object with the integrated LDA model will be saved.
+
+---
+
+## Process (conceptual)
+
+1. **Load the cistopic object and Mallet outputs**  
+   - Reads the topic distributions for cells and peak compositions per topic.  
+
+2. **Attach LDA results to the cistopic object**  
+   - For each cell: stores **topic proportions**.  
+   - For each topic: stores **peak weights / peak-to-topic assignment**.  
+
+3. **Save the updated cistopic object**  
+   - The object is now fully ready for:
+     - Clustering based on topics  
+     - Differential accessibility analysis (DAR)  
+     - Visualization (UMAP, heatmaps, dotplots)  
+
+---
+
+## Outputs
+
+1. **Cistopic object with integrated LDA model (`cistopic_LDA_obj.pkl`)**  
+   - Each cell has topic proportions.  
+   - Each topic has peak weights.  
+   - Contains all previous metadata (scRNA annotations, QC info).  
+
+---
+
+## Connection to Previous Steps
+
+- **Takes the cistopic object with merged cells and scRNA metadata**.  
+- **Uses the topic modeling results generated by Mallet** in the previous step.  
+- Prepares the object for **all downstream analyses in pycisTopic**, making it the “complete” cistopic object.
+
+---
+
+✅ **Summary:**  
+- **Purpose:** Incorporate Mallet LDA results into the cistopic object for analysis.  
+- **Inputs:** Cistopic object + Mallet topic results.  
+- **Outputs:** Updated cistopic object with topics ready for clustering, DAR, and visualization.
 
