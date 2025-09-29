@@ -90,7 +90,9 @@ Single-cell ATAC-seq is very sparse — most genomic regions have zero reads in 
 ## Inputs
 
 1. **Fragment files**: Raw scATAC-seq fragments per sample, containing coordinates of all sequenced fragments per cell.
+  - ⚠️ These come directly from the **scATAC-seq experiment** (e.g., Cell Ranger ATAC output), **not from Seurat/Scanpy**.  
 2. **Cell metadata**: Maps each barcode to a cell type and sample.
+  - 🔑🔑🔑 This metadata is typically **created upstream (e.g., in Seurat, Scanpy, or similar tools)** and then passed to pycisTopic.  
 3. **Chromosome sizes**: Defines the genome boundaries for coverage tracks.
 
 ---
