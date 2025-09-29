@@ -69,8 +69,7 @@ The goal is to **group similar cells together** based on their gene expression p
 
 # 🔴🔴🔴 PART B: Pycistopic: preprocessing the ATAC part and integrating metadata from scRNA 
 
-
-# 1. Preprocessing scATAC-seq (Conceptual Rationale)
+# 1. Preprocessing scATAC-seq 
 
 ## Overview
 
@@ -106,9 +105,10 @@ This gives us a foundation for robust downstream analysis, much like turning man
 
 ## Outputs 
 
-- **Aggregated accessibility profiles** per cell type × sample.  
-- Conceptually represented as **BED** (fragment coordinates) and **BigWig** (coverage tracks) files.  
-- These serve as the foundation for **peak calling** and later **cisTopic modeling**.  
+- **Aggregated accessibility profiles** per cell type × sample are **saved as TSV tables**.  
+  - Each TSV lists the fragment coordinates for the pseudobulk group.  
+  - These TSV files are **intermediate outputs**, not yet in BED/BigWig format.  
+  - The TSVs **define what will later be converted into BED and BigWig files** for downstream analysis.
 
 ---
 
@@ -116,16 +116,17 @@ This gives us a foundation for robust downstream analysis, much like turning man
 
 Imagine many faint, crackling radios (single cells) all trying to broadcast the same station.  
 Individually, the signal is unclear — but by combining them, you reconstruct the song clearly.  
-That clear broadcast is your **pseudobulk profile**.  
+The **TSV tables** are like the combined raw audio recordings — you now have the data ready to be processed into a clean, playable track.  
 
 ---
 
-# 2. Pseudobulk Export with pycisTopic (Practical Implementation)
+# 2. Pseudobulk Export with pycisTopic 
 
 ## Overview
 
-Here we **execute the conceptual idea** using `pycisTopic`.  
-This step takes the theoretical solution (pseudobulk aggregation) and **implements it computationally**, producing the actual files that will be used downstream.
+This step **executes the pseudobulk aggregation** using `pycisTopic`.  
+- Takes the conceptual idea and TSV intermediates from Step 1 and **produces the actual BED/BigWig files** for downstream analysis.  
+- Aggregates reads per **cell type × sample**, generating clean coverage tracks for visualization and peak calling.  
 
 ---
 
@@ -134,15 +135,15 @@ This step takes the theoretical solution (pseudobulk aggregation) and **implemen
 1. **Maps fragments to annotated cells**  
    - Uses metadata (from Seurat/Scanpy) to assign each fragment to its correct cell type × sample group.  
 
-2. **Aggregates fragments**  
-   - Combines all reads belonging to the same group into a pseudobulk profile.  
+2. **Aggregates fragments into pseudobulk TSVs** (if not already created)  
+   - Combines all reads for each group into a single table of fragment coordinates.  
 
-3. **Generates normalized coverage tracks**  
-   - BED files (fragment positions).  
-   - BigWig files (continuous coverage along the genome).  
+3. **Converts TSVs to standard formats**  
+   - **BED files:** fragment positions formatted for downstream peak calling (MACS2, etc.).  
+   - **BigWig files:** normalized coverage tracks for visualization in genome browsers.  
 
-4. **Organizes outputs for downstream tools**  
-   - Saves reference TSVs with paths to all BED/BigWig files.  
+4. **Organizes outputs**  
+   - Saves **TSV reference files** with paths to all BED and BigWig files for downstream pipelines.  
 
 ---
 
@@ -154,7 +155,7 @@ This step takes the theoretical solution (pseudobulk aggregation) and **implemen
 
 ---
 
-## Outputs 
+## Outputs
 
 1. **BED files** – fragment coordinates per pseudobulk (cell type × sample).  
 2. **BigWig files** – normalized coverage tracks for genome browsers or QC.  
@@ -164,9 +165,8 @@ This step takes the theoretical solution (pseudobulk aggregation) and **implemen
 
 ## Analogy
 
-Step 1 was like **planning** to combine faint radio signals to get a clear broadcast.  
-Step 2 is where we **actually run the mixing desk**, filter the noise, and **record the clear track** (BED/BigWig files) that we can now analyze further.  
-
+Step 1 was like **planning and creating the combined raw audio (TSV tables)**.  
+Step 2 is where we **mix, normalize, and export it into clean, usable formats (BED/BigWig)** for analysis.  
 
 
 # 3. Peak Calling Step with MACS2
