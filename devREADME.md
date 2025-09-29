@@ -77,6 +77,10 @@ The goal is to **group similar cells together** based on their gene expression p
 This step is the **“pseudobulk preprocessing”** for scATAC-seq data.
 Single-cell ATAC-seq is very sparse — most genomic regions have zero reads in individual cells. Analyzing each cell separately for peak calling is noisy and computationally intensive.
 
+Imagine each cell as a noisy sensor detecting “open windows” (accessible regions) in a city (the genome).
+Each sensor alone is unreliable, but if you **combine all sensors of the same type**, you get a clear map of which windows are open for that cell type. That combined map is your **pseudobulk**.
+
+
 **Pseudobulk preprocessing does the following:**
 
 - Aggregates reads from multiple cells of the same type into a single profile.
@@ -100,12 +104,6 @@ Single-cell ATAC-seq is very sparse — most genomic regions have zero reads in 
 3. **TSV reference files**: Lists of the generated BED and BigWig files for easy tracking.
 
 ---
-
-## Analogy
-
-Imagine each cell as a noisy sensor detecting “open windows” (accessible regions) in a city (the genome).
-Each sensor alone is unreliable, but if you **combine all sensors of the same type**, you get a clear map of which windows are open for that cell type. That combined map is your **pseudobulk**.
-
 
 # 2. Pseudobulk Export Step in pycisTopic
 
