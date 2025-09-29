@@ -70,7 +70,7 @@ The goal is to **group similar cells together** based on their gene expression p
 # Pycistopic 
 
 
-## Preprocessing Step in scATAC-seq 
+## 1. Preprocessing Step in scATAC-seq 
 
 ## Overview
 
@@ -107,7 +107,7 @@ Imagine each cell as a noisy sensor detecting “open windows” (accessible reg
 Each sensor alone is unreliable, but if you **combine all sensors of the same type**, you get a clear map of which windows are open for that cell type. That combined map is your **pseudobulk**.
 
 
-# Pseudobulk Export Step in pycisTopic
+# 2. Pseudobulk Export Step in pycisTopic
 
 ## Overview
 
@@ -164,7 +164,7 @@ Each cell is a noisy “sensor” detecting open windows in the genome.
 
 
 
-# Peak Calling Step with MACS2
+# 3. Peak Calling Step with MACS2
 
 ## Overview
 
@@ -229,7 +229,7 @@ Think of the pseudobulk BED as a **heat map of open windows across the city**.
 - **Outputs:** MACS2 peak files (BED/narrowPeak) per cell type × sample, ready for **consensus peak generation** and downstream analysis.
 
 
-# Consensus Peak Generation Step
+# 4. Consensus Peak Generation Step
 
 ## Overview
 
@@ -250,7 +250,7 @@ This step creates a **consensus peak set** by merging peaks called by MACS2 acro
 
 ---
 
-# Merge  
+# 5. Merge  
 
 1. **Combine all MACS2 peak files**  
    - Concatenate narrowPeak files from all pseudobulk samples into a single file.  
@@ -285,4 +285,204 @@ Imagine each pseudobulk sample as a city map showing open windows (peaks).
 
 
 
+# 6. TSS Generation Step in pycisTopic
+
+## Overview
+
+This step generates a **BED file containing the transcription start sites (TSSs)** of genes for the reference genome.  
+
+- TSS regions are important for **quality control**, such as checking **TSS enrichment** in ATAC-seq data.  
+- It can also be used to **annotate peaks** with nearby genes for downstream analyses.  
+
+---
+
+## Inputs
+
+1. **Reference genome annotation**  
+   - Provided by pycisTopic via Ensembl gene annotations (e.g., `"mmusculus_gene_ensembl"`).  
+   - Contains gene coordinates, including TSS positions.
+
+2. **Genome build specification**  
+   - UCSC or Ensembl genome coordinates (e.g., `"mm10"` for mouse).  
+
+---
+
+## Process (conceptual)
+
+1. **Extract TSS positions from gene annotations**  
+   - For each gene, determine the **chromosome, strand, and start position** corresponding to the TSS.  
+
+2. **Convert to BED format**  
+   - Each TSS is represented as a genomic interval suitable for downstream QC or annotation.
+
+3. **Save TSS BED file**  
+   - The BED file can be used for **TSS enrichment analysis** or annotating peaks to genes.
+
+---
+
+## Outputs
+
+1. **TSS BED file**  
+   - Contains genomic coordinates of all transcription start sites for the reference genome.  
+   - Example path: `outs/qc/tss_mm10.bed`.
+
+---
+
+## Connection to Previous Steps
+
+- This step **does not directly depend on the pseudobulk or MACS2 peaks**.  
+- It **uses the reference genome annotation**, so it is independent of previous sample-specific steps.  
+- The generated TSS BED file is primarily used for **quality control** (e.g., checking enrichment of ATAC signal at TSSs) and for **peak annotation downstream**.
+
+---
+
+✅ **Summary**
+
+- **Purpose:** Generate a reference set of TSSs in BED format.  
+- **Inputs:** Reference genome annotation, genome build.  
+- **Outputs:** TSS BED file, used for QC and peak annotation.  
+- **Relation to previous steps:** Independent; serves as a reference for evaluating and annotating pseudobulk/MACS2 peaks.
+
+
+# 7. Creating Cistopic Objects Step
+
+## Overview
+
+This step creates a **cistopic object**, which is the central data structure used by pycisTopic for **topic modeling of chromatin accessibility**.  
+
+- The cistopic object organizes **fragment data, peak regions, and QC information** in a way suitable for downstream analyses.  
+- It is essentially a **single-cell peak-by-cell matrix** stored in a Python pickle file, with metadata attached.  
+
+---
+
+## Inputs
+
+1. **Fragments dictionary (`fragments_dict.pkl`)**  
+   - Maps each sample name to its fragment file (`.tsv.gz`).  
+   - Produced or referenced from earlier steps (preprocess/pseudobulk fragment info).  
+
+2. **QC results (`qc_barcodes_thresholds.pkl`)**  
+   - Information about filtered/high-quality cells, such as thresholds for minimum fragments, TSS enrichment, etc.  
+   - Derived from QC steps performed earlier.  
+
+3. **Consensus peaks BED file**  
+   - Generated in the **previous consensus peak step**.  
+   - Defines the genomic regions (peaks) that will form the rows of the cell-by-peak matrix.  
+
+4. **Blacklist BED file (`mm10-blacklist.v2.bed`)**  
+   - Contains regions of the genome known to produce artefactual signals, which are excluded.  
+
+5. **QC output directory**  
+   - Provides additional QC-related files for integration.  
+
+6. **Number of CPUs (`n_cpu`)**  
+   - Used for parallel processing.  
+
+---
+
+## Process (conceptual)
+
+1. **Load fragments and QC metadata**  
+   - Filter cells based on QC thresholds.  
+
+2. **Map fragments to consensus peaks**  
+   - Assign each fragment from a cell to a peak, creating a **peak-by-cell matrix**.  
+
+3. **Remove blacklisted regions**  
+   - Exclude problematic regions that may generate false positives.  
+
+4. **Store in cistopic object**  
+   - Includes:
+     - Cell-by-peak matrix  
+     - Cell metadata (sample, cell type, QC info)  
+     - Peak metadata (genomic coordinates, annotation)  
+
+5. **Save as Python pickle**  
+   - This object will be used for **topic modeling, clustering, and downstream analysis**.
+
+---
+
+## Outputs
+
+1. **Cistopic object (`cistopic_objects_mm10.pkl`)**  
+   - Single Python object storing the filtered peak-by-cell matrix and associated metadata.  
+   - Ready for running **topic modeling (LDA)** and other analyses in pycisTopic.
+
+---
+
+## Connection to Previous Steps
+
+- **Takes consensus peaks** (from merged MACS2 outputs).  
+- **Uses fragment files** (from preprocessing/pseudobulk).  
+- **Incorporates QC information** (filtered cells, TSS enrichment, etc.).  
+
+- This step is **critical** because it transforms raw and pseudobulk fragment data into a structured object suitable for all downstream pycisTopic analyses.
+
+
+
+
+# 8. Merging Cistopic Objects Step
+
+## Overview
+
+This step merges **one or more cistopic objects** into a single unified object.  
+
+- In workflows with multiple samples, batches, or preprocessing runs, each cistopic object may represent a separate sample or subset of cells.  
+- Merging combines them into a **single cistopic object**, making downstream analyses (topic modeling, clustering, DAR analysis) easier and consistent across all cells.  
+
+---
+
+## Inputs
+
+1. **Cistopic object(s) (`cistopic_objects_mm10.pkl`)**  
+   - Created in the previous step.  
+   - Contains:
+     - Peak-by-cell matrices  
+     - Cell metadata (cell type, sample, QC info)  
+     - Peak metadata  
+
+2. **Output path (`merged_cistopic.pkl`)**  
+   - Where the merged cistopic object will be saved.  
+
+---
+
+## Process (conceptual)
+
+1. **Load all input cistopic objects**  
+   - One object per sample or batch.  
+
+2. **Combine peak matrices**  
+   - Align peaks across objects to ensure **consistent genomic coordinates**.  
+
+3. **Merge cell metadata**  
+   - Keep track of **cell type, sample, QC info** for all cells.  
+
+4. **Create unified cistopic object**  
+   - Contains all cells and peaks in a single structure.  
+
+5. **Save merged object**  
+   - Stored as a Python pickle for use in downstream pycisTopic steps.
+
+---
+
+## Outputs
+
+1. **Merged cistopic object (`merged_cistopic.pkl`)**  
+   - Single object containing all cells and peaks.  
+   - Ready for:
+     - LDA/topic modeling  
+     - Clustering  
+     - Differential accessibility analysis  
+
+---
+
+## Connection to Previous Steps
+
+- **Takes individual cistopic objects** generated in the `create_cistopic_objects.py` step.  
+- Aligns and merges them so that **all samples/cells are in one unified object** for downstream pycisTopic analysis.  
+
+✅ **Summary:**  
+- **Purpose:** Create a single unified cistopic object from multiple inputs.  
+- **Inputs:** One or more cistopic objects (pickle files).  
+- **Outputs:** Merged cistopic object ready for topic modeling and downstream analyses.
 
