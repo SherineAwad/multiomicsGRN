@@ -70,101 +70,102 @@ The goal is to **group similar cells together** based on their gene expression p
 # 🔴🔴🔴 PART B: Pycistopic: preprocessing the ATAC part and integrating metadata from scRNA 
 
 
-
-## 1. Preprocessing  scATAC-seq 
-
-## Overview
-
-This step is the **“pseudobulk preprocessing”** for scATAC-seq data.
-Single-cell ATAC-seq is very sparse — most genomic regions have zero reads in individual cells. Analyzing each cell separately for peak calling is noisy and computationally intensive.
-
-
-**Pseudobulk preprocessing does the following:**
-
-- Aggregates reads from multiple cells of the same type into a single profile.
-- Generates clean, genome-wide coverage tracks for each cell type and sample.
-- Creates a “virtual bulk ATAC-seq experiment” for each group of cells.
-
----
-
-## Inputs
-
-1. **Fragment files**: Raw scATAC-seq fragments per sample, containing coordinates of all sequenced fragments per cell.
-  - ⚠️ These come directly from the **scATAC-seq experiment** (e.g., Cell Ranger ATAC output), **not from Seurat/Scanpy**.  
-2. **Cell metadata**: Maps each barcode to a cell type and sample.
-  - 🔑🔑🔑 This metadata is typically **created upstream (e.g., in Seurat, Scanpy, or similar tools)** and then passed to pycisTopic.  
-3. **Chromosome sizes**: Defines the genome boundaries for coverage tracks.
-
----
-
-## Outputs
-
-1. **BED files**: For each cell type × sample, showing all fragment coordinates. These are used later for peak calling.
-2. **BigWig files**: Normalized genome coverage tracks, useful for visualization and downstream analyses.
-3. **TSV reference files**: Lists of the generated BED and BigWig files for easy tracking.
-
----
-
-## Analogy 
-
-Imagine each cell as a noisy sensor detecting “open windows” (accessible regions) in a city (the genome).
-Each sensor alone is unreliable, but if you **combine all sensors of the same type**, you get a clear map of which windows are open for that cell type. That combined map is your **pseudobulk**.
-
-
-# 2. Pseudobulk Export Step in pycisTopic
+# 1. Preprocessing scATAC-seq (Conceptual Rationale)
 
 ## Overview
 
-This step generates **aggregated pseudobulk profiles** from single-cell ATAC-seq data to create clean coverage tracks for downstream analysis.  
+This step frames the **challenge of scATAC-seq data** and introduces the solution of pseudobulk aggregation.  
+- Single-cell ATAC-seq is **extremely sparse** — most individual cells have very few reads across the genome.  
+- Calling peaks or interpreting accessibility patterns on a cell-by-cell basis is unreliable.  
+- To overcome this, we **aggregate reads across cells of the same type and condition**, creating **pseudobulk profiles**.  
 
-- Single-cell ATAC data is sparse, so combining fragments from cells of the same **cell type × sample** produces more robust profiles.  
-- This step **takes the BED and BigWig files generated during preprocessing** as input.  
+This gives us a foundation for robust downstream analysis, much like turning many weak sensors into one strong signal.
 
 ---
 
-## Inputs
+## What does this achieve?
 
-1. **BED and BigWig files from preprocessing**  
-   - Represent aggregated fragment coordinates and coverage per cell type × sample.  
+- **Stabilizes the signal**: reduces noise by pooling reads from similar cells.  
+- **Enables peak calling**: MACS2 and other tools require sufficient depth, which pseudobulk provides.  
+- **Improves interpretability**: each pseudobulk resembles a bulk ATAC-seq experiment, making results biologically clearer.  
 
-2. **Barcode-to-celltype metadata**  
-   - Maps each cell to its cell type and sample, ensuring correct assignment for aggregation.  
+---
+
+## Inputs 
+
+1. **Fragment files**  
+   - Raw outputs from the scATAC-seq experiment (e.g., Cell Ranger ATAC).  
+
+2. **Cell metadata**  
+   - Barcode annotations (e.g., cell type, sample) generated upstream using Seurat, Scanpy, or similar tools.  
 
 3. **Chromosome sizes**  
-   - Defines genome boundaries for coverage tracks.
+   - Genome reference information needed for building coverage tracks.  
 
 ---
 
-## What it does?
+## Outputs 
 
-1. **Map fragments to cell types**  
-   - Assigns fragments from the BED/BigWig files to the correct cell type × sample.  
-
-2. **Aggregate fragments**  
-   - Combines all fragments for each group into a single pseudobulk profile.  
-
-3. **Generate updated coverage tracks**  
-   - **BED files:** lists of fragments per pseudobulk.  
-   - **BigWig files:** normalized coverage for visualization and downstream analysis.  
-
-4. **Save reference files**  
-   - Stores paths to all generated BED and BigWig files for later use.
-
----
-
-## Outputs
-
-1. **BED files** – aggregated fragment coordinates per cell type × sample.  
-2. **BigWig files** – normalized genome coverage tracks per pseudobulk.  
-3. **TSV reference files** – lists of all BED and BigWig file paths.
+- **Aggregated accessibility profiles** per cell type × sample.  
+- Conceptually represented as **BED** (fragment coordinates) and **BigWig** (coverage tracks) files.  
+- These serve as the foundation for **peak calling** and later **cisTopic modeling**.  
 
 ---
 
 ## Analogy
 
-Each cell is a noisy “sensor” detecting open windows in the genome.  
-- This step **combines all sensors of the same type into a single, clear map**, producing robust accessibility profiles for each cell type × sample.
+Imagine many faint, crackling radios (single cells) all trying to broadcast the same station.  
+Individually, the signal is unclear — but by combining them, you reconstruct the song clearly.  
+That clear broadcast is your **pseudobulk profile**.  
 
+---
+
+# 2. Pseudobulk Export with pycisTopic (Practical Implementation)
+
+## Overview
+
+Here we **execute the conceptual idea** using `pycisTopic`.  
+This step takes the theoretical solution (pseudobulk aggregation) and **implements it computationally**, producing the actual files that will be used downstream.
+
+---
+
+## What does it do?
+
+1. **Maps fragments to annotated cells**  
+   - Uses metadata (from Seurat/Scanpy) to assign each fragment to its correct cell type × sample group.  
+
+2. **Aggregates fragments**  
+   - Combines all reads belonging to the same group into a pseudobulk profile.  
+
+3. **Generates normalized coverage tracks**  
+   - BED files (fragment positions).  
+   - BigWig files (continuous coverage along the genome).  
+
+4. **Organizes outputs for downstream tools**  
+   - Saves reference TSVs with paths to all BED/BigWig files.  
+
+---
+
+## Inputs 
+
+1. **Fragment files**: `fragments.tsv.gz` per sample (from the experiment).  
+2. **Cell metadata CSV**: barcode → cell type/sample mapping (from Seurat/Scanpy).  
+3. **Chromosome sizes**: defines genome boundaries (from UCSC or Ensembl).  
+
+---
+
+## Outputs 
+
+1. **BED files** – fragment coordinates per pseudobulk (cell type × sample).  
+2. **BigWig files** – normalized coverage tracks for genome browsers or QC.  
+3. **TSV lists** – references of all generated BED/BigWig paths.  
+
+---
+
+## Analogy
+
+Step 1 was like **planning** to combine faint radio signals to get a clear broadcast.  
+Step 2 is where we **actually run the mixing desk**, filter the noise, and **record the clear track** (BED/BigWig files) that we can now analyze further.  
 
 
 
