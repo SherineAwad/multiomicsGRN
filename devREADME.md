@@ -1,4 +1,5 @@
-# Preprcessing of scRNA part: Clustering and Visualization 
+# 🔴🔴🔴 PART A:  Preprcessing of scRNA -  Clustering and Visualization
+
 ## Overview
 
 This step performs **cell-level preprocessing, dimensionality reduction, clustering, and visualization** for single-cell RNA-seq data.  
@@ -66,7 +67,7 @@ The goal is to **group similar cells together** based on their gene expression p
 
 
 
-# Pycistopic: preprocessing the ATAC part and integrating metadata from scRNA 
+# 🔴🔴🔴 PART B: Pycistopic: preprocessing the ATAC part and integrating metadata from scRNA 
 
 
 ## 1. Preprocessing  scATAC-seq 
@@ -839,3 +840,154 @@ This step **converts continuous topic distributions into binary accessibility ma
 - **Inputs:** Clustered cistopic object with topic proportions.  
 - **Outputs:** Binarized cistopic object ready for DAR analysis and downstream analyses.
 
+
+
+
+# 14.  Differential Accessibility (DAR) Analysis Step
+
+## Overview
+
+This step identifies **differentially accessible regions (DARs)** between groups of cells, such as cell types or clusters.  
+
+- Uses the **binarized cistopic object** from the previous step.  
+- Tests which peaks are significantly more accessible in one group of cells versus others.  
+- Results can reveal **cell type–specific regulatory regions** or other biologically meaningful patterns.  
+
+---
+
+## Inputs
+
+1. **Binarized cistopic object (`cistopic_obj_binarized.pkl`)**  
+   - Contains:
+     - Binary peak-by-cell matrix  
+     - Cell metadata (clusters, scRNA annotations, topic assignments)  
+
+2. **Grouping variable (`-v celltype_scrna`)**  
+   - Specifies which cell metadata column to use for group comparisons (e.g., cell type labels from scRNA-seq).  
+
+3. **Analysis parameters**  
+   - `n_cpu`: number of CPUs for parallel computation  
+   - `temp_dir`: temporary files storage  
+   - `scale_impute` / `scale_norm`: scaling factors for normalization  
+   - `adjpval_thr`: adjusted p-value threshold for significance  
+   - `log2fc_thr`: log2 fold-change threshold for significance  
+
+4. **Output directory (`outs/DAR_results`)**  
+   - Where DAR results and updated cistopic objects will be saved.
+
+---
+
+## What it does? 
+
+1. **Load the binarized cistopic object**  
+   - Access the binary peak-by-cell matrix and cell metadata.  
+
+2. **Group cells by the specified variable**  
+   - Example: group cells by `celltype_scrna`.  
+
+3. **Compute differential accessibility**  
+   - For each peak, compare accessibility across groups.  
+   - Use statistical tests and thresholds (adj. p-value, log2 fold-change) to identify significant DARs.  
+
+4. **Store results**  
+   - Annotates the cistopic object with DAR information.  
+   - Saves tables of significant DARs for each comparison.
+
+---
+
+## Outputs
+
+1. **Cistopic object with DAR annotations (`cistopic_obj_with_DARs.pkl`)**  
+   - Each peak is annotated with significance values, fold changes, and group-specific activity.  
+
+2. **DAR result tables**  
+   - Lists of peaks that are differentially accessible per group.  
+
+3. **Optional plots or summaries**  
+   - Can visualize DARs by cluster, cell type, or topic.
+
+---
+
+## Connection to Previous Steps
+
+- **Takes the binarized cistopic object** from the previous binarization step.  
+- Uses **cell type or cluster metadata** (from scRNA integration or clustering).  
+- Generates **peak-level annotations** identifying regions differentially accessible between groups.  
+
+---
+
+✅ **Summary:**  
+- **Purpose:** Detect peaks with significantly different accessibility across groups of cells.  
+- **Inputs:** Binarized cistopic object, grouping variable, thresholds.  
+- **Outputs:** Annotated cistopic object with DARs, result tables for downstream interpretation and visualization.
+
+
+
+# 15. Exporting Region Sets from DAR Results
+
+## Overview
+
+This step exports **lists of genomic regions (peaks) identified as DARs** into separate files for downstream analyses or external tools.  
+
+- Takes the **cistopic object annotated with DAR results** from the previous step.  
+- Generates **BED or other standard formats** representing differentially accessible regions per group or cell type.  
+- These exported region sets can be used for:
+  - Motif enrichment analysis  
+  - Gene set enrichment analysis  
+  - Visualization in genome browsers  
+
+---
+
+## Inputs
+
+1. **Cistopic object with DAR annotations (`cistopic_obj_with_DARs.pkl`)**  
+   - Contains:
+     - Binary peak-by-cell matrix  
+     - Cell metadata  
+     - DAR results for each peak (p-values, fold-changes, significant groups)  
+
+2. **Output directory (`outs/`)**  
+   - Where the exported region sets will be saved.
+
+---
+
+## What it does?
+
+1. **Load the DAR-annotated cistopic object**  
+   - Access peaks and their associated DAR information.  
+
+2. **Select peaks per group or significance criteria**  
+   - Example: peaks with adjusted p-value below threshold and log2 fold-change above threshold.  
+
+3. **Export to BED or other standard formats**  
+   - One file per group or condition.  
+   - Includes genomic coordinates and optionally additional metadata.  
+
+4. **Save files in output directory**  
+   - Ready for downstream analyses or sharing with other tools.
+
+---
+
+## Outputs
+
+1. **Region set files (BED)**  
+   - Lists of DARs per group, including genomic coordinates.  
+   - Can be used for motif enrichment, visualization, or pathway analyses.  
+
+2. **Optional summary tables**  
+   - Summarize number of DARs per group or comparison.
+
+---
+
+## Connection to Previous Steps
+
+- **Takes the DAR-annotated cistopic object** from `dar_analysis.py`.  
+- Uses **peak-level differential accessibility information** to generate region sets.  
+- Prepares results for **external analyses or downstream biological interpretation**.
+
+---
+
+✅ **Summary:**  
+- **Purpose:** Export differentially accessible peaks as region sets for downstream analysis.  
+- **Inputs:** Cistopic object with DAR annotations.  
+- **Outputs:** BED or similar files containing DARs per group, ready for motif or pathway analyses.
