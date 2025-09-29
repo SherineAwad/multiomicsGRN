@@ -1065,4 +1065,68 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
 # 🔴🔴🔴 PART D: Running Scenic+ workflow step
 
 
+## Overview
+
+- The Snakemake workflow runs the SCENIC+ pipeline on your processed ATAC (and optional scRNA) data.  
+- Its main goal is to **infer gene regulatory networks (GRNs)** and compute **TF activity scores per cell**.
+
+---
+
+## What it does?
+
+1. **Prepare Input Matrices**
+   - Extract peak-by-cell matrices or topic-specific binarized data from the cistopic object.  
+   - Include cell metadata (clusters, cell types, scRNA info if available).  
+
+2. **Motif Enrichment Using cisTarget**
+   - For each DAR or topic-specific peak, identify enriched transcription factor motifs using prebuilt or custom cisTarget databases.  
+
+3. **Regulatory Network Inference**
+   - Combine motif enrichment with co-accessibility patterns (and optional scRNA co-expression) to link TFs to their predicted target genes.  
+   - Construct a **gene regulatory network (GRN)**, identifying TF-gene relationships.  
+
+4. **TF Activity Scoring**
+   - Compute TF activity per cell based on accessibility of target peaks in the GRN.  
+   - Produces a cell-by-TF activity matrix that can be used for clustering, visualization, or downstream analysis.  
+
+5. **Visualization and Module Generation**
+   - Generate regulatory modules: groups of co-regulated genes per TF.  
+   - Create heatmaps, network diagrams, and motif enrichment plots for interpretation.
+
+---
+
+## Main Outputs
+
+1. **Gene Regulatory Network (GRN)**
+   - TFs linked to predicted target genes.  
+   - Derived from DARs/topics and motif enrichment.  
+
+2. **TF Activity Matrices**
+   - Quantitative scores of TF activity per cell.  
+
+3. **Regulatory Modules**
+   - Groups of genes predicted to be co-regulated by each TF.  
+
+4. **Plots and Visualizations**
+   - Heatmaps of TF activity  
+   - Network diagrams of GRNs  
+   - Motif enrichment summaries  
+
+---
+
+## Connection to Previous Steps
+
+- **Input:** binarized cistopic object with DARs or topic peaks (from pycisTopic).  
+- **Input:** cisTarget databases (prebuilt or custom).  
+- **Optional input:** scRNA-seq metadata for enhanced GRN inference.  
+- **Output:** GRN, TF activity matrices, regulatory modules, and visualizations for downstream analysis.
+
+---
+
+✅ **Summary:**  
+- **Purpose:** Infer gene regulatory networks and quantify TF activity per cell.  
+- **Inputs:** Processed cistopic object (topics/DARs), cisTarget databases, optional scRNA metadata.  
+- **Outputs:** GRN, TF activity matrices, regulatory modules, and visualizations.
+
+
 
