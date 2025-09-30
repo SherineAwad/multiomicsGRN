@@ -45,44 +45,30 @@ The goal is to **group similar cells together** based on their gene expression p
 
 ---
 
-
-```mermaid
-flowchart TD
-    A[Inputs] --> A1[AnnData object (.h5ad)\nSingle-cell expression matrix]
-    A --> A2[Marker gene list\nText file of known genes]
-
-    B[Outputs] --> B1[Clustered AnnData object\nUMAP coords, clusters, metadata]
-    B --> B2[UMAP plots\nCells colored by cluster/sample]
-    B --> B3[Dotplots of marker genes\nMarker expression across clusters]
-    B --> B4[UMAPs for individual marker genes\nExpression across cells]
-
-    A --> Processing[Analysis Pipeline]
-    Processing --> B
-
-
-## Inputs
-
-1. **AnnData object (`.h5ad`)**  
-   - Contains the single-cell gene expression matrix.
-
-2. **Marker gene list**  
-   - Text file of known genes to evaluate cluster identity.
+> ## Inputs
+>
+> - **AnnData object (`.h5ad`)**  
+>   Contains the single-cell gene expression matrix.  
+>
+> - **Marker gene list**  
+>   Text file of known genes to evaluate cluster identity.  
 
 ---
 
-## Outputs
+> ## Outputs
+>
+> - **Clustered AnnData object**  
+>   Includes UMAP coordinates, cluster labels (`leiden`), and sample metadata.  
+>
+> - **UMAP plots**  
+>   Cells colored by clusters and by sample.  
+>
+> - **Dotplots of marker genes**  
+>   Summarizes marker expression across clusters.  
+>
+> - **UMAPs for individual marker genes**  
+>   Visualizes expression of each marker gene across cells.  
 
-1. **Clustered AnnData object**  
-   - Includes UMAP coordinates, cluster labels (`leiden`), and sample metadata.
-
-2. **UMAP plots**  
-   - Cells colored by clusters and by sample.
-
-3. **Dotplots of marker genes**  
-   - Summarizes marker expression across clusters.
-
-4. **UMAPs for individual marker genes**  
-   - Visualizes expression of each marker gene across cells.
 
 ---
 
