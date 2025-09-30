@@ -611,6 +611,71 @@ This step performs **Latent Dirichlet Allocation (LDA) topic modeling** on the c
 - Topic modeling reduces the high-dimensional peak-by-cell matrix into a **smaller number of interpretable patterns**, capturing regulatory programs or cell type–specific accessibility.  
 - Mallet is a high-performance Java-based LDA implementation used here to efficiently handle large single-cell ATAC datasets.  
 
+
+# 🧬 Mallet Example for Biologists
+
+Let’s see how **Mallet** represents and processes text, using a tiny example.
+
+## Step 1: Sample Documents 📄
+Document 1: "gene expression in plants"  
+Document 2: "protein interaction in plants"
+
+## Step 2: Tokenization & Preprocessing ✂️
+Remove stopwords (like “in”) and split into words:  
+Doc 1 tokens: ["gene", "expression", "plants"]  
+Doc 2 tokens: ["protein", "interaction", "plants"]
+
+## Step 3: Assign Numeric IDs 🔢
+Mallet assigns a unique ID to each word:  
+| Word        | ID |  
+|------------|----|  
+| gene       | 0  |  
+| expression | 1  |  
+| plants     | 2  |  
+| protein    | 3  |  
+| interaction| 4  |  
+
+Now the documents are represented as lists of IDs:  
+Doc 1: [0, 1, 2]  
+Doc 2: [3, 4, 2]
+
+## Step 4: Bag-of-Words Representation 🧮
+Mallet counts the frequency of each word in each document:  
+| Doc | gene | expression | plants | protein | interaction |  
+|-----|------|------------|--------|---------|-------------|  
+| 1   | 1    | 1          | 1      | 0       | 0           |  
+| 2   | 0    | 0          | 1      | 1       | 1           |  
+
+> Words are treated as unordered counts.
+
+## Step 5: Topic Modeling with LDA 🗂️
+Suppose we want 2 topics. Mallet starts with random topic assignments:  
+Doc 1: [0,1,2] → [Topic 0, Topic 1, Topic 0]  
+Doc 2: [3,4,2] → [Topic 1, Topic 1, Topic 0]  
+
+Through iterative updates (Gibbs sampling), Mallet discovers patterns:  
+| Topic | Top words               |  
+|-------|------------------------|  
+| 0     | gene, expression, plants |  
+| 1     | protein, interaction, plants |
+
+## Step 6: Document-Topic Distribution 📊
+Each document is represented as a distribution over topics:  
+Doc 1: 67% Topic 0, 33% Topic 1  
+Doc 2: 33% Topic 0, 67% Topic 1  
+
+> This tells you how much each topic contributes to a document.
+
+## 🔬 Analogy for Biologists
+It’s like DNA sequencing:  
+Raw nucleotides → Numeric code → Patterns → Genes  
+
+Similarly:  
+Words → IDs → Topics → Document classification  
+
+Mallet helps you uncover hidden patterns in large text datasets the same way bioinformatics uncovers hidden patterns in genomic data.
+
+
 ---
 
 ## Inputs
@@ -635,6 +700,102 @@ This step performs **Latent Dirichlet Allocation (LDA) topic modeling** on the c
    - Temporary and save directories (`tmp_path`, `save_path`)  
 
 ---
+
+# 🧬 Applying Mallet/LDA Concepts to GRNs with SCENIC+
+
+SCENIC+ uses ideas from **Mallet/LDA** to analyze **Gene Regulatory Networks (GRNs)**.  
+Instead of documents and words, we have **cells/conditions** and **genes/peaks**.
+
+## Step 1: Sample Data 📊
+Suppose we have 3 cells and their observed features:  
+- From scRNA-seq: expressed genes  
+- From scATAC-seq: accessible peaks  
+
+Example:  
+Cell 1: Genes = ["GeneA", "GeneB", "GeneC"], Peaks = ["Peak1", "Peak2"]  
+Cell 2: Genes = ["GeneD", "GeneE", "GeneC"], Peaks = ["Peak2", "Peak3"]  
+Cell 3: Genes = ["GeneA", "GeneD", "GeneF"], Peaks = ["Peak1", "Peak3"]
+
+> Each **cell** is like a “document”  
+> Each **gene or peak** is like a “word”
+
+## Step 2: Tokenization & Preprocessing ✂️
+Convert each cell’s genes/peaks into a combined list:  
+Cell 1 tokens: ["GeneA", "GeneB", "GeneC", "Peak1", "Peak2"]  
+Cell 2 tokens: ["GeneD", "GeneE", "GeneC", "Peak2", "Peak3"]  
+Cell 3 tokens: ["GeneA", "GeneD", "GeneF", "Peak1", "Peak3"]
+
+---
+
+## Step 3: Assign Numeric IDs 🔢
+SCENIC+ assigns an ID to each feature (gene or peak):  
+
+| Feature | ID |  
+|---------|----|  
+| GeneA   | 0  |  
+| GeneB   | 1  |  
+| GeneC   | 2  |  
+| GeneD   | 3  |  
+| GeneE   | 4  |  
+| GeneF   | 5  |  
+| Peak1   | 6  |  
+| Peak2   | 7  |  
+| Peak3   | 8  |  
+
+Documents (cells) become lists of IDs:  
+Cell 1: [0, 1, 2, 6, 7]  
+Cell 2: [3, 4, 2, 7, 8]  
+Cell 3: [0, 3, 5, 6, 8]
+
+---
+
+## Step 4: Bag-of-Features Representation 🧮
+Count the frequency of each feature per cell:
+
+| Cell | GeneA | GeneB | GeneC | GeneD | GeneE | GeneF | Peak1 | Peak2 | Peak3 |  
+|------|-------|-------|-------|-------|-------|-------|-------|-------|-------|  
+| 1    | 1     | 1     | 1     | 0     | 0     | 0     | 1     | 1     | 0     |  
+| 2    | 0     | 0     | 1     | 1     | 1     | 0     | 0     | 1     | 1     |  
+| 3    | 1     | 0     | 0     | 1     | 0     | 1     | 1     | 0     | 1     |  
+
+> Words → Genes/Peaks, Documents → Cells
+
+---
+
+## Step 5: LDA Topic Modeling → GRN Modules 🗂️
+Suppose we ask for 2 topics (modules). Initial random assignment of features to topics:  
+Cell 1: [0,1,2,6,7] → [Module 0, Module 1, Module 0, Module 0, Module 1]  
+Cell 2: [3,4,2,7,8] → [Module 1, Module 1, Module 0, Module 1, Module 0]  
+Cell 3: [0,3,5,6,8] → [Module 0, Module 1, Module 0, Module 1, Module 0]  
+
+Through iterative updates (Gibbs sampling), SCENIC+ identifies modules:  
+
+| Module | Top Features (Genes & Peaks) |  
+|--------|-----------------------------|  
+| 0      | GeneA, GeneC, GeneF, Peak1 |  
+| 1      | GeneB, GeneD, GeneE, Peak2, Peak3 |
+
+> Each module represents a **co-regulated gene set** with associated **regulatory regions (peaks)**.
+
+---
+
+## Step 6: Cell-Module Activity 📊
+Each cell gets a distribution over modules:  
+Cell 1: 60% Module 0, 40% Module 1  
+Cell 2: 40% Module 0, 60% Module 1  
+Cell 3: 60% Module 0, 40% Module 1  
+
+> This tells us which GRN modules are **active in each cell**, similar to topic proportions in NLP.
+
+---
+
+## 🔬 Analogy for Biologists
+It’s like DNA sequencing and gene co-expression analysis:  
+- Raw features (expressed genes / accessible peaks) → Numeric representation → Patterns → GRN modules  
+- Words → Genes/Peaks, Documents → Cells, Topics → Regulatory Modules  
+
+SCENIC+ leverages this approach to **infer transcription factor activity and GRNs** in single-cell multi-omics data.
+
 
 ## What it does?
 
@@ -679,6 +840,8 @@ This step performs **Latent Dirichlet Allocation (LDA) topic modeling** on the c
 - **Purpose:** Identify patterns of co-accessible genomic regions (topics) across cells.  
 - **Inputs:** Annotated cistopic object, Mallet path, topic modeling parameters.  
 - **Outputs:** Topic-assigned cistopic object, Mallet model files, ready for downstream analyses such as clustering and DAR detection.
+
+
 
 # 11. Adding LDA Model to Cistopic Object
 
