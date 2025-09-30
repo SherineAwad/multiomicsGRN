@@ -1384,6 +1384,49 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
 - **Inputs:** Processed cistopic object (topics/DARs), cisTarget databases, optional scRNA metadata.  
 - **Outputs:** GRN, TF activity matrices, regulatory modules, and visualizations.
 
+## Part D results: scenic+
+
+### Motif Enrichment in SCENIC+
+
+#### 1. Where do the motif enrichment results come from?
+
+The motif enrichment results ([`dem_results.html`](Snakemake/workflow/dem_results.html)) and `dem_results.hdf5` are generated from the **ATAC-seq modality**:
+
+- Peaks/DARs are identified from ATAC (cisTopic + DAR analysis).
+- SCENIC+ then tests for **differential motif enrichment (DEM)** in those regions.
+- This step checks whether certain TF motifs are significantly enriched in accessible regions linked to specific topics, clusters, or conditions.
+
+➡️ In short: **DEM is ATAC-driven**, but the motifs are mapped back to transcription factors (TFs).
+
+---
+
+#### 2. Why are motif enrichment results needed downstream?
+
+The overall goal of SCENIC+ is to reconstruct **gene regulatory networks (GRNs)** that are supported by both chromatin accessibility and gene expression.  
+The motif enrichment layer plays several critical roles:
+
+- **TF prioritization**  
+  - Many peaks can map to multiple TFs.  
+  - Motif enrichment highlights which TFs are most likely active in a given state.
+
+- **Connecting ATAC to GEX**  
+  - Later steps integrate motif enrichment (from ATAC) with co-expression (from RNA).  
+  - This is how SCENIC+ builds *regulons* (TF → target gene sets).
+
+- **Filtering false positives**  
+  - Expression correlations alone can give spurious TF–gene links.  
+  - Motif support ensures that inferred connections have chromatin evidence.
+
+- **Interpreting biology**  
+  - Differential motif activity per topic/cluster helps explain which TFs are driving specific cell states.
+
+---
+
+#### 3. Key takeaway
+
+The **DEM results act as a bridge** between ATAC and RNA modalities.  
+They make sure that downstream TF–target links are not just statistically correlated, but also **biologically plausible**.
+ 
 
 ## References
 
