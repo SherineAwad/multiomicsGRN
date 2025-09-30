@@ -234,24 +234,67 @@ Think of the pseudobulk BED as a **heat map of open windows across the city**.
 - **Outputs:** MACS2 peak files (BED/narrowPeak) per cell type × sample, ready for **consensus peak generation** and downstream analysis.
 
 
-# 4. Consensus Peak Generation Step
+# Consensus Peak Generation Step
 
 ## Overview
 
-This step creates a **consensus peak set** by merging peaks called by MACS2 across all pseudobulk samples.  
+After pseudobulk aggregation and MACS2 peak calling, each sample (or cell type × sample) has its **own set of peaks**.  
+- Different samples may have slightly different peaks because of biological variability or sequencing depth.  
+- To do comparative analyses across samples or feed data into pycisTopic, we need **one unified set of peaks** — the **consensus peak set**.  
 
-- Each pseudobulk sample has its own set of peaks (from MACS2).  
-- To perform downstream analyses (e.g., cistopic topic modeling, DAR analysis), you need a **single unified set of peaks** representing all accessible regions across samples.  
+Think of it as **finding all regions that are open in at least one sample and merging overlapping regions into a master list**.
+
+---
+
+## What does it do?
+
+1. **Collect all individual MACS2 peaks**  
+   - Each pseudobulk BED file from Step 2 has peaks called separately using MACS2.  
+
+2. **Combine all peak files**  
+   - Concatenate all peak files into one large table.  
+
+3. **Sort and merge overlapping peaks**  
+   - Using tools like **bedtools sort** and **bedtools merge**.  
+   - If two peaks from different samples overlap, they are merged into a single peak region.  
+   - The result is a **non-redundant, genome-wide consensus peak set**.
 
 ---
 
 ## Inputs
 
-1. **MACS2 peak files (`.narrowPeak`)**  
-   - Generated in the previous MACS2 step for each pseudobulk sample.  
+1. **MACS2 peak files** (`*.narrowPeak` or BED)  
+   - Generated per sample/pseudobulk in the previous MACS2 step.  
 
-2. **Combined BED file (optional intermediate)**  
-   - A concatenation of all individual narrowPeak files before merging.  
+2. **Optional parameters** (if any) for merging, e.g., minimum overlap or padding.  
+
+---
+
+## Outputs
+
+1. **Consensus peaks BED file**  
+   - One unified list of all peak regions across samples.  
+   - This file is later used to define **features/regions in pycisTopic objects**.  
+2. **Intermediate combined BED** (optional)  
+   - The unsorted concatenated peaks before merging.  
+
+---
+
+## Why it is needed
+
+- Ensures **all samples/cell types are analyzed on the same set of genomic regions**, which is critical for:  
+  - Accurate topic modeling (pycisTopic LDA)  
+  - Differential accessibility analysis  
+  - Integration with scRNA-seq metadata  
+
+---
+
+## Analogy
+
+Imagine several people drawing maps of the same city, each highlighting where the windows are open.  
+- Each map may differ slightly.  
+- The consensus peak step **merges all maps into one master map** that shows all open windows observed across everyone.  
+
 
 ---
 
