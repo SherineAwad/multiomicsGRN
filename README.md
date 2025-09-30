@@ -181,27 +181,25 @@ This gives us a foundation for robust downstream analysis, much like turning man
 
 ---
 
-## Inputs 
-
-1. **Fragment files**  
-   - Raw outputs from the scATAC-seq experiment (e.g., Cell Ranger ATAC).  
-
-2. **Cell metadata**  
-   - Barcode annotations (e.g., cell type, sample) generated upstream using Seurat, Scanpy, or similar tools.  
-
-3. **Chromosome sizes**  
-   - Genome reference information needed for building coverage tracks.  
-
----
-
-## Outputs 
-
-- **Aggregated accessibility profiles** per cell type × sample are **saved as TSV tables**.  
-  - Each TSV lists the fragment coordinates for the pseudobulk group.  
-  - These TSV files are **intermediate outputs**, not yet in BED/BigWig format.  
-  - The TSVs **define what will later be converted into BED and BigWig files** for downstream analysis.
+> ## Inputs
+>
+> 1. **Fragment files**  
+>    - Raw outputs from the scATAC-seq experiment (e.g., Cell Ranger ATAC).
+>
+> 2. **Cell metadata**  
+>    - Barcode annotations (e.g., cell type, sample) generated upstream using Seurat, Scanpy, or similar tools.
+>
+> 3. **Chromosome sizes**  
+>    - Genome reference information needed for building coverage tracks.
 
 ---
+
+> ## Outputs
+>
+> - **Aggregated accessibility profiles** per cell type × sample are **saved as TSV tables**.  
+>   - Each TSV lists the fragment coordinates for the pseudobulk group.  
+>   - These TSV files are **intermediate outputs**, not yet in BED/BigWig format.  
+>   - The TSVs **define what will later be converted into BED and BigWig files** for downstream analysis.
 
 ## Analogy
 
@@ -248,19 +246,19 @@ This step **executes the pseudobulk aggregation** using `pycisTopic`.
 
 ---
 
-## Inputs 
-
-1. **Fragment files**: `fragments.tsv.gz` per sample (from the experiment).  
-2. **Cell metadata CSV**: barcode → cell type/sample mapping (from Seurat/Scanpy).  
-3. **Chromosome sizes**: defines genome boundaries (from UCSC or Ensembl).  
+> ## Inputs
+>
+> 1. **Fragment files**: `fragments.tsv.gz` per sample (from the experiment).  
+> 2. **Cell metadata CSV**: barcode → cell type/sample mapping (from Seurat/Scanpy).  
+> 3. **Chromosome sizes**: defines genome boundaries (from UCSC or Ensembl).  
 
 ---
 
-## Outputs
-
-1. **BED files** – fragment coordinates per pseudobulk (cell type × sample).  
-2. **BigWig files** – normalized coverage tracks for genome browsers or QC.  
-3. **TSV lists** – references of all generated BED/BigWig paths.  
+> ## Outputs
+>
+> 1. **BED files** – fragment coordinates per pseudobulk (cell type × sample).  
+> 2. **BigWig files** – normalized coverage tracks for genome browsers or QC.  
+> 3. **TSV lists** – references of all generated BED/BigWig paths.  
 
 ---
 
@@ -282,13 +280,26 @@ This step identifies **peaks**, i.e., genomic regions that are significantly enr
 
 ---
 
-## Inputs
+> ## Inputs
+>
+> 1. **Pseudobulk BED files** from the previous step  
+>    - Contain aggregated fragment coordinates per cell type × sample.  
+>
+> 2. **Genome size** (e.g., `mm` for mouse)  
+>    - Required for MACS2 to estimate background signal and calculate statistical significance.  
 
-1. **Pseudobulk BED files** from the previous step  
-   - Contain aggregated fragment coordinates per cell type × sample.
+---
 
-2. **Genome size** (e.g., `mm` for mouse)  
-   - Required for MACS2 to estimate background signal and calculate statistical significance.
+> ## Outputs
+>
+> 1. **Peak files (`.narrowPeak`)**  
+>    - Lists genomic regions with significantly enriched ATAC fragments per pseudobulk.  
+>
+> 2. **BED files of peaks (optional)**  
+>    - Can be used for merging into consensus peaks across samples.  
+>
+> 3. **Auxiliary MACS2 files**  
+>    - Statistics and logs for quality control (e.g., peak scores, fragment pileups).  
 
 ---
 
@@ -304,21 +315,6 @@ This step identifies **peaks**, i.e., genomic regions that are significantly enr
 
 3. **Store peak files**  
    - Produces a BED-like file of called peaks for each pseudobulk.
-
----
-
-## Outputs
-
-1. **Peak files (`.narrowPeak`)**  
-   - Lists genomic regions with significantly enriched ATAC fragments per pseudobulk.  
-
-2. **BED files of peaks (optional)**  
-   - Can be used for merging into consensus peaks across samples.  
-
-3. **Auxiliary MACS2 files**  
-   - Statistics and logs for quality control (e.g., peak scores, fragment pileups).
-
----
 
 ## Analogy
 
