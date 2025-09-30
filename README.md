@@ -502,31 +502,38 @@ This step creates a **cistopic object**, which is the central data structure use
 
 ---
 
-## Inputs
-
-1. **Fragments dictionary (`fragments_dict.pkl`)**  
-   - Maps each sample name to its fragment file (`.tsv.gz`).  
-   - Produced or referenced from earlier steps (preprocess/pseudobulk fragment info).  
-
-2. **QC results (`qc_barcodes_thresholds.pkl`)**  
-   - Information about filtered/high-quality cells, such as thresholds for minimum fragments, TSS enrichment, etc.  
-   - Derived from QC steps performed earlier.  
-
-3. **Consensus peaks BED file**  
-   - Generated in the **previous consensus peak step**.  
-   - Defines the genomic regions (peaks) that will form the rows of the cell-by-peak matrix.  
-
-4. **Blacklist BED file (`mm10-blacklist.v2.bed`)**  
-   - Contains regions of the genome known to produce artefactual signals, which are excluded.  
-
-5. **QC output directory**  
-   - Provides additional QC-related files for integration.  
-
-6. **Number of CPUs (`n_cpu`)**  
-   - Used for parallel processing.  
+> ## Inputs
+>
+> 1. **Fragments dictionary (`fragments_dict.pkl`)**  
+>    - Maps each sample name to its fragment file (`.tsv.gz`).  
+>    - Produced or referenced from earlier steps (preprocess/pseudobulk fragment info).  
+>
+> 2. **QC results (`qc_barcodes_thresholds.pkl`)**  
+>    - Information about filtered/high-quality cells, such as thresholds for minimum fragments, TSS enrichment, etc.  
+>    - Derived from QC steps performed earlier.  
+>
+> 3. **Consensus peaks BED file**  
+>    - Generated in the **previous consensus peak step**.  
+>    - Defines the genomic regions (peaks) that will form the rows of the cell-by-peak matrix.  
+>
+> 4. **Blacklist BED file (`mm10-blacklist.v2.bed`)**  
+>    - Contains regions of the genome known to produce artefactual signals, which are excluded.  
+>
+> 5. **QC output directory**  
+>    - Provides additional QC-related files for integration.  
+>
+> 6. **Number of CPUs (`n_cpu`)**  
+>    - Used for parallel processing.  
+>
+> ---
+>
+> ## Outputs
+>
+> 1. **Cistopic object (`cistopic_objects_mm10.pkl`)**  
+>    - Single Python object storing the filtered peak-by-cell matrix and associated metadata.  
+>    - Ready for running **topic modeling (LDA)** and other analyses in pycisTopic.  
 
 ---
-
 ## What it does?
 
 1. **Load fragments and QC metadata**  
@@ -546,14 +553,6 @@ This step creates a **cistopic object**, which is the central data structure use
 
 5. **Save as Python pickle**  
    - This object will be used for **topic modeling, clustering, and downstream analysis**.
-
----
-
-## Outputs
-
-1. **Cistopic object (`cistopic_objects_mm10.pkl`)**  
-   - Single Python object storing the filtered peak-by-cell matrix and associated metadata.  
-   - Ready for running **topic modeling (LDA)** and other analyses in pycisTopic.
 
 ---
 
@@ -587,21 +586,30 @@ This step merges **one or more cistopic objects** into a single unified object.
 - Merging combines them into a **single cistopic object**, making downstream analyses (topic modeling, clustering, DAR analysis) easier and consistent across all cells.  
 
 ---
+> ## Inputs
+>
+> 1. **Cistopic object(s) (`cistopic_objects_mm10.pkl`)**  
+>    - Created in the previous step.  
+>    - Contains:  
+>      - Peak-by-cell matrices  
+>      - Cell metadata (cell type, sample, QC info)  
+>      - Peak metadata  
+>
+> 2. **Output path (`merged_cistopic.pkl`)**  
+>    - Where the merged cistopic object will be saved.  
+>
+> ---
+>
+> ## Outputs
+>
+> 1. **Merged cistopic object (`merged_cistopic.pkl`)**  
+>    - Single object containing all cells and peaks.  
+>    - Ready for:  
+>      - LDA/topic modeling  
+>      - Clustering  
+>      - Differential accessibility analysis  
 
-## Inputs
-
-1. **Cistopic object(s) (`cistopic_objects_mm10.pkl`)**  
-   - Created in the previous step.  
-   - Contains:
-     - Peak-by-cell matrices  
-     - Cell metadata (cell type, sample, QC info)  
-     - Peak metadata  
-
-2. **Output path (`merged_cistopic.pkl`)**  
-   - Where the merged cistopic object will be saved.  
-
----
-
+----
 ## What it does?
 
 1. **Load all input cistopic objects**  
@@ -618,17 +626,6 @@ This step merges **one or more cistopic objects** into a single unified object.
 
 5. **Save merged object**  
    - Stored as a Python pickle for use in downstream pycisTopic steps.
-
----
-
-## Outputs
-
-1. **Merged cistopic object (`merged_cistopic.pkl`)**  
-   - Single object containing all cells and peaks.  
-   - Ready for:
-     - LDA/topic modeling  
-     - Clustering  
-     - Differential accessibility analysis  
 
 ---
 
@@ -655,22 +652,30 @@ This step integrates **scRNA-seq-derived metadata** into the merged cistopic obj
 
 ---
 
-## Inputs
-
-1. **Merged cistopic object (`merged_cistopic.pkl`)**  
-   - Created in the previous merge step.  
-   - Contains the **ATAC-seq peak-by-cell matrix** and ATAC metadata.  
-
-2. **scRNA-seq metadata CSV (`scRNA_barcodes.csv`)**  
-   - Contains cell barcodes and associated information such as:
-     - Cell type labels  
-     - Sample ID  
-     - Cluster assignments  
-
-3. **Output pickle path (`merged_with_meta.pkl`)**  
-   - Where the updated cistopic object with metadata will be saved.  
-
----
+> ## Inputs
+>
+> 1. **Merged cistopic object (`merged_cistopic.pkl`)**  
+>    - Created in the previous merge step.  
+>    - Contains the **ATAC-seq peak-by-cell matrix** and ATAC metadata.  
+>
+> 2. **scRNA-seq metadata CSV (`scRNA_barcodes.csv`)**  
+>    - Contains cell barcodes and associated information such as:  
+>      - Cell type labels  
+>      - Sample ID  
+>      - Cluster assignments  
+>
+> 3. **Output pickle path (`merged_with_meta.pkl`)**  
+>    - Where the updated cistopic object with metadata will be saved.  
+>
+> ---
+>
+> ## Outputs
+>
+> 1. **Cistopic object with scRNA metadata (`merged_with_meta.pkl`)**  
+>    - Each cell now has ATAC-seq data **and** associated scRNA-seq-derived labels.  
+>    - Enables cell type–specific analyses in topic modeling, DAR identification, and visualization.  
+> 
+> ---
 
 ## What it does?
 
@@ -686,14 +691,6 @@ This step integrates **scRNA-seq-derived metadata** into the merged cistopic obj
 
 4. **Save updated cistopic object**  
    - The new object contains both chromatin accessibility data and scRNA-derived annotations.  
-
----
-
-## Outputs
-
-1. **Cistopic object with scRNA metadata (`merged_with_meta.pkl`)**  
-   - Each cell now has ATAC-seq data **and** associated scRNA-seq-derived labels.  
-   - Enables cell type–specific analyses in topic modeling, DAR identification, and visualization.  
 
 ---
 
@@ -862,22 +859,30 @@ Goal of LDA in SCENIC+: Discover hidden regulatory structure in single-cell data
 Input: Mallet counts of genes/peaks per cell.  
 Output: 1) Modules = groups of co-occurring/co-regulated genes/peaks, 2) Module activity per cell = how strongly each module is present in each cell. LDA is essentially finding hidden patterns of co-regulation from the raw co-occurrence data prepared by Mallet.
 
-
-
 ---
 
-## Inputs
+> ## Inputs
+>
+> 1. **Cistopic object with Mallet outputs (`MALLET/merged_cistopic_with_models.pkl`)**  
+>    - Contains:  
+>      - Peak-by-cell matrix  
+>      - Cell metadata (including scRNA annotations)  
+>      - Placeholder for LDA topics  
+>
+> 2. **Output path (`outs/`)**  
+>    - Where the updated cistopic object with the integrated LDA model will be saved.  
+>
+> ---
+>
+> ## Outputs
+>
+> 1. **Cistopic object with integrated LDA model (`cistopic_LDA_obj.pkl`)**  
+>    - Each cell has topic proportions.  
+>    - Each topic has peak weights.  
+>    - Contains all previous metadata (scRNA annotations, QC info).  
+>
+> ---
 
-1. **Cistopic object with Mallet outputs (`MALLET/merged_cistopic_with_models.pkl`)**  
-   - Contains:
-     - Peak-by-cell matrix  
-     - Cell metadata (including scRNA annotations)  
-     - Placeholder for LDA topics  
-
-2. **Output path (`outs/`)**  
-   - Where the updated cistopic object with the integrated LDA model will be saved.
-
----
 
 ## What it does?
 
@@ -896,14 +901,6 @@ Output: 1) Modules = groups of co-occurring/co-regulated genes/peaks, 2) Module 
 
 ---
 
-## Outputs
-
-1. **Cistopic object with integrated LDA model (`cistopic_LDA_obj.pkl`)**  
-   - Each cell has topic proportions.  
-   - Each topic has peak weights.  
-   - Contains all previous metadata (scRNA annotations, QC info).  
-
----
 
 ## Connection to Previous Steps
 
@@ -930,24 +927,40 @@ This step performs **dimensionality reduction and clustering** of cells based on
 - UMAP is used to **visualize the cells in 2D space** for exploratory analysis and interpretation.  
 
 ---
+> ## Inputs
+>
+> 1. **Cistopic object (`cistopic_obj_cleaned2.pkl`)**  
+>    - Contains:  
+>      - Peak-by-cell matrix  
+>      - Cell metadata (including scRNA-seq annotations)  
+>      - LDA topic distributions per cell  
+>
+> 2. **Clustering parameters**  
+>    - `resolutions`: controls granularity of Leiden clustering (e.g., 0.6, 1.2, 3)  
+>    - `k`: number of neighbors used for graph construction  
+>
+> 3. **Output directories**  
+>    - Where UMAP plots and the clustered object will be saved.  
+>
+> ---
+>
+> ## Outputs
+>
+> 1. **Clustered cistopic object (`cistopic_obj_clustered.pkl`)**  
+>    - Each cell has:  
+>      - Topic proportions  
+>      - Cluster assignment(s) at different resolutions  
+>      - Original metadata (scRNA annotations, QC info)  
+>
+> 2. **UMAP plots**  
+>    - Visualizes cell clusters and optionally sample or cell type labels.  
+>
+> 3. **UMAP coordinates and graph data**  
+>    - Stored in the object for downstream analyses.  
+>
+> ---
 
-## Inputs
-
-1. **Cistopic object (`cistopic_obj_cleaned2.pkl`)**  
-   - Contains:
-     - Peak-by-cell matrix  
-     - Cell metadata (including scRNA-seq annotations)  
-     - LDA topic distributions per cell  
-
-2. **Clustering parameters**  
-   - `resolutions`: controls granularity of Leiden clustering (e.g., 0.6, 1.2, 3)  
-   - `k`: number of neighbors used for graph construction  
-
-3. **Output directories**  
-   - Where UMAP plots and the clustered object will be saved.
-
----
-
+----
 ## What it does?
 
 1. **Dimensionality reduction**  
@@ -964,22 +977,6 @@ This step performs **dimensionality reduction and clustering** of cells based on
 4. **Save results**  
    - Updates the cistopic object with **cluster assignments**.  
    - Saves UMAP coordinates and plots for exploration.
-
----
-
-## Outputs
-
-1. **Clustered cistopic object (`cistopic_obj_clustered.pkl`)**  
-   - Each cell has:
-     - Topic proportions  
-     - Cluster assignment(s) at different resolutions  
-     - Original metadata (scRNA annotations, QC info)  
-
-2. **UMAP plots**  
-   - Visualizes cell clusters and optionally sample or cell type labels.  
-
-3. **UMAP coordinates and graph data**  
-   - Stored in the object for downstream analyses.
 
 ---
 
