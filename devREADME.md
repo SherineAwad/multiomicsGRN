@@ -545,7 +545,7 @@ This step creates a **cistopic object**, which is the central data structure use
 
 ![Barcode QC TH1](outs/barcode_qc_plots/TH1_barcode_qc.png)
 
-![Barcode QC TH2](iouts/barcode_qc_plots/TH2_barcode_qc.png)
+![Barcode QC TH2](outs/barcode_qc_plots/TH2_barcode_qc.png)
 
 
 # 8. Merging Cistopic Objects Step
