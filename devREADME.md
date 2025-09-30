@@ -539,13 +539,13 @@ This step creates a **cistopic object**, which is the central data structure use
 ## QC plots of our cistopic object 
 
 
-![General QC TH1](TH1_qc.png)
+![General QC TH1](outs/qc_plots/TH1_qc.png)
 
-![General QC TH2](TH2_qc.png)
+![General QC TH2](outs/qc_plots/TH2_qc.png)
 
-![Barcode QC TH1](TH1_barcode_qc.png)
+![Barcode QC TH1](outs/barcode_qc_plots/TH1_barcode_qc.png)
 
-![Barcode QC TH2](TH2_barcode_qc.png)
+![Barcode QC TH2](iouts/barcode_qc_plots/TH2_barcode_qc.png)
 
 
 # 8. Merging Cistopic Objects Step
