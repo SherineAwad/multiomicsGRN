@@ -177,6 +177,16 @@ This gives us a foundation for robust downstream analysis, much like turning man
 Imagine many faint, crackling radios (single cells) all trying to broadcast the same station.  
 Individually, the signal is unclear — but by combining them, you reconstruct the song clearly.  
 The **TSV tables** are like the combined raw audio recordings — you now have the data ready to be processed into a clean, playable track.  
+i
+
+## scATAC preanalyis by Seurat as input to pycistopic preprocessing 
+
+![ATAC UMAP](ATAC_samples.png)
+
+### Clustering 
+
+![ATAC CLUSTERS](ATAC_clusters.png)
+
 
 ---
 
@@ -526,7 +536,16 @@ This step creates a **cistopic object**, which is the central data structure use
 
 - This step is **critical** because it transforms raw and pseudobulk fragment data into a structured object suitable for all downstream pycisTopic analyses.
 
+## QC plots of our cistopic object 
 
+
+![General QC TH1](TH1_qc.png)
+
+![General QC TH2](TH2_qc.png)
+
+![Barcode QC TH1](TH1_barcode_qc.png)
+
+![Barcode QC TH2](TH2_barcode_qc.png)
 
 
 # 8. Merging Cistopic Objects Step
