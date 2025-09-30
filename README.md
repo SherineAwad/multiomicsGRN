@@ -358,22 +358,24 @@ Think of it as **finding all regions that are open in at least one sample and me
 
 ---
 
-## Inputs
-
-1. **MACS2 peak files** (`*.narrowPeak` or BED)  
-   - Generated per sample/pseudobulk in the previous MACS2 step.  
-
-2. **Optional parameters** (if any) for merging, e.g., minimum overlap or padding.  
+> ## Inputs
+>
+> 1. **MACS2 peak files** (`*.narrowPeak` or BED)  
+>    - Generated per sample/pseudobulk in the previous MACS2 step.  
+>
+> 2. **Optional parameters** (if any) for merging, e.g., minimum overlap or padding.  
 
 ---
 
-## Outputs
+> ## Outputs
+>
+> 1. **Consensus peaks BED file**  
+>    - One unified list of all peak regions across samples.  
+>    - This file is later used to define **features/regions in pycisTopic objects**.  
+>
+> 2. **Intermediate combined BED** (optional)  
+>    - The unsorted concatenated peaks before merging.  
 
-1. **Consensus peaks BED file**  
-   - One unified list of all peak regions across samples.  
-   - This file is later used to define **features/regions in pycisTopic objects**.  
-2. **Intermediate combined BED** (optional)  
-   - The unsorted concatenated peaks before merging.  
 
 ---
 
@@ -406,11 +408,11 @@ Imagine several people drawing maps of the same city, each highlighting where th
 
 ---
 
-## Outputs
-
-1. **Consensus peaks BED file**  
-   - A single BED file containing all merged peaks across samples.  
-   - This is used for creating **cistopic objects** and for downstream analyses like differential accessibility.  
+> ## Outputs
+>
+> 1. **Consensus peaks BED file**  
+>    - A single BED file containing all merged peaks across samples.  
+>    - This is used for creating **cistopic objects** and for downstream analyses like differential accessibility.  
 
 ---
 
@@ -441,16 +443,24 @@ This step generates a **BED file containing the transcription start sites (TSSs)
 
 ---
 
-## Inputs
+> ## Inputs
+>
+> 1. **Reference genome annotation**  
+>    - Provided by pycisTopic via Ensembl gene annotations (e.g., `"mmusculus_gene_ensembl"`).  
+>    - Contains gene coordinates, including TSS positions.  
+>
+> 2. **Genome build specification**  
+>    - UCSC or Ensembl genome coordinates (e.g., `"mm10"` for mouse).  
+>
+> ---
+>
+> ## Outputs
+>
+> 1. **TSS BED file**  
+>    - Contains genomic coordinates of all transcription start sites for the reference genome.  
+>    - Example path: `outs/qc/tss_mm10.bed`.  
 
-1. **Reference genome annotation**  
-   - Provided by pycisTopic via Ensembl gene annotations (e.g., `"mmusculus_gene_ensembl"`).  
-   - Contains gene coordinates, including TSS positions.
 
-2. **Genome build specification**  
-   - UCSC or Ensembl genome coordinates (e.g., `"mm10"` for mouse).  
-
----
 
 ## What it does?
 
@@ -462,14 +472,6 @@ This step generates a **BED file containing the transcription start sites (TSSs)
 
 3. **Save TSS BED file**  
    - The BED file can be used for **TSS enrichment analysis** or annotating peaks to genes.
-
----
-
-## Outputs
-
-1. **TSS BED file**  
-   - Contains genomic coordinates of all transcription start sites for the reference genome.  
-   - Example path: `outs/qc/tss_mm10.bed`.
 
 ---
 
