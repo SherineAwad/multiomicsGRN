@@ -771,6 +771,26 @@ It’s like DNA sequencing and gene co-expression analysis:
 SCENIC+ leverages this approach to **infer transcription factor activity and GRNs** in single-cell multi-omics data.
 
 
+## 🧩 What is a GRN Module?
+
+In the context of gene regulatory networks (GRNs), a **module** is:
+
+> A group of **genes and/or regulatory regions (peaks)** that are **co-regulated**, meaning they tend to be active together in the same cells.  
+> Modules often correspond to the set of genes controlled by the same transcription factor or regulatory program.  
+
+Modules help simplify complex GRNs by grouping together genes with coordinated activity, making it easier to understand regulatory patterns in single-cell data.
+
+
+## 📊 Mapping NLP Concepts to GRN Analysis with Mallet
+
+| NLP Concept      | GRN Concept (SCENIC+) | What Mallet counts            | What LDA classifies             |
+| ---------------- | --------------------- | ----------------------------- | ------------------------------- |
+| Document         | Cell                  | Word occurrences per document | Topics in document              |
+| Word             | Gene / Peak           | Frequency in document / cell  | Module membership               |
+| Topic            | Module                | Co-occurring words/features   | Which genes/peaks form a module |
+| Topic proportion | Module activity       | Counts in documents/cells     | Strength of module per cell     |
+
+
 
 ## Inputs
 
