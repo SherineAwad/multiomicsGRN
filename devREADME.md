@@ -967,7 +967,21 @@ This step performs **dimensionality reduction and clustering** of cells based on
 - **Inputs:** Cistopic object with topic proportions, clustering parameters.  
 - **Outputs:** Clustered cistopic object with UMAP coordinates and plots, ready for downstream DAR analysis and visualization.
 
+### Clustering output 
 
+#### Cell level annotations
+ 
+![metadata](outs/umap_clusters/metadata_umap.png?v=2)
+
+![qc metrics](outs/umap_clusters/qc_metrics_umap.png?v=2)
+
+#### Cluster level annotations 
+
+![annotated clusters](outs/umap_clusters/annotated_clusters_umap.png?v=2)
+
+![topics umap](outs/umap_clusters/topic_umap.png?v=2)
+
+![topics heatmap ](outs/umap_clusters/cell_topic_heatmap.png?v=2)
 
 # 13. Binarizing Topics Step
 
