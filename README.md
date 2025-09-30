@@ -1028,16 +1028,28 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 ---
 
-## Inputs
-
-1. **Clustered cistopic object (`cistopic_obj_clustered.pkl`)**  
-   - Contains:
-     - Peak-by-cell matrix  
-     - LDA topic proportions per cell  
-     - Cluster assignments from the previous step  
-
-2. **Output directory (`outs/topics`)**  
-   - Where the binarized cistopic object and related files will be saved.
+> ## Inputs
+>
+> 1. **Clustered cistopic object (`cistopic_obj_clustered.pkl`)**  
+>    - Contains:  
+>      - Peak-by-cell matrix  
+>      - LDA topic proportions per cell  
+>      - Cluster assignments from the previous step  
+>
+> 2. **Output directory (`outs/topics`)**  
+>    - Where the binarized cistopic object and related files will be saved.  
+>
+> ----
+>
+> ## Outputs
+>
+> 1. **Binarized cistopic object (`cistopic_obj_binarized.pkl`)**  
+>    - Contains binary peak-by-cell matrix alongside all previous metadata (topic assignments, clusters, scRNA annotations).  
+>
+> 2. **Optional summary files**  
+>    - Can include per-topic peak statistics or binarization thresholds.  
+>
+> ---
 
 ---
 
@@ -1055,16 +1067,6 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 4. **Save results**  
    - The binarized cistopic object is ready for **differential accessibility (DAR) analysis** and downstream analyses.
-
----
-
-## Outputs
-
-1. **Binarized cistopic object (`cistopic_obj_binarized.pkl`)**  
-   - Contains binary peak-by-cell matrix alongside all previous metadata (topic assignments, clusters, scRNA annotations).  
-
-2. **Optional summary files**  
-   - Can include per-topic peak statistics or binarization thresholds.
 
 ---
 
@@ -1088,9 +1090,6 @@ This step **converts continuous topic distributions into binary accessibility ma
 ![top3k](outs/topics/region_bin_top3k.png?v=2)
 
 
-
-
-
 # 14.  Differential Accessibility (DAR) Analysis Step
 
 ## Overview
@@ -1103,28 +1102,42 @@ This step identifies **differentially accessible regions (DARs)** between groups
 
 ---
 
-## Inputs
+> ## Inputs
+>
+> 1. **Binarized cistopic object (`cistopic_obj_binarized.pkl`)**  
+>    - Contains:  
+>      - Binary peak-by-cell matrix  
+>      - Cell metadata (clusters, scRNA annotations, topic assignments)  
+>
+> 2. **Grouping variable (`-v celltype_scrna`)**  
+>    - Specifies which cell metadata column to use for group comparisons (e.g., cell type labels from scRNA-seq).  
+>
+> 3. **Analysis parameters**  
+>    - `n_cpu`: number of CPUs for parallel computation  
+>    - `temp_dir`: temporary files storage  
+>    - `scale_impute` / `scale_norm`: scaling factors for normalization  
+>    - `adjpval_thr`: adjusted p-value threshold for significance  
+>    - `log2fc_thr`: log2 fold-change threshold for significance  
+>
+> 4. **Output directory (`outs/DAR_results`)**  
+>    - Where DAR results and updated cistopic objects will be saved.  
+>
+> ---
+>
+> ## Outputs
+>
+> 1. **Cistopic object with DAR annotations (`cistopic_obj_with_DARs.pkl`)**  
+>    - Each peak is annotated with significance values, fold changes, and group-specific activity.  
+>
+> 2. **DAR result tables**  
+>    - Lists of peaks that are differentially accessible per group.  
+>
+> 3. **Optional plots or summaries**  
+>    - Can visualize DARs by cluster, cell type, or topic.  
+>
+> ---
 
-1. **Binarized cistopic object (`cistopic_obj_binarized.pkl`)**  
-   - Contains:
-     - Binary peak-by-cell matrix  
-     - Cell metadata (clusters, scRNA annotations, topic assignments)  
-
-2. **Grouping variable (`-v celltype_scrna`)**  
-   - Specifies which cell metadata column to use for group comparisons (e.g., cell type labels from scRNA-seq).  
-
-3. **Analysis parameters**  
-   - `n_cpu`: number of CPUs for parallel computation  
-   - `temp_dir`: temporary files storage  
-   - `scale_impute` / `scale_norm`: scaling factors for normalization  
-   - `adjpval_thr`: adjusted p-value threshold for significance  
-   - `log2fc_thr`: log2 fold-change threshold for significance  
-
-4. **Output directory (`outs/DAR_results`)**  
-   - Where DAR results and updated cistopic objects will be saved.
-
----
-
+----
 ## What it does? 
 
 1. **Load the binarized cistopic object**  
@@ -1140,19 +1153,6 @@ This step identifies **differentially accessible regions (DARs)** between groups
 4. **Store results**  
    - Annotates the cistopic object with DAR information.  
    - Saves tables of significant DARs for each comparison.
-
----
-
-## Outputs
-
-1. **Cistopic object with DAR annotations (`cistopic_obj_with_DARs.pkl`)**  
-   - Each peak is annotated with significance values, fold changes, and group-specific activity.  
-
-2. **DAR result tables**  
-   - Lists of peaks that are differentially accessible per group.  
-
-3. **Optional plots or summaries**  
-   - Can visualize DARs by cluster, cell type, or topic.
 
 ---
 
@@ -1192,19 +1192,32 @@ This step exports **lists of genomic regions (peaks) identified as DARs** into s
 
 ---
 
-## Inputs
+> ## Inputs
+>
+> 1. **Cistopic object with DAR annotations (`cistopic_obj_with_DARs.pkl`)**  
+>    - Contains:  
+>      - Binary peak-by-cell matrix  
+>      - Cell metadata  
+>      - DAR results for each peak (p-values, fold-changes, significant groups)  
+>
+> 2. **Output directory (`outs/`)**  
+>    - Where the exported region sets will be saved.  
+>
+> ---
+>
+> ## Outputs
+>
+> 1. **Region set files (BED)**  
+>    - Lists of DARs per group, including genomic coordinates.  
+>    - Can be used for motif enrichment, visualization, or pathway analyses.  
+>
+> 2. **Optional summary tables**  
+>    - Summarize number of DARs per group or comparison.  
+>
+> ---
 
-1. **Cistopic object with DAR annotations (`cistopic_obj_with_DARs.pkl`)**  
-   - Contains:
-     - Binary peak-by-cell matrix  
-     - Cell metadata  
-     - DAR results for each peak (p-values, fold-changes, significant groups)  
 
-2. **Output directory (`outs/`)**  
-   - Where the exported region sets will be saved.
-
----
-
+----
 ## What it does?
 
 1. **Load the DAR-annotated cistopic object**  
@@ -1219,17 +1232,6 @@ This step exports **lists of genomic regions (peaks) identified as DARs** into s
 
 4. **Save files in output directory**  
    - Ready for downstream analyses or sharing with other tools.
-
----
-
-## Outputs
-
-1. **Region set files (BED)**  
-   - Lists of DARs per group, including genomic coordinates.  
-   - Can be used for motif enrichment, visualization, or pathway analyses.  
-
-2. **Optional summary tables**  
-   - Summarize number of DARs per group or comparison.
 
 ---
 
