@@ -123,8 +123,21 @@ This filtering step ensures removal of dead or dying cells, doublets, and techni
 
 ![Annotations](figures/annotated_clustered_mNeurog2_annotations.png)
 
+### Cell counts 
 
+This is the cell counts in clusters based on barcodes:
 
+| Cluster      | Cell Count |
+|--------------|-----------|
+| MG           | 3206      |
+| BC           | 1298      |
+| Rod          | 997       |
+| MGPC         | 612       |
+| Microglia    | 344       |
+| AC           | 103       |
+| Cone         | 48        |
+| Astrocyte    | 4         |
+|**Total cells** | **6612** |
 
 
 # 🔴🔴🔴 PART B: Pycistopic: preprocessing the ATAC part and integrating metadata from scRNA 
@@ -1047,6 +1060,13 @@ This step **converts continuous topic distributions into binary accessibility ma
 - **Purpose:** Convert continuous topic weights into binary activity calls for peaks.  
 - **Inputs:** Clustered cistopic object with topic proportions.  
 - **Outputs:** Binarized cistopic object ready for DAR analysis and downstream analyses.
+
+#### Binarisations output 
+
+![li](outs/topics/cell_topic_li.png?v=2)
+![otsu](outs/topics/region_bin_otsu.png?v=2)
+![top3k](outs/topics/region_bin_top3k.png?v=2)
+
 
 
 
