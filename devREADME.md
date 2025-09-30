@@ -675,32 +675,6 @@ Words → IDs → Topics → Document classification
 
 Mallet helps you uncover hidden patterns in large text datasets the same way bioinformatics uncovers hidden patterns in genomic data.
 
-
----
-
-## Inputs
-
-1. **Annotated cistopic object (`merged_with_meta.pkl`)**  
-   - Contains:
-     - Peak-by-cell matrix (from previous steps)  
-     - scRNA-seq metadata for each cell (cell type, cluster, sample)  
-
-2. **Mallet software path**  
-   - The executable used to run LDA.  
-
-3. **Topic modeling parameters**  
-   - `n_topics`: number of topics to infer (e.g., 15, 20, 25, 30)  
-   - `n_iter`: number of iterations for the LDA algorithm  
-   - `alpha` / `eta`: Dirichlet priors controlling sparsity and topic distribution  
-   - `random_state`: ensures reproducibility  
-
-4. **Computational settings**  
-   - `n_cpu`: number of CPUs for parallel processing  
-   - `mallet_memory`: memory allocated for Mallet  
-   - Temporary and save directories (`tmp_path`, `save_path`)  
-
----
-
 # 🧬 Applying Mallet/LDA Concepts to GRNs with SCENIC+
 
 SCENIC+ uses ideas from **Mallet/LDA** to analyze **Gene Regulatory Networks (GRNs)**.  
@@ -795,6 +769,31 @@ It’s like DNA sequencing and gene co-expression analysis:
 - Words → Genes/Peaks, Documents → Cells, Topics → Regulatory Modules  
 
 SCENIC+ leverages this approach to **infer transcription factor activity and GRNs** in single-cell multi-omics data.
+
+
+
+## Inputs
+
+1. **Annotated cistopic object (`merged_with_meta.pkl`)**
+   - Contains:
+     - Peak-by-cell matrix (from previous steps)
+     - scRNA-seq metadata for each cell (cell type, cluster, sample)
+
+2. **Mallet software path**
+   - The executable used to run LDA.
+
+3. **Topic modeling parameters**
+   - `n_topics`: number of topics to infer (e.g., 15, 20, 25, 30)
+   - `n_iter`: number of iterations for the LDA algorithm
+   - `alpha` / `eta`: Dirichlet priors controlling sparsity and topic distribution
+   - `random_state`: ensures reproducibility
+
+4. **Computational settings**
+   - `n_cpu`: number of CPUs for parallel processing
+   - `mallet_memory`: memory allocated for Mallet
+   - Temporary and save directories (`tmp_path`, `save_path`)
+
+---
 
 
 ## What it does?
