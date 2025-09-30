@@ -1,3 +1,20 @@
+### SCENIC+ Workflow (Major Steps)
+
+1. **Chromatin accessibility modeling (pycisTopic):**  
+   - Perform topic modeling on scATAC-seq data to identify cis-regulatory topics (sets of co-accessible regions).
+
+2. **cisTarget database creation:**  
+   - Build motif/track databases from candidate regulatory regions.  
+   - Databases are used to connect TF motifs with accessible regions.
+
+3. **SCENIC+ analysis:**  
+   - Integrate ATAC-seq (regulatory regions) with RNA-seq (gene expression).  
+   - Infer TF–target gene regulons using motif enrichment + peak-to-gene links.  
+   - Score regulon activity across single cells to characterize cell states.
+
+![Scenic+ workflow](scenicplusWorkflow.png)
+
+
 # 🔴🔴🔴 PART A:  Preprcessing of scRNA -  Clustering and Visualization
 
 ## Overview
