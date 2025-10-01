@@ -21,12 +21,13 @@ args = parser.parse_args()
 myObject = args.myObject
 barcode_mapping = args.barcode_csv
 
-adata = sc.read_h5ad("annotated_clustered_mNeurog2.h5ad")
+# FIXED: Use the input argument instead of hardcoded filename
+adata = sc.read_h5ad(myObject)
 
 # Make sure the annotations are in adata.obs
 print(adata.obs.columns)
 
-# Suppose your cell type annotations are stored in 'cell_type'
+# Suppose your cell type annotations are stored in 'celltype'
 # If instead they are in 'leiden' or 'clusters', adjust accordingly.
 barcode_annotations = adata.obs[['celltype']].copy()
 barcode_annotations.index.name = 'barcode'
@@ -34,4 +35,3 @@ barcode_annotations.reset_index(inplace=True)
 
 # Save to CSV for SCENIC+
 barcode_annotations.to_csv(barcode_mapping, index=False)
-
