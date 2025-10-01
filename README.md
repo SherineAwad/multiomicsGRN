@@ -1313,7 +1313,7 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
 
 
 
-🚀 **Note:** ===> I skipped this part and relied on prebuilt databases for speed 🚀
+🚨🚨 **Note:** ===> I skipped this part and relied on prebuilt databases for speed 🚀
 
 
 
@@ -1326,9 +1326,52 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
 - The Snakemake workflow runs the SCENIC+ pipeline on your processed ATAC (and optional scRNA) data.  
 - Its main goal is to **infer gene regulatory networks (GRNs)** and compute **TF activity scores per cell**.
 
----
+SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate gene regulatory networks (GRNs).
 
-## What it does?
+
+> **Inputs**  
+>  
+> - **From pycistopic**  
+>   - Cell states / clusters  
+>   - Accessible chromatin regions (peaks)  
+>  
+> - **From cistarget**  
+>   - Candidate regulatory regions linked to transcription factor (TF) motifs or ChIP-seq tracks  
+
+----
+
+> **Outputs**  
+>  
+> 1. **Gene Regulatory Network (GRN)**  
+>    - TFs linked to predicted target genes  
+>    - Derived from DARs/topics and motif enrichment  
+>  
+> 2. **TF Activity Matrices**  
+>    - Quantitative scores of TF activity per cell  
+>  
+> 3. **Regulatory Modules**  
+>    - Groups of genes predicted to be co-regulated by each TF  
+>  
+> 4. **Plots and Visualizations**  
+>    - Heatmaps of TF activity  
+>    - Network diagrams of GRNs  
+>    - Motif enrichment summaries  
+
+----
+
+### What SCENIC+ does
+SCENIC+ integrates these results to build and score regulatory networks:
+
+**Link regions to genes**  
+   - Connects accessible regions to nearby or correlated genes.  
+
+**Combine TF–region and region–gene links**  
+   - Builds TF → region → gene connections.  
+
+**Score network activity per cell**  
+   - Identifies which regulatory programs are active in different cell states.  
+
+In details: 
 
 1. **Prepare Input Matrices**
    - Extract peak-by-cell matrices or topic-specific binarized data from the cistopic object.  
@@ -1348,34 +1391,6 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
 5. **Visualization and Module Generation**
    - Generate regulatory modules: groups of co-regulated genes per TF.  
    - Create heatmaps, network diagrams, and motif enrichment plots for interpretation.
-
----
-
-## Main Outputs
-
-1. **Gene Regulatory Network (GRN)**
-   - TFs linked to predicted target genes.  
-   - Derived from DARs/topics and motif enrichment.  
-
-2. **TF Activity Matrices**
-   - Quantitative scores of TF activity per cell.  
-
-3. **Regulatory Modules**
-   - Groups of genes predicted to be co-regulated by each TF.  
-
-4. **Plots and Visualizations**
-   - Heatmaps of TF activity  
-   - Network diagrams of GRNs  
-   - Motif enrichment summaries  
-
----
-
-## Connection to Previous Steps
-
-- **Input:** binarized cistopic object with DARs or topic peaks (from pycisTopic).  
-- **Input:** cisTarget databases (prebuilt or custom).  
-- **Optional input:** scRNA-seq metadata for enhanced GRN inference.  
-- **Output:** GRN, TF activity matrices, regulatory modules, and visualizations for downstream analysis.
 
 ---
 
@@ -1422,12 +1437,11 @@ The motif enrichment layer plays several critical roles:
 
 ---
 
-#### 3. Key takeaway
-
-The **DEM results act as a bridge** between ATAC and RNA modalities.  
+✅ The **DEM results act as a bridge** between ATAC and RNA modalities.  
 They make sure that downstream TF–target links are not just statistically correlated, but also **biologically plausible**.
- 
-##### ✅ ✅ ✅ SNAKEMAKE is still running, more rules are under execution and in the way 
+
+🚨🚨🚨🚨🚨 
+##### SNAKEMAKE is still running, more rules are under execution and in the way 
 
 
 ## References
