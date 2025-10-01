@@ -960,7 +960,6 @@ This step performs **dimensionality reduction and clustering** of cells based on
 >
 > ---
 
-----
 ## What it does?
 
 1. **Dimensionality reduction**  
