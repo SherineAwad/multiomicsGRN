@@ -17,7 +17,7 @@ parser.add_argument('markers', help="Text file with one marker gene per line")
 args = parser.parse_args()
 
 myObject = args.myObject
-newObject = "Sclustered_" + myObject
+newObject = "clustered_" + myObject
 markers = args.markers
 print("Markers file:", markers)
 
