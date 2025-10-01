@@ -17,7 +17,7 @@ parser.add_argument('annotations', help="Text file with annotations")
 args = parser.parse_args()
 
 myObject = args.myObject
-newObject = "annotated_" + myObject
+newObject = "Sannotated_" + myObject
 annot_file = args.annotations
 
 # Base name for figure outputs

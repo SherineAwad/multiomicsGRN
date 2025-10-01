@@ -17,7 +17,7 @@ parser.add_argument('markers', help="Text file with one marker gene per line")
 args = parser.parse_args()
 
 myObject = args.myObject
-newObject = "clustered_" + myObject
+newObject = "Sclustered_" + myObject
 markers = args.markers
 print("Markers file:", markers)
 
@@ -28,6 +28,13 @@ base_name = os.path.splitext(os.path.basename(newObject))[0]
 # Load AnnData
 # -----------------------------
 combined_adata = sc.read(myObject)
+
+# -----------------------------
+# CRITICAL FIX: Preserve raw counts for SCENIC+
+# -----------------------------
+# Store the raw counts before normalization
+combined_adata.raw = combined_adata
+print("✅ Raw counts preserved in adata.raw for SCENIC+ compatibility")
 
 # -----------------------------
 # Rename samples before anything else
@@ -55,6 +62,7 @@ sc.tl.leiden(combined_adata, resolution=1.0, flavor="igraph", n_iterations=2, di
 figure_name = f"_{base_name}_Clusters.png"
 sc.pl.umap(combined_adata, color=["leiden"], legend_loc="on data", save=figure_name)
 sc.pl.umap(combined_adata, color="sample", legend_loc="on data", save=f"_{base_name}_Samples.png")
+
 # -----------------------------
 # Marker gene plotting
 # -----------------------------
@@ -74,6 +82,9 @@ fig = sc.pl.dotplot(
 )
 # Save figure
 fig.savefig(figurename, dpi=600, bbox_inches="tight")
+
+# -----------------------------
+# Individual gene UMAP plots
 # -----------------------------
 with open(markers) as f:
     marker_genes = [line.strip() for line in f]
@@ -88,10 +99,11 @@ for gene in marker_genes:
         )
     else:
         print(f"⚠️ Skipping {gene}: not in adata.var_names")
+
 # -----------------------------
 # Save clustered object
 # -----------------------------
 combined_adata.obs_names_make_unique()
 combined_adata.write(newObject, compression="gzip")
 print(f"✅ Saved clustered AnnData to {newObject}")
-
+print(f"✅ Raw counts preserved for SCENIC+ compatibility")
