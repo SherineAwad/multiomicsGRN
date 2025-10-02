@@ -469,6 +469,59 @@ This step generates a **BED file containing the transcription start sites (TSSs)
 - **Relation to previous steps:** Independent; serves as a reference for evaluating and annotating pseudobulk/MACS2 peaks.
 
 
+## QC check and plots 
+
+
+### TH1
+- Barcode QC  
+  ![](scenicOuts/QC/TH1_barcode_qc.png)
+
+- General QC  
+  ![](scenicOuts/QC/TH1_qc.png)
+
+### TH2
+- Barcode QC  
+  ![](scenicOuts/QC/TH2_barcode_qc.png)
+
+- General QC  
+  ![](scenicOuts/QC/TH2_qc.png)
+
+
+### QC Barcodes Summary
+
+#### File Information
+- **File**: `qc_barcodes_thresholds.pkl`
+- **Status**: ✅ **VALID** - Ready for CistopicObject creation
+
+#### Sample Overview
+
+| Sample | Cells Passing QC | Unique Fragments Threshold | TSS Enrichment Threshold | FRIP Threshold |
+|--------|------------------|----------------------------|--------------------------|----------------|
+| **TH1** | ~200 cells | 1,354 | 1.72 | 0 |
+| **TH2** | ~200 cells | 1,174 | 1.87 | 0 |
+
+#### Data Structure
+```python
+{
+    'barcodes': {
+        'TH1': array([~200 cell barcodes]),
+        'TH2': array([~200 cell barcodes])
+    },
+    'thresholds': {
+        'TH1': {
+            'unique_fragments_threshold': 1353.92,
+            'tss_enrichment_threshold': 1.72,
+            'frip_threshold': 0
+        },
+        'TH2': {
+            'unique_fragments_threshold': 1174.01,
+            'tss_enrichment_threshold': 1.87,
+            'frip_threshold': 0
+        }
+    }
+}
+```
+
 # 7. Creating Cistopic Objects Step
 
 ## Overview
