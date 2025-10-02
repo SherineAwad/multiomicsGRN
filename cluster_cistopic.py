@@ -3,12 +3,12 @@ import argparse
 import pickle
 import os
 import pandas as pd
+import seaborn as sns
 from pycisTopic.clust_vis import (
     find_clusters,
     run_umap,
     run_tsne,
     plot_metadata,
-    plot_topic,
     cell_topic_heatmap
 )
 import matplotlib.pyplot as plt
@@ -20,128 +20,71 @@ def cluster_cistopic(input_pickle, output_pickle, outdir, resolutions=[0.6, 1.2,
     with open(input_pickle, "rb") as f:
         obj = pickle.load(f)
 
-    print("Original cell_topic shape:", obj.selected_model.cell_topic.shape)
-    print("Number of cell_names:", len(obj.cell_names))
-
-    # Ensure cell_topic is a DataFrame with columns matching cell_names
-    if not isinstance(obj.selected_model.cell_topic, pd.DataFrame):
-        obj.selected_model.cell_topic = pd.DataFrame(
-            obj.selected_model.cell_topic,
-            columns=obj.cell_names
-        )
-
-    print("cell_topic converted to DataFrame:", obj.selected_model.cell_topic.shape)
+    # PRESERVE original cell_data
+    original_cell_data = obj.cell_data.copy()
 
     # --- Clustering ---
-    find_clusters(
-        obj,
-        target='cell',
-        k=k,
-        res=resolutions,
-        prefix='pycisTopic_',
-        scale=True,
-        split_pattern='-'
-    )
+    find_clusters(obj, target='cell', k=k, res=resolutions, prefix='pycisTopic_', scale=True)
 
     # --- Dimensionality Reduction ---
     run_umap(obj, target='cell', scale=True)
     run_tsne(obj, target='cell', scale=True)
 
-    # --- Metadata Plots ---
-    # Update this list according to your metadata columns
-    meta_vars = ['celltype_scrna'] + [f'pycisTopic_leiden_{k}_{r}' for r in resolutions]
-    plot_metadata(
-        obj,
-        reduction_name='UMAP',
-        variables=meta_vars,
-        target='cell',
-        num_columns=4,
-        text_size=10,
-        dot_size=5
-    )
-    plt.savefig(os.path.join(outdir, "metadata_umap.png"), bbox_inches='tight')
-    plt.close()
+    # FIX: Extract clustering results before restoring
+    clustering_cols = [col for col in obj.cell_data.columns if col.startswith('pycisTopic_')]
+    clustering_data = obj.cell_data[clustering_cols].copy()
 
-    # --- Annotate clusters with most frequent cell type ---
-    annot_dict = {}
-    for res in resolutions:
-        col = f'pycisTopic_leiden_{k}_{res}'
-        annot_dict[col] = {}
-        clusters = set(obj.cell_data[col])
-        for cluster in clusters:
-            idx = obj.cell_data[obj.cell_data[col] == cluster].index
-            counts = obj.cell_data.loc[idx, 'celltype_scrna'].value_counts()
-            annot_dict[col][cluster] = f"{counts.index[0]}({cluster})"
-        # Apply annotations
-        obj.cell_data[col] = [annot_dict[col][x] for x in obj.cell_data[col].tolist()]
+    # Restore original cell_data with correct barcode index
+    obj.cell_data = original_cell_data
+    obj.cell_data.index = obj.cell_names  # Set barcodes as index
 
-    # Plot annotated clusters
-    plot_metadata(
-        obj,
-        reduction_name='UMAP',
-        variables=[f'pycisTopic_leiden_{k}_{r}' for r in resolutions],
-        target='cell',
-        num_columns=3,
-        text_size=10,
-        dot_size=5
-    )
-    plt.savefig(os.path.join(outdir, "annotated_clusters_umap.png"), bbox_inches='tight')
-    plt.close()
+    # Add clustering results back
+    for col in clustering_cols:
+        obj.cell_data[col] = clustering_data[col].values
 
-    # --- Additional QC plots if present ---
-    qc_vars = ['log10_unique_fragments_count', 'tss_enrichment', 'Doublet_scores_fragments', 'fraction_of_fragments_in_peaks']
-    existing_qc_vars = [v for v in qc_vars if v in obj.cell_data.columns]
-    if existing_qc_vars:
-        plot_metadata(
-            obj,
-            reduction_name='UMAP',
-            variables=existing_qc_vars,
-            target='cell',
-            num_columns=4,
-            text_size=10,
-            dot_size=5
-        )
-        plt.savefig(os.path.join(outdir, "qc_metrics_umap.png"), bbox_inches='tight')
+    # --- Simple plotting that works ---
+    # Plot cell types
+    try:
+        plot_metadata(obj, reduction_name='UMAP', variables=['celltype_scrna'], target='cell')
+        plt.savefig(os.path.join(outdir, "celltype_umap.png"), bbox_inches='tight')
         plt.close()
+    except Exception as e:
+        print(f"Cell type plot failed: {e}")
 
-    # --- Topic Plots ---
-    plot_topic(
-        obj,
-        reduction_name='UMAP',
-        target='cell',
-        num_columns=5
-    )
-    plt.savefig(os.path.join(outdir, "topic_umap.png"), bbox_inches='tight')
-    plt.close()
+    # REPLACED: Topic UMAP with Topic-Celltype Heatmap
+    try:
+        # Get cell_topic matrix and cell types
+        cell_topic_df = obj.selected_model.cell_topic.T  # Cells x Topics
+        cell_topic_df['celltype'] = obj.cell_data['celltype_scrna']
+        
+        # Group by cell type and average topic contributions
+        topic_by_celltype = cell_topic_df.groupby('celltype').mean()
+        
+        # Plot heatmap
+        plt.figure(figsize=(12, 8))
+        sns.heatmap(topic_by_celltype, cmap='viridis', annot=False, linewidths=0.5)
+        plt.title('Topic Enrichment by Cell Type')
+        plt.xlabel('Topics')
+        plt.ylabel('Cell Types')
+        plt.tight_layout()
+        plt.savefig(os.path.join(outdir, "topic_celltype_heatmap.png"), dpi=300, bbox_inches='tight')
+        plt.close()
+        print("✓ Created topic-celltype heatmap")
+    except Exception as e:
+        print(f"Topic heatmap failed: {e}")
 
-    # --- Cell-topic heatmap ---
-    cell_topic_heatmap(
-        obj,
-        variables=['celltype_scrna'],
-        scale=False,
-        legend_loc_x=0.95,  # move legend slightly inside
-        legend_loc_y=-1.0,  # adjust vertical offset
-        legend_dist_y=-0.5, 
-        figsize=(16, 12)
-    )
-    plt.savefig(os.path.join(outdir, "cell_topic_heatmap.png"), bbox_inches='tight')
-    plt.close() 
-
-    # Save filtered and clustered object
+    # Save object
     with open(output_pickle, "wb") as f:
         pickle.dump(obj, f)
 
-    print(f"Filtered and clustered CistopicObject saved to: {output_pickle}")
-    print("All plots saved to:", outdir)
+    print(f"✓ Clustering completed and saved to: {output_pickle}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Cluster, UMAP, annotate, and plot a CistopicObject")
-    parser.add_argument("-i", "--input_pickle", required=True, help="Input CistopicObject pickle")
-    parser.add_argument("-o", "--output_pickle", required=True, help="Output clustered CistopicObject pickle")
-    parser.add_argument("-d", "--outdir", required=True, help="Directory to save plots")
-    parser.add_argument("--resolutions", nargs="+", type=float, default=[0.6, 1.2, 3], help="Leiden resolutions")
-    parser.add_argument("--k", type=int, default=10, help="Number of neighbors for clustering")
-
+    parser = argparse.ArgumentParser(description="Cluster CistopicObject")
+    parser.add_argument("-i", "--input_pickle", required=True)
+    parser.add_argument("-o", "--output_pickle", required=True)
+    parser.add_argument("-d", "--outdir", required=True)
+    parser.add_argument("--resolutions", nargs="+", type=float, default=[0.6, 1.2, 3])
+    parser.add_argument("--k", type=int, default=10)
     args = parser.parse_args()
     cluster_cistopic(args.input_pickle, args.output_pickle, args.outdir, args.resolutions, args.k)
-
