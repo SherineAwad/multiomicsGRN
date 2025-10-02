@@ -1016,7 +1016,7 @@ This step identifies **differentially accessible regions (DARs)** between groups
 
 #### DAR preliminary results
 
-![Higly variable Regions](sceniciOuts/DAR_results/highly_variable_regions.png?v=4)
+![Higly variable Regions](scenicOuts/DAR_results/highly_variable_regions.png?v=4)
 
 ![Imputed features](scenicOuts/DAR_results/imputed_features.png?v=4)
 
