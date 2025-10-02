@@ -595,17 +595,57 @@ This step creates a **cistopic object**, which is the central data structure use
 
 - This step is **critical** because it transforms raw and pseudobulk fragment data into a structured object suitable for all downstream pycisTopic analyses.
 
-## QC plots of our cistopic object 
+# CistopicObject Analysis Summary
 
+## 📁 File Information
+- **File**: `cistopic_objects_mm10.pkl`
+- **Status**: ✅ **VALID** - Ready for SCENIC+ workflow
+- **Size**: 244,060.45 KB
+- **Structure**: List of 2 CistopicObjects
 
-![General QC TH1](outs/qc_plots/TH1_qc.png)
+## 🧫 Sample Overview
 
-![General QC TH2](outs/qc_plots/TH2_qc.png)
+| Sample | Cells | Regions | Project Name | Fragment File |
+|--------|-------|---------|--------------|---------------|
+| **TH1** | 294 cells | 163,474 regions | `TH1` | `TH1_atac_fragments.tsv.gz` |
+| **TH2** | 258 cells | 163,375 regions | `TH2` | `TH2_atac_fragments.tsv.gz` |
 
-![Barcode QC TH1](outs/barcode_qc_plots/TH1_barcode_qc.png)
+## 📊 Data Structure
 
-![Barcode QC TH2](outs/barcode_qc_plots/TH2_barcode_qc.png)
+### Cell Data (per sample)
+- **Shape**: 294 × 23 (TH1), 258 × 23 (TH2)
+- **Key Columns**: 
+  - `cisTopic_nr_frag` - Total fragments per cell
+  - `cisTopic_log_nr_frag` - Log-transformed fragment count
+  - `cisTopic_nr_acc` - Accessible regions per cell
+  - `sample_id` - Sample identifier
+- **Barcode Format**: `{CELL_BARCODE}-{SAMPLE_ID}` (e.g., `ATCACAATCACAGGAA-1-TH1`)
 
+### Region Data (per sample)
+- **Shape**: ~163,000 × 8
+- **Genomic Format**: `chr{number}:{start}-{end}`
+- **Key Columns**: 
+  - `Chromosome`, `Start`, `End`, `Width`
+  - `cisTopic_nr_frag` - Fragment count per region
+  - `cisTopic_nr_acc` - Cell accessibility per region
+
+## 🔄 Processing Status
+
+| Component | Status | Notes |
+|-----------|--------|-------|
+| **Cell Data** | ✅ **Complete** | All QC metrics present |
+| **Region Data** | ✅ **Complete** | Genomic coordinates loaded |
+| **Count Matrix** | ⏳ **Pending** | To be created in next step |
+| **Topic Models** | ⏳ **Pending** | Requires topic modeling |
+| **Projections** | ⏳ **Pending** | UMAP/t-SNE not yet run |
+
+## ✅ Quality Assessment
+- **✓ Cell Recovery**: Good cell counts (294 + 258 = 552 total cells)
+- **✓ Region Consistency**: Similar number of regions between samples
+- **✓ Data Integrity**: All expected metadata columns present
+- **✓ Format Compliance**: Proper barcode and region naming conventions
+
+**Status**: ✅ **READY FOR DOWNSTREAM ANALYSIS**
 
 # 8. Merging Cistopic Objects Step
 
