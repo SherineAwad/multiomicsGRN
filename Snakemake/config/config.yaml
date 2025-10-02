@@ -1,6 +1,6 @@
 input_data:
   cisTopic_obj_fname: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/outs/DAR_results/cistopic_obj_with_DARs.pkl"
-  GEX_anndata_fname: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/annotated_clustered_mNeurog2.h5ad"
+  GEX_anndata_fname: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/annotated_clustered_sNeurog2.h5ad"
   region_set_folder: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/outs/region_sets"
   ctx_db_fname: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/mm10_screen_v10_clust.regions_vs_motifs.rankings.feather"
   dem_db_fname: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/mm10_screen_v10_clust.regions_vs_motifs.scores.feather"
@@ -21,8 +21,8 @@ output_data:
   # output tf names .txt
   tf_names: "tf_names.txt"
   # output for download_genome_annotations .tsv
-  genome_annotation: "genome_annotation.tsv"
-  chromsizes: "chromsizes.tsv"
+  genome_annotation: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/Snakemake/workflow/genome_annotation.tsv"
+  chromsizes: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/Snakemake/workflow/chromsizes.tsv"
   # output for search_space .tsb
   search_space: "search_space.tsv"
   # output tf_to_gene .tsv
@@ -39,7 +39,7 @@ output_data:
   scplus_mdata: "scplusmdata.h5mu"
 
 params_general:
-  temp_dir: ""
+  temp_dir: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/sTMP1"
   n_cpu: 40
   seed: 666
 
