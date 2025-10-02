@@ -28,7 +28,7 @@ print(chromsizes.head())
 # -----------------------------
 # 3. Create output directories
 # -----------------------------
-out_dir = "outs"
+out_dir = "scenicOuts"
 consensus_dir = os.path.join(out_dir, "consensus_peak_calling")
 bed_dir       = os.path.join(consensus_dir, "pseudobulk_bed_files")
 bw_dir        = os.path.join(consensus_dir, "pseudobulk_bw_files")

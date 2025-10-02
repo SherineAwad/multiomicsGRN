@@ -234,11 +234,17 @@ and
 
 scenicOuts/
 └── consensus_peak_calling
+    ├── bed_paths.tsv
+    ├── bw_paths.tsv
     ├── pseudobulk_bed_files
+    │   ├── Control.fragments.tsv.gz
+    │   └── KO.fragments.tsv.gz
     └── pseudobulk_bw_files
+        ├── Control.bw
+        └── KO.bw
 
 
-# 3. Peak Calling Step with MACS2
+# 2. Peak Calling Step with MACS2
 
 ## Overview
 
@@ -273,7 +279,7 @@ This step identifies **peaks**, i.e., genomic regions that are significantly enr
 
 ---
 
-## What it does? 
+## [run_macs2](`run_macs2.py`)
 
 1. **Convert fragment files to BED format**  
    - Ensures compatibility with MACS2 (chromosome, start, end).  
@@ -292,13 +298,6 @@ Think of the pseudobulk BED as a **heat map of open windows across the city**.
 - MACS2 finds **clusters of “hot spots”** where many windows are open at once — these are your peaks.  
 - Each peak represents a genomic region with strong evidence of accessibility in that cell type.
 
----
-
-✅ **Summary**
-
-- **Purpose:** Detect high-confidence accessible regions from aggregated pseudobulk data.  
-- **Inputs:** Pseudobulk BED files, genome size.  
-- **Outputs:** MACS2 peak files (BED/narrowPeak) per cell type × sample, ready for **consensus peak generation** and downstream analysis.
 
 ### Density plot for a sample of narrowPeaks outputs of macs2
 
