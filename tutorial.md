@@ -232,6 +232,7 @@ Sample distribution:
 
 and
 
+```
 scenicOuts/
 └── consensus_peak_calling
     ├── bed_paths.tsv
@@ -242,6 +243,7 @@ scenicOuts/
     └── pseudobulk_bw_files
         ├── Control.bw
         └── KO.bw
+```
 
 
 # 2. Peak Calling Step with MACS2
@@ -299,11 +301,11 @@ Think of the pseudobulk BED as a **heat map of open windows across the city**.
 - Each peak represents a genomic region with strong evidence of accessibility in that cell type.
 
 
-### Density plot for a sample of narrowPeaks outputs of macs2
+### Density plot for KO and Controol narrowPeaks 
 
-![Peak Scatter 1](peak_scatter1.png)  
+![Control](Control_peaks.png)  
 
-![Peak Scatter 2](peak_scatter2.png)
+![KO](KO_peaks.png)
 
 
 
