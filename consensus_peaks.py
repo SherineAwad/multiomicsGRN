@@ -7,8 +7,8 @@ import argparse
 # -----------------------------
 # 1. Define directories
 # -----------------------------
-macs2_dir = "./consensus_peak_calling/macs2_peaks"
-consensus_out = "./consensus_peak_calling/consensus"
+macs2_dir = "./scenicOuts/consensus_peak_calling/macs2_peaks"
+consensus_out = "./scenicOuts/consensus_peak_calling/consensus"
 os.makedirs(consensus_out, exist_ok=True)
 parser = argparse.ArgumentParser()
 parser.add_argument("combined_bed", help="Path to combined bed file")
