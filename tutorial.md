@@ -185,10 +185,8 @@ This step **executes the pseudobulk aggregation** using `pycisTopic`.
 
 ## [pycistopic_pseudobulk.py](pycistopic_pseudobulk.py)
 
-1. **Maps fragments to annotated cells**  
-   - Uses metadata (from Seurat/Scanpy) to assign each fragment to its correct cell type × sample group.  
 
-2. **Aggregates fragments into pseudobulk TSVs** (if not already created)  
+1. **Aggregates fragments into pseudobulk TSVs** (if not already created)  
    - Combines all reads for each group into a single table of fragment coordinates.  
 
 3. **Converts TSVs to standard formats**  
@@ -203,8 +201,7 @@ This step **executes the pseudobulk aggregation** using `pycisTopic`.
 > ## Inputs
 >
 > 1. **Fragment files**: `fragments.tsv.gz` per sample (from the experiment).  
-> 2. **Cell metadata CSV**: barcode → cell type/sample mapping (from Seurat/Scanpy).  
-> 3. **Chromosome sizes**: defines genome boundaries (from UCSC or Ensembl).  
+> 2. **Chromosome sizes**: defines genome boundaries (from UCSC or Ensembl).  
 
 ---
 
@@ -232,7 +229,6 @@ Sample distribution:
 |----------|------------|
 | Control  | 584491     |
 | KO       | 572423     |
-
 
 and
 
@@ -303,6 +299,13 @@ Think of the pseudobulk BED as a **heat map of open windows across the city**.
 - **Purpose:** Detect high-confidence accessible regions from aggregated pseudobulk data.  
 - **Inputs:** Pseudobulk BED files, genome size.  
 - **Outputs:** MACS2 peak files (BED/narrowPeak) per cell type × sample, ready for **consensus peak generation** and downstream analysis.
+
+### Density plot for a sample of narrowPeaks outputs of macs2
+
+![Peak Scatter 1](peak_scatter1.png)  
+
+![Peak Scatter 2](peak_scatter2.png)
+
 
 
 # Consensus Peak Generation Step
