@@ -882,25 +882,11 @@ This step performs **dimensionality reduction and clustering** of cells based on
 
 ### Clustering output 
 
-#### Cell level annotations
- 
-![metadata](outs/umap_clusters/metadata_umap.png?v=2)
 
-![qc metrics](outs/umap_clusters/qc_metrics_umap.png?v=2)
-
-#### Cluster level annotations 
-
-![annotated clusters](outs/umap_clusters/annotated_clusters_umap.png?v=2)
-
-![topics umap](outs/umap_clusters/topic_umap.png?v=2)
-
-![topics heatmap ](outs/umap_clusters/cell_topic_heatmap.png?v=2)
-
-#### Quick look to cell ratios in pycistopic 
-
-![0.6](outs/stats/pycisTopic_leiden_10_0.6_composition_barplot.png)
-![1.2](outs/stats/pycisTopic_leiden_10_1.2_composition_barplot.png)
-![3.0](outs/stats/pycisTopic_leiden_10_3.0_composition_barplot.png)
+![](scenicOuts/umap_clusters/annotated_clusters_umap.png)
+![](scenicOuts/umap_clusters/celltype_umap.png)
+![](scenicOuts/umap_clusters/qc_metrics_umap.png)
+![](scenicOuts/umap_clusters/topic_celltype_heatmap.png)
 
 
 > ## 🔹 12. Binarizing Topics Step
@@ -958,9 +944,9 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 #### Binarisations output 
 
-![li](outs/topics/cell_topic_li.png?v=2)
-![otsu](outs/topics/region_bin_otsu.png?v=2)
-![top3k](outs/topics/region_bin_top3k.png?v=2)
+![Cell Topic LI](scenicOuts/topics/cell_topic_li.png)  
+![Region Bin Otsu](scenicOuts/topics/region_bin_otsu.png)  
+![Region Bin Top3k](scenicOuts/topics/region_bin_top3k.png)  
 
 
 > ## 🔹 13.  Differential Accessibility (DAR) Analysis Step
@@ -1030,9 +1016,21 @@ This step identifies **differentially accessible regions (DARs)** between groups
 
 #### DAR preliminary results
 
-![Higly variable Regions](outs/DAR_results/highly_variable_regions.png?v=4)
+![Higly variable Regions](sceniciOuts/DAR_results/highly_variable_regions.png?v=4)
 
-![Imputed features](outs/DAR_results/imputed_features.png?v=4)
+![Imputed features](scenicOuts/DAR_results/imputed_features.png?v=4)
+
+## Number of DARs found
+
+| Cell type   | DARs   |
+|-------------|--------|
+| AC          | 36,866 |
+| BC          | 31,794 |
+| Cones       | 0      |
+| MG          | 22,854 |
+| MGPC        | 8,077  |
+| Microglia   | 18,230 |
+| Rod         | 31,425 |
 
 
 > ## 🔹 14. Exporting Region Sets from DAR Results
@@ -1090,6 +1088,8 @@ This step exports **lists of genomic regions (peaks) identified as DARs** into s
 >    - Summarize number of DARs per group or comparison.  
 >
 > ---
+
+
 
 ---
 # 🛑 PART C:  cisTarget Databases for Motif Enrichment (Optional Step) 
