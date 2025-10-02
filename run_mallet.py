@@ -60,18 +60,29 @@ def main(cistopic_obj_pickle, mallet_path, n_topics, n_cpu, n_iter,
     with open(cistopic_obj_pickle, "rb") as f:
         cistopic_obj = pickle.load(f)
 
-    # CRITICAL FIX: Ensure count matrix exists before running Mallet
-    if cistopic_obj.count_matrix is None:
+    # FIX: Check if count_matrix exists using hasattr instead
+    if not hasattr(cistopic_obj, 'count_matrix') or cistopic_obj.count_matrix is None:
         print("Creating count matrix for Mallet...")
+        
         # Extract regions from region_data
         regions_list = cistopic_obj.region_data.index.tolist()
         
-        # Create count matrix using the existing object's data
+        # Get cell barcodes
+        cell_barcodes = cistopic_obj.cell_data.index.tolist()
+        
+        # FIX: Use the actual fragment file paths from the dictionary
+        # Since we have multiple samples, we need to handle this differently
+        # Let's use the first fragment file for simplicity, or create a combined approach
+        fragment_files = list(cistopic_obj.path_to_fragments.values())
+        if len(fragment_files) > 1:
+            print(f"Warning: Multiple fragment files found. Using first one: {fragment_files[0]}")
+        
+        # Create a new CistopicObject with count matrix using the first fragment file
         cistopic_obj_with_matrix = create_cistopic_object_from_fragments(
-            path_to_fragments=cistopic_obj.path_to_fragments,
+            path_to_fragments=fragment_files[0],  # Use string path, not dict
             path_to_regions=regions_list,
             metrics=cistopic_obj.cell_data,
-            valid_bc=cistopic_obj.cell_data.index.tolist(),
+            valid_bc=cell_barcodes,
             project=cistopic_obj.project,
             split_pattern='-',
             n_cpu=n_cpu
@@ -80,6 +91,8 @@ def main(cistopic_obj_pickle, mallet_path, n_topics, n_cpu, n_iter,
         # Replace the original object with the one that has count matrix
         cistopic_obj = cistopic_obj_with_matrix
         print("✓ Count matrix created successfully")
+    else:
+        print("✓ Count matrix already exists")
 
     # Run MALLET
     updated_obj = run_mallet_on_object(
