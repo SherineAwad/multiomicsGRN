@@ -3,6 +3,7 @@ import os
 import argparse
 import pickle
 from pycisTopic.lda_models import run_cgs_models_mallet
+from pycisTopic.cistopic_class import create_cistopic_object_from_fragments
 
 def run_mallet_on_object(cistopic_obj, mallet_path, n_topics, n_cpu, n_iter,
                          tmp_path, save_path, mallet_memory, random_state,
@@ -59,6 +60,27 @@ def main(cistopic_obj_pickle, mallet_path, n_topics, n_cpu, n_iter,
     with open(cistopic_obj_pickle, "rb") as f:
         cistopic_obj = pickle.load(f)
 
+    # CRITICAL FIX: Ensure count matrix exists before running Mallet
+    if cistopic_obj.count_matrix is None:
+        print("Creating count matrix for Mallet...")
+        # Extract regions from region_data
+        regions_list = cistopic_obj.region_data.index.tolist()
+        
+        # Create count matrix using the existing object's data
+        cistopic_obj_with_matrix = create_cistopic_object_from_fragments(
+            path_to_fragments=cistopic_obj.path_to_fragments,
+            path_to_regions=regions_list,
+            metrics=cistopic_obj.cell_data,
+            valid_bc=cistopic_obj.cell_data.index.tolist(),
+            project=cistopic_obj.project,
+            split_pattern='-',
+            n_cpu=n_cpu
+        )
+        
+        # Replace the original object with the one that has count matrix
+        cistopic_obj = cistopic_obj_with_matrix
+        print("✓ Count matrix created successfully")
+
     # Run MALLET
     updated_obj = run_mallet_on_object(
         cistopic_obj=cistopic_obj,
@@ -80,25 +102,24 @@ def main(cistopic_obj_pickle, mallet_path, n_topics, n_cpu, n_iter,
     output_pickle = os.path.join(save_path, "merged_cistopic_with_models.pkl")
     with open(output_pickle, "wb") as f:
         pickle.dump(updated_obj, f)
-    print(f"Updated merged CistopicObject saved to: {output_pickle}")
+    print(f"✓ Updated CistopicObject with models saved to: {output_pickle}")
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run MALLET topic modeling on a merged CistopicObject")
     parser.add_argument("--cistopic_obj_pickle", required=True)
     parser.add_argument("--mallet_path", required=True)
-    parser.add_argument("--n_topics", type=int, nargs="+",
-                        default=[2,5,10,15,20,25,30,35,40,45,50])
+    parser.add_argument("--n_topics", type=int, nargs="+", required=True)
     parser.add_argument("--n_cpu", type=int, default=12)
     parser.add_argument("--n_iter", type=int, default=500)
     parser.add_argument("--tmp_path", required=True)
     parser.add_argument("--save_path", required=True)
-    parser.add_argument("--mallet_memory", default="250G")
+    parser.add_argument("--mallet_memory", default="300G")
     parser.add_argument("--random_state", type=int, default=555)
-    parser.add_argument("--alpha", type=float, default=50)
-    parser.add_argument("--alpha_by_topic", type=bool, default=True)
+    parser.add_argument("--alpha", type=float, default=5.0)
+    parser.add_argument("--alpha_by_topic", action="store_true", default=True)
     parser.add_argument("--eta", type=float, default=0.1)
-    parser.add_argument("--eta_by_topic", type=bool, default=False)
+    parser.add_argument("--eta_by_topic", action="store_true", default=True)
     args = parser.parse_args()
 
     main(
@@ -116,4 +137,3 @@ if __name__ == "__main__":
         eta=args.eta,
         eta_by_topic=args.eta_by_topic
     )
-

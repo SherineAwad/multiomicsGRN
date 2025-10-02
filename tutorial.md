@@ -14,74 +14,23 @@
 
 ![Scenic+ workflow](scenicplusWorkflow.png)
 
-
-# 🔴🔴🔴 PART A:  Preprcessing of scRNA -  Clustering and Visualization
-
-## Overview
+# 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
+# PART A:  Preprcessing of scRNA -  Clustering and Visualization
+# 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
 
 This step performs **cell-level preprocessing, dimensionality reduction, clustering, and visualization** for single-cell RNA-seq data.  
 
 The goal is to **group similar cells together** based on their gene expression profiles and prepare the data for downstream analyses and interpretation.
 
-**Key conceptual operations:**
-
-1. **Normalization & log transformation**  
-   - Makes counts comparable across cells and reduces the influence of highly variable cells.
-
-2. **Dimensionality reduction (PCA)**  
-   - Condenses thousands of genes into a smaller set of principal components capturing most variation.
-
-3. **Neighbor graph construction**  
-   - Identifies cells with similar expression profiles in the reduced-dimensional space.
-
-4. **Clustering (Leiden algorithm)**  
-   - Groups similar cells together, each cluster potentially representing a distinct cell type or state.
-
-5. **Visualization (UMAP)**  
-   - Projects cells into 2D space to see cluster structure and relationships.
-
-6. **Marker gene plotting**  
-   - Evaluates the activity of known marker genes to interpret cluster identities.
-
----
-
-> ## Inputs
->
-> - **AnnData object (`.h5ad`)**  
->   Contains the single-cell gene expression matrix.  
->
-> - **Marker gene list**  
->   Text file of known genes to evaluate cluster identity.  
-
----
-
-> ## Outputs
->
-> - **Clustered AnnData object**  
->   Includes UMAP coordinates, cluster labels (`leiden`), and sample metadata.  
->
-> - **UMAP plots**  
->   Cells colored by clusters and by sample.  
->
-> - **Dotplots of marker genes**  
->   Summarizes marker expression across clusters.  
->
-> - **UMAPs for individual marker genes**  
->   Visualizes expression of each marker gene across cells.  
-
-
----
-
-## Why This Step is Recommended
-
-1. **Defines cell types or states**  
+1. **Defines cell types or states**
    - Clustering organizes cells based on similarity, providing a clear structure for interpretation.
 
-2. **Supports downstream analyses**  
+2. **Supports downstream analyses**
    - Clusters and cell type labels can guide pseudobulk aggregation, marker gene evaluation, or further integrative analyses.
 
-3. **Improves interpretability**  
+3. **Improves interpretability**
    - Visualization and marker gene plotting help assign biological meaning to clusters, making results easier to understand and communicate.
+
 
 ## Part A Results: scRNA-seq results    
 
@@ -157,8 +106,9 @@ This is the cell counts in clusters based on barcodes:
 | Astrocyte    | 4         |
 |**Total cells** | **6612** |
 
-
-# 🔴🔴🔴 PART B: Pycistopic: preprocessing the ATAC part and integrating metadata from scRNA 
+# 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
+# PART B: Pycistopic: preprocessing the ATAC part and integrating metadata from scRNA 
+# 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
 
 ## scATAC preanalyis by Seurat as input to pycistopic preprocessing 
 
@@ -168,14 +118,10 @@ This is the cell counts in clusters based on barcodes:
 
 ![ATAC CLUSTERS](ATAC_clusters.png)
 
-
 ---
 
-# 2. Pseudobulk Export with pycisTopic 
+# 1. Pseudobulk Export with pycisTopic 
 
-
-
-## Overview
 
 This step **executes the pseudobulk aggregation** using `pycisTopic`.  
 - Takes the conceptual idea and TSV intermediates from Step 1 and **produces the actual BED/BigWig files** for downstream analysis.  
@@ -213,8 +159,6 @@ This step **executes the pseudobulk aggregation** using `pycisTopic`.
 
 ---
 
-## Analogy
-
 Step 1 was like **planning and creating the combined raw audio (TSV tables)**.  
 Step 2 is where we **mix, normalize, and export it into clean, usable formats (BED/BigWig)** for analysis.  
  
@@ -247,8 +191,6 @@ scenicOuts/
 
 
 # 2. Peak Calling Step with MACS2
-
-## Overview
 
 This step identifies **peaks**, i.e., genomic regions that are significantly enriched for ATAC-seq fragments.  
 
@@ -294,7 +236,6 @@ This step identifies **peaks**, i.e., genomic regions that are significantly enr
 3. **Store peak files**  
    - Produces a BED-like file of called peaks for each pseudobulk.
 
-## Analogy
 
 Think of the pseudobulk BED as a **heat map of open windows across the city**.  
 - MACS2 finds **clusters of “hot spots”** where many windows are open at once — these are your peaks.  
@@ -309,9 +250,8 @@ Think of the pseudobulk BED as a **heat map of open windows across the city**.
 
 
 
-# Consensus Peak Generation Step
+# 3. Consensus Peak Generation Step
 
-## Overview
 
 After pseudobulk aggregation and MACS2 peak calling, each sample (or cell type × sample) has its **own set of peaks**.  
 - Different samples may have slightly different peaks because of biological variability or sequencing depth.  
@@ -319,6 +259,10 @@ After pseudobulk aggregation and MACS2 peak calling, each sample (or cell type �
 
 Think of it as **finding all regions that are open in at least one sample and merging overlapping regions into a master list**.
 
+- Ensures **all samples/cell types are analyzed on the same set of genomic regions**, which is critical for:
+  - Accurate topic modeling (pycisTopic LDA)
+  - Differential accessibility analysis
+  - Integration with scRNA-seq metadata
 ---
 
 ## What does it do?
@@ -357,17 +301,6 @@ Think of it as **finding all regions that are open in at least one sample and me
 
 ---
 
-## Why it is needed
-
-- Ensures **all samples/cell types are analyzed on the same set of genomic regions**, which is critical for:  
-  - Accurate topic modeling (pycisTopic LDA)  
-  - Differential accessibility analysis  
-  - Integration with scRNA-seq metadata  
-
----
-
-## Analogy
-
 Imagine several people drawing maps of the same city, each highlighting where the windows are open.  
 - Each map may differ slightly.  
 - The consensus peak step **merges all maps into one master map** that shows all open windows observed across everyone.  
@@ -375,49 +308,27 @@ Imagine several people drawing maps of the same city, each highlighting where th
 
 ---
 
-# 5. Merge  
 
-1. **Combine all MACS2 peak files**  
-   - Concatenate narrowPeak files from all pseudobulk samples into a single file.  
-
-2. **Sort and merge overlapping peaks**  
-   - Using `bedtools sort` and `bedtools merge`, overlapping or adjacent peaks are merged into single regions.  
-   - This produces a **non-redundant consensus peak set**, capturing all regions identified in any sample.  
-
----
-
-> ## Outputs
->
-> 1. **Consensus peaks BED file**  
->    - A single BED file containing all merged peaks across samples.  
->    - This is used for creating **cistopic objects** and for downstream analyses like differential accessibility.  
-
----
-
-## Analogy
-
-Imagine each pseudobulk sample as a city map showing open windows (peaks).  
-- Each map is slightly different because some windows are only open in certain samples.  
-- Merging all maps produces a **master map of all windows ever open** — this is the consensus peak set.
-
----
-
-✅ **Summary**
-
-- **Purpose:** Generate a unified, non-redundant set of peaks across all pseudobulk samples.  
-- **Inputs:** MACS2 narrowPeak files from pseudobulk samples.  
-- **Outputs:** Consensus peak BED file, ready for cistopic object creation and downstream analyses.
-
-
-
-# 6. TSS Generation Step in pycisTopic
-
-## Overview
+# 4. TSS Generation Step in pycisTopic
 
 This step generates a **BED file containing the transcription start sites (TSSs)** of genes for the reference genome.  
 
 - TSS regions are important for **quality control**, such as checking **TSS enrichment** in ATAC-seq data.  
 - It can also be used to **annotate peaks** with nearby genes for downstream analyses.  
+
+1. **Extract TSS positions from gene annotations**
+   - For each gene, determine the **chromosome, strand, and start position** corresponding to the TSS.
+
+2. **Convert to BED format**
+   - Each TSS is represented as a genomic interval suitable for downstream QC or annotation.
+
+3. **Save TSS BED file**
+   - The BED file can be used for **TSS enrichment analysis** or annotating peaks to genes.
+
+- This step **does not directly depend on the pseudobulk or MACS2 peaks**.
+- It **uses the reference genome annotation**, so it is independent of previous sample-specific steps.
+- The generated TSS BED file is primarily used for **quality control** (e.g., checking enrichment of ATAC signal at TSSs) and for **peak annotation downstream**.
+
 
 ---
 
@@ -439,37 +350,7 @@ This step generates a **BED file containing the transcription start sites (TSSs)
 >    - Example path: `outs/qc/tss_mm10.bed`.  
 
 
-
-## What it does?
-
-1. **Extract TSS positions from gene annotations**  
-   - For each gene, determine the **chromosome, strand, and start position** corresponding to the TSS.  
-
-2. **Convert to BED format**  
-   - Each TSS is represented as a genomic interval suitable for downstream QC or annotation.
-
-3. **Save TSS BED file**  
-   - The BED file can be used for **TSS enrichment analysis** or annotating peaks to genes.
-
----
-
-## Connection to Previous Steps
-
-- This step **does not directly depend on the pseudobulk or MACS2 peaks**.  
-- It **uses the reference genome annotation**, so it is independent of previous sample-specific steps.  
-- The generated TSS BED file is primarily used for **quality control** (e.g., checking enrichment of ATAC signal at TSSs) and for **peak annotation downstream**.
-
----
-
-✅ **Summary**
-
-- **Purpose:** Generate a reference set of TSSs in BED format.  
-- **Inputs:** Reference genome annotation, genome build.  
-- **Outputs:** TSS BED file, used for QC and peak annotation.  
-- **Relation to previous steps:** Independent; serves as a reference for evaluating and annotating pseudobulk/MACS2 peaks.
-
-
-## QC check and plots 
+# 5. QC check and plots 
 
 
 ### TH1
@@ -522,14 +403,40 @@ This step generates a **BED file containing the transcription start sites (TSSs)
 }
 ```
 
-# 7. Creating Cistopic Objects Step
-
-## Overview
+# 6. Creating Cistopic Objects Step
 
 This step creates a **cistopic object**, which is the central data structure used by pycisTopic for **topic modeling of chromatin accessibility**.  
 
 - The cistopic object organizes **fragment data, peak regions, and QC information** in a way suitable for downstream analyses.  
 - It is essentially a **single-cell peak-by-cell matrix** stored in a Python pickle file, with metadata attached.  
+
+1. **Load fragments and QC metadata**
+   - Filter cells based on QC thresholds.
+
+2. **Map fragments to consensus peaks**
+   - Assign each fragment from a cell to a peak, creating a **peak-by-cell matrix**.
+
+3. **Remove blacklisted regions**
+   - Exclude problematic regions that may generate false positives.
+
+4. **Store in cistopic object**
+   - Includes:
+     - Cell-by-peak matrix
+     - Cell metadata (sample, cell type, QC info)
+     - Peak metadata (genomic coordinates, annotation)
+
+5. **Save as Python pickle**
+   - This object will be used for **topic modeling, clustering, and downstream analysis**.
+
+---
+
+## Connection to Previous Steps
+
+- **Takes consensus peaks** (from merged MACS2 outputs).
+- **Uses fragment files** (from preprocessing/pseudobulk).
+- **Incorporates QC information** (filtered cells, TSS enrichment, etc.).
+
+- This step is **critical** because it transforms raw and pseudobulk fragment data into a structured object suitable for all downstream pycisTopic analyses.
 
 ---
 
@@ -564,36 +471,6 @@ This step creates a **cistopic object**, which is the central data structure use
 >    - Single Python object storing the filtered peak-by-cell matrix and associated metadata.  
 >    - Ready for running **topic modeling (LDA)** and other analyses in pycisTopic.  
 
----
-## What it does?
-
-1. **Load fragments and QC metadata**  
-   - Filter cells based on QC thresholds.  
-
-2. **Map fragments to consensus peaks**  
-   - Assign each fragment from a cell to a peak, creating a **peak-by-cell matrix**.  
-
-3. **Remove blacklisted regions**  
-   - Exclude problematic regions that may generate false positives.  
-
-4. **Store in cistopic object**  
-   - Includes:
-     - Cell-by-peak matrix  
-     - Cell metadata (sample, cell type, QC info)  
-     - Peak metadata (genomic coordinates, annotation)  
-
-5. **Save as Python pickle**  
-   - This object will be used for **topic modeling, clustering, and downstream analysis**.
-
----
-
-## Connection to Previous Steps
-
-- **Takes consensus peaks** (from merged MACS2 outputs).  
-- **Uses fragment files** (from preprocessing/pseudobulk).  
-- **Incorporates QC information** (filtered cells, TSS enrichment, etc.).  
-
-- This step is **critical** because it transforms raw and pseudobulk fragment data into a structured object suitable for all downstream pycisTopic analyses.
 
 # CistopicObject Analysis Summary
 
@@ -629,16 +506,6 @@ This step creates a **cistopic object**, which is the central data structure use
   - `cisTopic_nr_frag` - Fragment count per region
   - `cisTopic_nr_acc` - Cell accessibility per region
 
-## 🔄 Processing Status
-
-| Component | Status | Notes |
-|-----------|--------|-------|
-| **Cell Data** | ✅ **Complete** | All QC metrics present |
-| **Region Data** | ✅ **Complete** | Genomic coordinates loaded |
-| **Count Matrix** | ⏳ **Pending** | To be created in next step |
-| **Topic Models** | ⏳ **Pending** | Requires topic modeling |
-| **Projections** | ⏳ **Pending** | UMAP/t-SNE not yet run |
-
 ## ✅ Quality Assessment
 - **✓ Cell Recovery**: Good cell counts (294 + 258 = 552 total cells)
 - **✓ Region Consistency**: Similar number of regions between samples
@@ -647,14 +514,31 @@ This step creates a **cistopic object**, which is the central data structure use
 
 **Status**: ✅ **READY FOR DOWNSTREAM ANALYSIS**
 
-# 8. Merging Cistopic Objects Step
+# 7. Merging Cistopic Objects Step
 
-## Overview
 
 This step merges **one or more cistopic objects** into a single unified object.  
 
 - In workflows with multiple samples, batches, or preprocessing runs, each cistopic object may represent a separate sample or subset of cells.  
 - Merging combines them into a **single cistopic object**, making downstream analyses (topic modeling, clustering, DAR analysis) easier and consistent across all cells.  
+
+1. **Load all input cistopic objects**
+   - One object per sample or batch.
+
+2. **Combine peak matrices**
+   - Align peaks across objects to ensure **consistent genomic coordinates**.
+
+3. **Merge cell metadata**
+   - Keep track of **cell type, sample, QC info** for all cells.
+
+4. **Create unified cistopic object**
+   - Contains all cells and peaks in a single structure.
+
+5. **Save merged object**
+   - Stored as a Python pickle for use in downstream pycisTopic steps.
+
+- **Takes individual cistopic objects** generated in the `create_cistopic_objects.py` step.
+- Aligns and merges them so that **all samples/cells are in one unified object** for downstream pycisTopic analysis.
 
 ---
 > ## Inputs
@@ -680,9 +564,6 @@ This step merges **one or more cistopic objects** into a single unified object.
 >      - Clustering  
 >      - Differential accessibility analysis  
 
-----
-## What it does?
-
 1. **Load all input cistopic objects**  
    - One object per sample or batch.  
 
@@ -700,26 +581,45 @@ This step merges **one or more cistopic objects** into a single unified object.
 
 ---
 
-## Connection to Previous Steps
+## Merged CistopicObject Summary
 
-- **Takes individual cistopic objects** generated in the `create_cistopic_objects.py` step.  
-- Aligns and merges them so that **all samples/cells are in one unified object** for downstream pycisTopic analysis.  
+### 📊 Dataset Overview
+- **Project**: TH1_TH2_merged
+- **Total Cells**: 552 (294 TH1 + 258 TH2)
+- **Total Regions**: 164,065
+- **File Size**: 226,875.51 KB
 
-✅ **Summary:**  
-- **Purpose:** Create a single unified cistopic object from multiple inputs.  
-- **Inputs:** One or more cistopic objects (pickle files).  
-- **Outputs:** Merged cistopic object ready for topic modeling and downstream analyses.
+### 🧫 Sample Integration
+- **Fragments**: Both TH1 and TH2 fragment files integrated
+- **Cell Data**: All 552 cells with complete QC metrics (23 columns)
+- **Region Data**: Unified genomic regions from both samples
 
 
 
-# 9. Adding scRNA-seq Metadata to Cistopic Objects
-
-## Overview
+# 8. Adding scRNA-seq Metadata to Cistopic Objects
 
 This step integrates **scRNA-seq-derived metadata** into the merged cistopic object.  
 
 - Single-cell RNA-seq preprocessing (clustering, cell type annotation) provides **cell type labels, sample IDs, or other metadata**.  
 - Attaching this information to the cistopic object allows **linking chromatin accessibility topics to known cell types** for interpretation.  
+
+1. **Load merged cistopic object**
+   - Contains all ATAC-seq cells in a single structure.
+
+2. **Load scRNA metadata**
+   - Map cell barcodes to those in the cistopic object.
+
+3. **Attach metadata to cistopic object**
+   - Adds new columns in the cell metadata (obs) of the cistopic object.
+   - This allows **annotating cells with known cell types or clusters** derived from scRNA-seq.
+
+4. **Save updated cistopic object**
+   - The new object contains both chromatin accessibility data and scRNA-derived annotations.
+
+- **Takes the merged cistopic object** from the previous merging step.
+- **Takes metadata from scRNA preprocessing**, including clusters and cell type labels.
+- **Purpose:** Link ATAC-seq profiles to known cell types for biological interpretation and downstream analyses.
+
 
 ---
 
@@ -748,38 +648,8 @@ This step integrates **scRNA-seq-derived metadata** into the merged cistopic obj
 > 
 > ---
 
-## What it does?
 
-1. **Load merged cistopic object**  
-   - Contains all ATAC-seq cells in a single structure.  
-
-2. **Load scRNA metadata**  
-   - Map cell barcodes to those in the cistopic object.  
-
-3. **Attach metadata to cistopic object**  
-   - Adds new columns in the cell metadata (obs) of the cistopic object.  
-   - This allows **annotating cells with known cell types or clusters** derived from scRNA-seq.  
-
-4. **Save updated cistopic object**  
-   - The new object contains both chromatin accessibility data and scRNA-derived annotations.  
-
----
-
-## Connection to Previous Steps
-
-- **Takes the merged cistopic object** from the previous merging step.  
-- **Takes metadata from scRNA preprocessing**, including clusters and cell type labels.  
-- **Purpose:** Link ATAC-seq profiles to known cell types for biological interpretation and downstream analyses.  
-
-✅ **Summary:**  
-- **Why needed:** Without scRNA metadata, ATAC-seq topics cannot be directly assigned to cell types.  
-- **Input:** Merged cistopic object + scRNA metadata.  
-- **Output:** Annotated cistopic object ready for topic modeling and cell type–specific analysis.
-
-
-# 10. Topic Modeling with Mallet (run_mallet.py)
-
-## Overview
+# 9. Topic Modeling with Mallet (run_mallet.py)
 
 This step performs **Latent Dirichlet Allocation (LDA) topic modeling** on the chromatin accessibility data stored in the cistopic object.  
 
@@ -787,6 +657,21 @@ This step performs **Latent Dirichlet Allocation (LDA) topic modeling** on the c
 - Topic modeling reduces the high-dimensional peak-by-cell matrix into a **smaller number of interpretable patterns**, capturing regulatory programs or cell type–specific accessibility.  
 - Mallet is a high-performance Java-based LDA implementation used here to efficiently handle large single-cell ATAC datasets.  
 
+1. **Cistopic object with topic models**
+   - Contains updated metadata:
+     - Each cell’s topic proportions
+     - Each topic’s peak composition
+
+2. **Mallet model files**
+   - Intermediate files for each topic and iteration
+   - Useful for diagnostics or rerunning analyses
+
+3. **Saved directories** (`MALLET/`)
+   - Organizes all output for downstream steps, including LDA visualization and DAR analysis.
+
+- **Takes the annotated cistopic object** from `add_scrna_metadata.py`
+- Uses the **peak-by-cell matrix** (from consensus peaks) and **cell metadata** (from scRNA annotations)
+- This is the core analytical step where the **high-dimensional ATAC-seq data is reduced into interpretable topics**, which will be used in clustering, DAR analysis, and visualization.
 
 ### 🧬 Mallet Example for Biologists
 
@@ -816,84 +701,67 @@ Modules help simplify complex GRNs by grouping together genes with coordinated a
 
 
 
-## Inputs
+> ## Inputs
+>
+> 1. **Annotated cistopic object (`merged_with_meta.pkl`)**
+>    - Contains:
+>      - Peak-by-cell matrix (from previous steps)
+>      - scRNA-seq metadata for each cell (cell type, cluster, sample)
+>
+> 2. **Mallet software path**
+>    - The executable used to run LDA.
+>
+> 3. **Topic modeling parameters**
+>    - `n_topics`: number of topics to infer (e.g., 15, 20, 25, 30)
+>    - `n_iter`: number of iterations for the LDA algorithm
+>    - `alpha` / `eta`: Dirichlet priors controlling sparsity and topic distribution
+>    - `random_state`: ensures reproducibility
+>
+> 4. **Computational settings**
+>    - `n_cpu`: number of CPUs for parallel processing
+>    - `mallet_memory`: memory allocated for Mallet
+>    - Temporary and save directories (`tmp_path`, `save_path`)
+>
+> ## Outputs
+>
+> 1. **Cistopic object with topic models**
+>    - Contains updated metadata:
+>      - Each cell’s topic proportions
+>      - Each topic’s peak composition
+>
+> 2. **Mallet model files**
+>    - Intermediate files for each topic and iteration
+>    - Useful for diagnostics or rerunning analyses
+>
+> 3. **Saved directories** (`MALLET/`)
+>    - Organizes all output for downstream steps, including LDA visualization and DAR analysis.
 
-1. **Annotated cistopic object (`merged_with_meta.pkl`)**
-   - Contains:
-     - Peak-by-cell matrix (from previous steps)
-     - scRNA-seq metadata for each cell (cell type, cluster, sample)
+--- 
+# 10. Adding LDA Model to Cistopic Object
 
-2. **Mallet software path**
-   - The executable used to run LDA.
-
-3. **Topic modeling parameters**
-   - `n_topics`: number of topics to infer (e.g., 15, 20, 25, 30)
-   - `n_iter`: number of iterations for the LDA algorithm
-   - `alpha` / `eta`: Dirichlet priors controlling sparsity and topic distribution
-   - `random_state`: ensures reproducibility
-
-4. **Computational settings**
-   - `n_cpu`: number of CPUs for parallel processing
-   - `mallet_memory`: memory allocated for Mallet
-   - Temporary and save directories (`tmp_path`, `save_path`)
-
----
-
-
-## What it does?
-
-1. **Prepare the peak-by-cell matrix**  
-   - Converts the cistopic object data into a format compatible with Mallet.  
-
-2. **Run LDA topic modeling**  
-   - Mallet iteratively assigns peaks to topics based on co-accessibility patterns across cells.  
-   - Each cell gets a **topic distribution** (proportion of reads assigned to each topic).  
-   - Each topic gets a **peak distribution** (peaks enriched in that topic).  
-
-3. **Store results**  
-   - Saves Mallet output files in the specified directory, including topic assignments for cells and peaks.  
-
----
-
-## Outputs
-
-1. **Cistopic object with topic models**  
-   - Contains updated metadata:
-     - Each cell’s topic proportions  
-     - Each topic’s peak composition  
-
-2. **Mallet model files**  
-   - Intermediate files for each topic and iteration  
-   - Useful for diagnostics or rerunning analyses  
-
-3. **Saved directories** (`MALLET/`)  
-   - Organizes all output for downstream steps, including LDA visualization and DAR analysis.  
-
----
-
-## Connection to Previous Steps
-
-- **Takes the annotated cistopic object** from `add_scrna_metadata.py`  
-- Uses the **peak-by-cell matrix** (from consensus peaks) and **cell metadata** (from scRNA annotations)  
-- This is the core analytical step where the **high-dimensional ATAC-seq data is reduced into interpretable topics**, which will be used in clustering, DAR analysis, and visualization.
-
----
-
-✅ **Summary:**  
-- **Purpose:** Identify patterns of co-accessible genomic regions (topics) across cells.  
-- **Inputs:** Annotated cistopic object, Mallet path, topic modeling parameters.  
-- **Outputs:** Topic-assigned cistopic object, Mallet model files, ready for downstream analyses such as clustering and DAR detection.
-
-
-
-# 11. Adding LDA Model to Cistopic Object
-
-## Overview
 
 This step integrates the **topic modeling results generated by Mallet** back into the cistopic object.  
 
 - After running Mallet, the topic assignments and distributions are stored in external files.  
 - To continue downstream pycisTopic analyses (clustering, DAR, visualization), the **cistopic object must include the LDA model results** internally.  
+
+1. **Load the cistopic object and Mallet outputs**
+   - Reads the topic distributions for cells and peak compositions per topic.
+
+2. **Attach LDA results to the cistopic object**
+   - For each cell: stores **topic proportions**.
+   - For each topic: stores **peak weights / peak-to-topic assignment**.
+
+3. **Save the updated cistopic object**
+   - The object is now fully ready for:
+     - Clustering based on topics
+     - Differential accessibility analysis (DAR)
+     - Visualization (UMAP, heatmaps, dotplots)
+
+- **Takes the cistopic object with merged cells and scRNA metadata**.
+- **Uses the topic modeling results generated by Mallet** in the previous step.
+- Prepares the object for **all downstream analyses in pycisTopic**, making it the “complete” cistopic object.
+
 
 
 # 🧬 LDA in SCENIC+ (after Mallet)
@@ -955,47 +823,33 @@ Output: 1) Modules = groups of co-occurring/co-regulated genes/peaks, 2) Module 
 > ---
 
 
-## What it does?
-
-1. **Load the cistopic object and Mallet outputs**  
-   - Reads the topic distributions for cells and peak compositions per topic.  
-
-2. **Attach LDA results to the cistopic object**  
-   - For each cell: stores **topic proportions**.  
-   - For each topic: stores **peak weights / peak-to-topic assignment**.  
-
-3. **Save the updated cistopic object**  
-   - The object is now fully ready for:
-     - Clustering based on topics  
-     - Differential accessibility analysis (DAR)  
-     - Visualization (UMAP, heatmaps, dotplots)  
-
----
-
-
-## Connection to Previous Steps
-
-- **Takes the cistopic object with merged cells and scRNA metadata**.  
-- **Uses the topic modeling results generated by Mallet** in the previous step.  
-- Prepares the object for **all downstream analyses in pycisTopic**, making it the “complete” cistopic object.
-
----
-
-✅ **Summary:**  
-- **Purpose:** Incorporate Mallet LDA results into the cistopic object for analysis.  
-- **Inputs:** Cistopic object + Mallet topic results.  
-- **Outputs:** Updated cistopic object with topics ready for clustering, DAR, and visualization.
-
-
-# 12. Clustering Cistopic Objects and UMAP Visualization
-
-## Overview
+# 11. Clustering Cistopic Objects and UMAP Visualization
 
 This step performs **dimensionality reduction and clustering** of cells based on their **topic profiles**.  
 
 - Each cell now has a **topic proportion vector** from the previous LDA step.  
 - Clustering identifies groups of cells with similar chromatin accessibility patterns.  
 - UMAP is used to **visualize the cells in 2D space** for exploratory analysis and interpretation.  
+
+1. **Dimensionality reduction**
+   - Computes a **cell-cell similarity graph** using the topic proportions.
+
+2. **Leiden clustering**
+   - Assigns cells into discrete clusters based on graph topology.
+   - Multiple resolutions allow exploring different cluster granularities.
+
+3. **UMAP embedding**
+   - Projects high-dimensional topic profiles into 2D for visualization.
+   - Each cell is positioned in 2D such that similar cells are close together.
+
+4. **Save results**
+   - Updates the cistopic object with **cluster assignments**.
+   - Saves UMAP coordinates and plots for exploration.
+
+- **Takes the cistopic object with integrated LDA model** (topic distributions per cell).
+- **Uses topic proportions** to construct a similarity graph for clustering.
+- Prepares the object for **differential accessibility analysis, visualization, and interpretation**.
+
 
 ---
 > ## Inputs
@@ -1031,38 +885,6 @@ This step performs **dimensionality reduction and clustering** of cells based on
 >
 > ---
 
-## What it does?
-
-1. **Dimensionality reduction**  
-   - Computes a **cell-cell similarity graph** using the topic proportions.  
-
-2. **Leiden clustering**  
-   - Assigns cells into discrete clusters based on graph topology.  
-   - Multiple resolutions allow exploring different cluster granularities.  
-
-3. **UMAP embedding**  
-   - Projects high-dimensional topic profiles into 2D for visualization.  
-   - Each cell is positioned in 2D such that similar cells are close together.  
-
-4. **Save results**  
-   - Updates the cistopic object with **cluster assignments**.  
-   - Saves UMAP coordinates and plots for exploration.
-
----
-
-## Connection to Previous Steps
-
-- **Takes the cistopic object with integrated LDA model** (topic distributions per cell).  
-- **Uses topic proportions** to construct a similarity graph for clustering.  
-- Prepares the object for **differential accessibility analysis, visualization, and interpretation**.
-
----
-
-✅ **Summary:**  
-- **Purpose:** Group cells with similar chromatin accessibility patterns and visualize them in 2D.  
-- **Inputs:** Cistopic object with topic proportions, clustering parameters.  
-- **Outputs:** Clustered cistopic object with UMAP coordinates and plots, ready for downstream DAR analysis and visualization.
-
 ### Clustering output 
 
 #### Cell level annotations
@@ -1086,15 +908,31 @@ This step performs **dimensionality reduction and clustering** of cells based on
 ![3.0](outs/stats/pycisTopic_leiden_10_3.0_composition_barplot.png)
 
 
-# 13. Binarizing Topics Step
-
-## Overview
+# 12. Binarizing Topics Step
 
 This step **converts continuous topic distributions into binary accessibility matrices** for downstream analysis, such as differential accessibility testing (DAR).  
 
 - Each cell has **topic proportions** from the LDA step.  
 - Binarization transforms these proportions into **presence/absence calls**, e.g., a peak is considered "active" in a cell if its topic proportion passes a threshold.  
 - This simplifies downstream analyses and makes them more robust to noise.
+
+1. **Load clustered cistopic object**
+   - Access topic proportions for each cell.
+
+2. **Binarize topics**
+   - Convert continuous topic weights into binary values (0/1) for each peak in each cell.
+   - Thresholding ensures that only **high-confidence topic-peak associations** are considered active.
+
+3. **Update cistopic object**
+   - Replaces or adds a **binarized peak-by-cell matrix** to the object.
+
+4. **Save results**
+   - The binarized cistopic object is ready for **differential accessibility (DAR) analysis** and downstream analyses.
+
+- **Takes the clustered cistopic object** with topic proportions from the previous clustering step.
+- Converts continuous LDA results into a **binary format** suitable for DAR analysis.
+- Prepares the object for **robust differential accessibility testing** and other downstream applications.
+
 
 ---
 
@@ -1123,36 +961,6 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 ---
 
-## What it does?
-
-1. **Load clustered cistopic object**  
-   - Access topic proportions for each cell.  
-
-2. **Binarize topics**  
-   - Convert continuous topic weights into binary values (0/1) for each peak in each cell.  
-   - Thresholding ensures that only **high-confidence topic-peak associations** are considered active.  
-
-3. **Update cistopic object**  
-   - Replaces or adds a **binarized peak-by-cell matrix** to the object.  
-
-4. **Save results**  
-   - The binarized cistopic object is ready for **differential accessibility (DAR) analysis** and downstream analyses.
-
----
-
-## Connection to Previous Steps
-
-- **Takes the clustered cistopic object** with topic proportions from the previous clustering step.  
-- Converts continuous LDA results into a **binary format** suitable for DAR analysis.  
-- Prepares the object for **robust differential accessibility testing** and other downstream applications.
-
----
-
-✅ **Summary:**  
-- **Purpose:** Convert continuous topic weights into binary activity calls for peaks.  
-- **Inputs:** Clustered cistopic object with topic proportions.  
-- **Outputs:** Binarized cistopic object ready for DAR analysis and downstream analyses.
-
 #### Binarisations output 
 
 ![li](outs/topics/cell_topic_li.png?v=2)
@@ -1160,15 +968,32 @@ This step **converts continuous topic distributions into binary accessibility ma
 ![top3k](outs/topics/region_bin_top3k.png?v=2)
 
 
-# 14.  Differential Accessibility (DAR) Analysis Step
+# 12.  Differential Accessibility (DAR) Analysis Step
 
-## Overview
 
 This step identifies **differentially accessible regions (DARs)** between groups of cells, such as cell types or clusters.  
 
 - Uses the **binarized cistopic object** from the previous step.  
 - Tests which peaks are significantly more accessible in one group of cells versus others.  
 - Results can reveal **cell type–specific regulatory regions** or other biologically meaningful patterns.  
+
+1. **Load the binarized cistopic object**
+   - Access the binary peak-by-cell matrix and cell metadata.
+
+2. **Group cells by the specified variable**
+   - Example: group cells by `celltype_scrna`.
+
+3. **Compute differential accessibility**
+   - For each peak, compare accessibility across groups.
+   - Use statistical tests and thresholds (adj. p-value, log2 fold-change) to identify significant DARs.
+
+4. **Store results**
+   - Annotates the cistopic object with DAR information.
+   - Saves tables of significant DARs for each comparison.
+
+- **Takes the binarized cistopic object** from the previous binarization step.
+- Uses **cell type or cluster metadata** (from scRNA integration or clustering).
+- Generates **peak-level annotations** identifying regions differentially accessible between groups.
 
 ---
 
@@ -1207,38 +1032,6 @@ This step identifies **differentially accessible regions (DARs)** between groups
 >
 > ---
 
-----
-## What it does? 
-
-1. **Load the binarized cistopic object**  
-   - Access the binary peak-by-cell matrix and cell metadata.  
-
-2. **Group cells by the specified variable**  
-   - Example: group cells by `celltype_scrna`.  
-
-3. **Compute differential accessibility**  
-   - For each peak, compare accessibility across groups.  
-   - Use statistical tests and thresholds (adj. p-value, log2 fold-change) to identify significant DARs.  
-
-4. **Store results**  
-   - Annotates the cistopic object with DAR information.  
-   - Saves tables of significant DARs for each comparison.
-
----
-
-## Connection to Previous Steps
-
-- **Takes the binarized cistopic object** from the previous binarization step.  
-- Uses **cell type or cluster metadata** (from scRNA integration or clustering).  
-- Generates **peak-level annotations** identifying regions differentially accessible between groups.  
-
----
-
-✅ **Summary:**  
-- **Purpose:** Detect peaks with significantly different accessibility across groups of cells.  
-- **Inputs:** Binarized cistopic object, grouping variable, thresholds.  
-- **Outputs:** Annotated cistopic object with DARs, result tables for downstream interpretation and visualization.
-
 
 #### DAR preliminary results
 
@@ -1247,9 +1040,7 @@ This step identifies **differentially accessible regions (DARs)** between groups
 ![Imputed features](outs/DAR_results/imputed_features.png?v=4)
 
 
-# 15. Exporting Region Sets from DAR Results
-
-## Overview
+# 14. Exporting Region Sets from DAR Results
 
 This step exports **lists of genomic regions (peaks) identified as DARs** into separate files for downstream analyses or external tools.  
 
@@ -1259,6 +1050,25 @@ This step exports **lists of genomic regions (peaks) identified as DARs** into s
   - Motif enrichment analysis  
   - Gene set enrichment analysis  
   - Visualization in genome browsers  
+
+
+1. **Load the DAR-annotated cistopic object**
+   - Access peaks and their associated DAR information.
+
+2. **Select peaks per group or significance criteria**
+   - Example: peaks with adjusted p-value below threshold and log2 fold-change above threshold.
+
+3. **Export to BED or other standard formats**
+   - One file per group or condition.
+   - Includes genomic coordinates and optionally additional metadata.
+
+4. **Save files in output directory**
+   - Ready for downstream analyses or sharing with other tools.
+
+- **Takes the DAR-annotated cistopic object** from `dar_analysis.py`.
+- Uses **peak-level differential accessibility information** to generate region sets.
+- Prepares results for **external analyses or downstream biological interpretation**.
+
 
 ---
 
@@ -1286,43 +1096,9 @@ This step exports **lists of genomic regions (peaks) identified as DARs** into s
 >
 > ---
 
-
-----
-## What it does?
-
-1. **Load the DAR-annotated cistopic object**  
-   - Access peaks and their associated DAR information.  
-
-2. **Select peaks per group or significance criteria**  
-   - Example: peaks with adjusted p-value below threshold and log2 fold-change above threshold.  
-
-3. **Export to BED or other standard formats**  
-   - One file per group or condition.  
-   - Includes genomic coordinates and optionally additional metadata.  
-
-4. **Save files in output directory**  
-   - Ready for downstream analyses or sharing with other tools.
-
----
-
-## Connection to Previous Steps
-
-- **Takes the DAR-annotated cistopic object** from `dar_analysis.py`.  
-- Uses **peak-level differential accessibility information** to generate region sets.  
-- Prepares results for **external analyses or downstream biological interpretation**.
-
----
-
-✅ **Summary:**  
-- **Purpose:** Export differentially accessible peaks as region sets for downstream analysis.  
-- **Inputs:** Cistopic object with DAR annotations.  
-- **Outputs:** BED or similar files containing DARs per group, ready for motif or pathway analyses.
-
-
-
-# 🔴🔴🔴 PART C:  cisTarget Databases for Motif Enrichment (Optional Step)
-
-## Overview
+# 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
+# PART C:  cisTarget Databases for Motif Enrichment (Optional Step)
+# 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
 
 This step involves **using cisTarget databases** for motif and regulatory network analysis downstream of pycisTopic.  
 
@@ -1331,7 +1107,6 @@ This step involves **using cisTarget databases** for motif and regulatory networ
 - **Creating custom cisTarget databases is optional**, but can be done if you want to analyze a specific genome, species, or motif collection.  
 - For speed and convenience, we will **rely on prebuilt databases** in this workflow.
 
----
 
 ## Prebuilt Databases
 
@@ -1373,25 +1148,15 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
   - Can be created if you need specific motifs, a custom genome build, or updated annotations.  
   - Takes longer but provides maximum flexibility.
 
----
-
-✅ **Summary:**  
-- **Purpose:** Provide genome-wide motif rankings and annotations for enrichment analysis.  
-- **Prebuilt inputs:** motif ranking files, motif annotations, and gene-region links.  
-- **Outputs/usage:** Enable motif enrichment and TF-target network inference in downstream steps.  
-- **Optional:** Users can build their own database for customized analyses.
-
-
 
 🚨🚨 **Note:** ===> I skipped this part and relied on prebuilt databases for speed 🚀
 
 
 
+# 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
+# PART D: Running Scenic+ workflow step
+# 🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴🔴
 
-# 🔴🔴🔴 PART D: Running Scenic+ workflow step
-
-
-## Overview
 
 - The Snakemake workflow runs the SCENIC+ pipeline on your processed ATAC (and optional scRNA) data.  
 - Its main goal is to **infer gene regulatory networks (GRNs)** and compute **TF activity scores per cell**.
