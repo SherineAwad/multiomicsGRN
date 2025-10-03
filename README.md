@@ -400,9 +400,8 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 ![Cell Topic LI](scenicOuts/topics/cell_topic_li.png)  
 
-# SCENIC+ Binarisation Step Interpretation
 
-## What the plots show
+#### What the plots show
 
 - **Each subplot** = one topic (e.g., Topic 1, Topic 2, … Topic 20).  
 - **X-axis** = standardized probability of that topic in a given cell (range: 0–1).  
@@ -416,7 +415,7 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 ---
 
-## How to interpret the plots
+#### How to interpret the plots
 
 - **Topics with sharp right tails** (e.g., Topic 1, 3, 6, 13, 18, 19):  
   - Most cells have low probabilities; only a subset passes the threshold.  
@@ -433,7 +432,6 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 ---
 
-✅ **Key point:** Binarisation converts probabilistic topic-cell associations into a clear 0/1 matrix (active vs. inactive), enabling downstream SCENIC+ analyses.
 
 
 > ## 🔹 13.  Differential Accessibility (DAR) Analysis Step
