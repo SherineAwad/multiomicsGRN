@@ -399,9 +399,6 @@ This step **converts continuous topic distributions into binary accessibility ma
 #### Binarisations output 
 
 ![Cell Topic LI](scenicOuts/topics/cell_topic_li.png)  
-![Region Bin Otsu](scenicOuts/topics/region_bin_otsu.png)  
-![Region Bin Top3k](scenicOuts/topics/region_bin_top3k.png)  
-
 
 > ## 🔹 13.  Differential Accessibility (DAR) Analysis Step
 
