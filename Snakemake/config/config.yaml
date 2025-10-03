@@ -1,7 +1,7 @@
 input_data:
-  cisTopic_obj_fname: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/outs/DAR_results/cistopic_obj_with_DARs.pkl"
+  cisTopic_obj_fname: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/scenicOuts/DAR_results/cistopic_obj_with_DARs.pkl"
   GEX_anndata_fname: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/annotated_clustered_sNeurog2.h5ad"
-  region_set_folder: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/outs/region_sets"
+  region_set_folder: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/scenicOuts/region_sets"
   ctx_db_fname: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/mm10_screen_v10_clust.regions_vs_motifs.rankings.feather"
   dem_db_fname: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/mm10_screen_v10_clust.regions_vs_motifs.scores.feather"
   path_to_motif_annotations: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/v10nr_clust_public/"
@@ -45,7 +45,7 @@ params_general:
 
 params_data_preparation:
   # Params for prepare_GEX_ACC
-  bc_transform_func: "\"lambda x: f'{x}'\""
+  bc_transform_func: "lambda x: '-'.join(x.split('-')[0:2])"
   is_multiome: True
   key_to_group_by: ""
   nr_cells_per_metacells: 10

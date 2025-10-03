@@ -230,14 +230,6 @@ This step generates a **BED file containing the transcription start sites (TSSs)
 | **TSS profile** | Enrichment around TSS | Strong peak centered at 0 = good | Flat = background noise |
 
 
-### QC Barcodes Summary
-
-| Sample | Cells Passing QC | Unique Fragments Threshold | TSS Enrichment Threshold | FRIP Threshold |
-|--------|------------------|----------------------------|--------------------------|----------------|
-| **TH1** | ~200 cells | 1,354 | 1.72 | 0 |
-| **TH2** | ~200 cells | 1,174 | 1.87 | 0 |
-
-
 > ## 🔹 6. Creating Cistopic Objects Step
 
 This step creates a **cistopic object**, which is the central data structure used by pycisTopic for **topic modeling of chromatin accessibility**.  
