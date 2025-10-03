@@ -16,7 +16,7 @@
 
 
 ---
-# 🛑 PART A: Preprocessing of scRNA – Clustering and Visualization
+# 🛑 PART A: Preprocessing of scRNA
 ---
 
 This step performs **cell-level preprocessing, dimensionality reduction, clustering, and visualization** for single-cell RNA-seq data.  
@@ -109,7 +109,7 @@ This is the cell counts in clusters based on barcodes:
 
 
 ---
-# 🛑 PART B: Pycistopic: preprocessing the ATAC part and integrating metadata from scRNA 
+# 🛑 PART B: Pycistopic
 ---
 
 
@@ -420,7 +420,7 @@ This step exports **lists of genomic regions (peaks) identified as DARs** into s
   - Visualization in genome browsers  
 
 ---
-# 🛑 PART C:  cisTarget Databases for Motif Enrichment (Optional Step) 
+# 🛑 PART C: cisTarget Databases
 ---
 
 This step involves **using cisTarget databases** for motif and regulatory network analysis downstream of pycisTopic.  
