@@ -400,6 +400,42 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 ![Cell Topic LI](scenicOuts/topics/cell_topic_li.png)  
 
+# SCENIC+ Binarisation Step Interpretation
+
+## What the plots show
+
+- **Each subplot** = one topic (e.g., Topic 1, Topic 2, … Topic 20).  
+- **X-axis** = standardized probability of that topic in a given cell (range: 0–1).  
+  - Higher probability → stronger association of the cell with the topic.  
+- **Y-axis** = number of cells with that probability.  
+  - Each subplot is a histogram of topic activity across cells.  
+- **Red dashed vertical line** = binarisation threshold.  
+  - Cells **to the right** of the line are considered *selected* (active for that topic).  
+  - Cells **to the left** are not.  
+- **“Selected = N”** = how many cells passed the threshold for that topic.  
+
+---
+
+## How to interpret the plots
+
+- **Topics with sharp right tails** (e.g., Topic 1, 3, 6, 13, 18, 19):  
+  - Most cells have low probabilities; only a subset passes the threshold.  
+  - → These topics are active in **specific subsets of cells** (likely distinct cell states or regulatory programs).  
+
+- **Topics with broad or bimodal distributions** (e.g., Topic 5, 9, 11, 15, 17):  
+  - Many cells span medium to high probabilities.  
+  - Threshold selects a large fraction of cells.  
+  - → These topics may represent **widespread regulatory programs** across multiple cell types.  
+
+- **Topics with flatter/noisy distributions** (e.g., Topic 7, 10, 14, 20):  
+  - Fewer cells clearly pass the threshold.  
+  - → These may be **weaker or less biologically meaningful topics**, or background noise.  
+
+---
+
+✅ **Key point:** Binarisation converts probabilistic topic-cell associations into a clear 0/1 matrix (active vs. inactive), enabling downstream SCENIC+ analyses.
+
+
 > ## 🔹 13.  Differential Accessibility (DAR) Analysis Step
 
 This step identifies **differentially accessible regions (DARs)** between groups of cells, such as cell types or clusters.  
