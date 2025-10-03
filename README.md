@@ -448,7 +448,7 @@ This step identifies **differentially accessible regions (DARs)** between groups
 
 ![Imputed features](scenicOuts/DAR_results/imputed_features.png?v=4)
 
-## Number of DARs found
+## Number of DARs found using  --adjpval_thr 0.05 and  --log2fc_thr 0.5
 
 | Cell type   | DARs   |
 |-------------|--------|
