@@ -1,14 +1,19 @@
 ```
 snakemake --use-conda -j 1 -p \
     --resources mem_mb=256000 \
-    --configfile /nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/Snakemake/config/config.yaml \
+    --configfile Snakemake/config/config.yaml \
     --latency-wait 60
 ```
 ```
 .snakemake/conda/
 ├── conda-abcdef123/   <- env for preprocessing.yml
 ├── conda-123456abc/   <- env for scenicplus.yml
-└── conda-7890def456/  <- env for plotting.yml
+├── conda-7890def456/   <- env for plotting.yml
+├── conda-456def789/   <- env for some_other_rule.yml
+├── conda-789abc012/   <- env for analysis_step2.yml
+├── ...                <- env for visualization_extra.yml
+├── ...
+└── conda-zzz999xxx/   <- env for final_rule.yml
 ``` 
 
 
