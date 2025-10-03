@@ -382,12 +382,13 @@ In the context of gene regulatory networks (GRNs), a **module** is:
 
 Modules help simplify complex GRNs by grouping together genes with coordinated activity, making it easier to understand regulatory patterns in single-cell data.
 
-| NLP Concept      | GRN Concept (SCENIC+) | What Mallet counts            | What LDA classifies             |
-| ---------------- | --------------------- | ----------------------------- | ------------------------------- |
-| Document         | Cell                  | Word occurrences per document | Topics in document              |
-| Word             | Gene / Peak           | Frequency in document / cell  | Module membership               |
-| Topic            | Module                | Co-occurring words/features   | Which genes/peaks form a module |
-| Topic proportion | Module activity       | Counts in documents/cells     | Strength of module per cell     |
+| NLP Concept      | GRN Concept (SCENIC+)       | What is counted (input to model)       | What LDA/MALLET infers                          |
+| ---------------- | --------------------------- | -------------------------------------- | ------------------------------------------------ |
+| Document         | Cell                        | Accessibility counts (peaks per cell) or expression counts (genes per cell) | Distribution of regulatory programs (topics) across the cell |
+| Word             | Genomic region (peak) / Gene| How often a region is accessible in a cell (or gene is expressed) | Assignment of region/gene to one or more topics (modules) |
+| Topic            | Regulatory module / Program | Groups of peaks or genes that co-occur across many cells | Which features form a coherent regulatory program |
+| Topic proportion | Module activity in a cell   | Number of regions/genes linked to each topic in a cell | How strongly each regulatory program is active in that cell |
+
 
 This step applies **Latent Dirichlet Allocation (LDA) topic modeling** to the chromatin accessibility data in the `cistopic` object.  
 
