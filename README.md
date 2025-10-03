@@ -505,16 +505,37 @@ This step involves **using cisTarget databases** for motif and regulatory networ
 For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically include:
 
 1. **Motif rankings (`.feather` files)**  
-   - Genome-wide ranking of regions for each transcription factor motif.  
-   - Example: `"mm10-500bp-upstream-7species.mc9nr.feather"`  
+   - Stores **motif–region scores** → tells how well each motif matches each genomic region.  
+
+### Example from `mm10_screen_v10_clust.regions_vs_motifs.rankings.feather`
+
+| chr10:100001588-100001754 | chr10:100004590-100004749 | chr10:100009729-100010013 | ... | chrY:9986285-9986625 | chrY:9992323-9992533 | motifs          |
+|----------------------------|---------------------------|---------------------------|-----|----------------------|----------------------|-----------------|
+| 635378                     | 961923                    | 81883                     | ... | 261962               | 1096188              | bergman__Su_H_  |
+| 294685                     | 79408                     | 809215                    | ... | 108758               | 747006               | bergman__croc   |
+| 772320                     | 771634                    | 289363                    | ... | 430798               | 855092               | bergman__pho    |
+| 577456                     | 435983                    | 23497                     | ... | 682309               | 706782               | bergman__tll    |
+| 976643                     | 795153                    | 810566                    | ... | 3809                 | 1018969              | c2h2_zfs__M0369 |
+
+**Table dimensions:** 5032 motifs × 1,110,656 genomic regions  
+
+👉 **Motif matching a region = the region’s DNA sequence looks like a potential binding site for the TF that recognizes that motif.**
 
 2. **Motif annotations (`.motifs.tbl`)**  
-   - Information about the motifs, including TF name, family, and source database.  
+   - Provides **motif annotations** → maps motifs to their likely TF(s), related motifs, and orthologs.  
 
-3. **Gene annotations**  
-   - Links between regions and nearby genes, allowing assignment of TF motifs to target genes.  
+### Example from `motifs-v10nr_clust-nr.mgi-m0.001-o0.0.tbl`
+ 
+| motif_id         | motif_name | gene_name | motif_similarity_qvalue | similar_motif_id | orthologous_identity |
+| ---------------- | ---------- | --------- | ----------------------- | ---------------- | -------------------- |
+| metacluster_196.3| EcR_usp    | Hnf4a     | 0                       | None             | 0.265823             |
+| metacluster_196.3| EcR_usp    | Nr1h4     | 1.04865e-07             | metacluster_64.14| 0.539514             |
+| metacluster_196.3| EcR_usp    | Nr2f1     | 8.38436e-08             | metacluster_64.14| 0.995238             |
 
-- These prebuilt files allow **rapid motif enrichment analysis** without having to scan the entire genome manually.
+**Notes:**  
+- `motif_similarity_qvalue` = statistical score (FDR-adjusted p-value). Smaller values mean stronger similarity between motifs.  
+- `similar_motif_id` = the motif cluster this motif is most similar to.  
+- `orthologous_identity` = percent sequence identity between the TF gene in your species and an orthologous TF from another species.  
 
 ---
 
