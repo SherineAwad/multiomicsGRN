@@ -501,15 +501,6 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
 
 SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate gene regulatory networks (GRNs).
 
-
-> **Inputs**  
->  
-> - **From pycistopic**  
->   - Cell states / clusters  
->   - Accessible chromatin regions (peaks)  
->  
-> - **From cistarget**  
->   - Candidate regulatory regions linked to transcription factor (TF) motifs 
 ----
 
 > **Outputs**  
