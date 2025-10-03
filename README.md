@@ -113,7 +113,7 @@ This is the cell counts in clusters based on barcodes:
 ---
 
 
-## scATAC preanalyis by Seurat as input to pycistopic preprocessing 
+## scATAC pre-analysis by Seurat as input to pycistopic preprocessing 
 
 ![ATAC UMAP](ATAC_samples.png)
 
@@ -221,6 +221,19 @@ This step generates a **BED file containing the transcription start sites (TSSs)
 - General QC  
   ![](scenicOuts/QC/TH2_qc.png)
 
+## Comments on graphs 
+
+## Comments on Graphs
+
+| Plot | What to Look For | Good | Bad/Warning |
+|------|-----------------|------|-------------|
+| **TSS enrichment vs. unique fragments** | Relationship between signal strength and barcode count | Top-right cluster: strong enrichment, many fragments | Bottom-left: few fragments + low enrichment. Cluster at low enrichment but high fragments = possible junk |
+| **FRiP vs. unique fragments** | Fraction of reads in peaks | High FRiP + enough fragments = high quality | Low FRiP or too few fragments = noisy |
+| **Duplication ratio vs. unique fragments** | PCR duplication | Moderate duplication with enough fragments = ok | High duplication (PCR artifacts) or odd low-frag barcodes = junk |
+| **Barcode rank plot** | Knee shape | Plateau (left side) = real cells | Steep drop (right) = background |
+| **Fragment size distribution** | ATAC periodicity | Peaks at <100bp and ~200/400bp (nucleosomes) = good | Flat/no periodicity = poor complexity |
+| **TSS profile** | Enrichment around TSS | Strong peak centered at 0 = good | Flat = background noise |
+
 
 ### QC Barcodes Summary
 
@@ -298,7 +311,6 @@ This step creates a **cistopic object**, which is the central data structure use
   - `cisTopic_nr_acc` - Cell accessibility per region
 
 > ## 🔹 7. Merging Cistopic Objects Step
-
 
 This step merges **one or more cistopic objects** into a single unified object.  
 
