@@ -1,3 +1,17 @@
+```
+snakemake --use-conda -j 1 -p \
+    --resources mem_mb=256000 \
+    --configfile /nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/Snakemake/config/config.yaml \
+    --latency-wait 60
+```
+```
+.snakemake/conda/
+├── conda-abcdef123/   <- env for preprocessing.yml
+├── conda-123456abc/   <- env for scenicplus.yml
+└── conda-7890def456/  <- env for plotting.yml
+``` 
+
+
 ### SCENIC+ Workflow (Major Steps)
 
 1. **Chromatin accessibility modeling (pycisTopic):**  
