@@ -1,10 +1,13 @@
+### SCENIC+ Workflow 
+
+## Running 
+
 ```
 snakemake --use-conda -j 1 -p \
     --resources mem_mb=256000 \
     --configfile Snakemake/config/config.yaml \
     --latency-wait 60
-```
-```
+
 .snakemake/conda/
 ├── conda-abcdef123/   <- env for preprocessing.yml
 ├── conda-123456abc/   <- env for scenicplus.yml
@@ -14,10 +17,10 @@ snakemake --use-conda -j 1 -p \
 ├── ...                <- env for visualization_extra.yml
 ├── ...
 └── conda-zzz999xxx/   <- env for final_rule.yml
-``` 
 
+```
 
-### SCENIC+ Workflow (Major Steps)
+### SCENIC+ Major Steps
 
 1. **Chromatin accessibility modeling (pycisTopic):**  
    - Perform topic modeling on scATAC-seq data to identify cis-regulatory topics (sets of co-accessible regions).
