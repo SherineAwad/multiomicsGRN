@@ -280,10 +280,8 @@ This step merges **one or more cistopic objects** into a single unified object.
 
 | Metric          | Value                     |
 |-----------------|---------------------------|
-| **Project**     | TH1_TH2_merged            |
 | **Cell Data**  | All 552 cells with complete QC metrics (23 columns) |
 | **Total Regions** | 164,065                 |
-| **Fragments**  | Both TH1 and TH2 fragment files integrated      |
 | **Region Data**| Unified genomic regions from both samples       |
 
 
