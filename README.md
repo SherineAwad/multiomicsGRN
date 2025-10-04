@@ -1,12 +1,4 @@
-# ```
-  ____   ____   ______  _   _ ___ ____   + 
- / ___| / ___| | ____| | \ | |_ _/ ___|    
- \___ \| |     |  _|   |  \| || | |        
-  ___) | |___  | |___  | |\  || | |___     
- |____/ \____| |_____| |_| \_|___\____|    
-```
-
-# Gene Regulatory Network (GRN) Inference 
+> **Scencic+ Gene Regulatory Network (GRN) Inference**
 
 ## Running 
 
