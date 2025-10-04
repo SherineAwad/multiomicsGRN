@@ -1,4 +1,4 @@
-> **Scencic+ Gene Regulatory Network (GRN) Inference**
+> # **Scencic+ Gene Regulatory Network (GRN) Inference**
 
 ## Running 
 
