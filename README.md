@@ -20,7 +20,10 @@ snakemake --use-conda -j 1 -p \
 
 ```
 
-### SCENIC+ Major Steps
+## 🔹 What SCENIC+ does
+
+SCENIC+ is a workflow for inferring gene regulatory networks from single-cell multi-omics data, particularly scATAC-seq and multiome. It integrates chromatin accessibility with transcription factor motif analysis and gene expression information to identify *regulons* (transcription factors and their target genes). By combining topic modeling of accessibility profiles with motif enrichment and gene linkage, SCENIC+ maps regulatory programs to specific cell types and states, enabling the discovery of cell-type–specific transcriptional control.
+
 
 1. **Chromatin accessibility modeling (pycisTopic):**  
    - Perform topic modeling on scATAC-seq data to identify cis-regulatory topics (sets of co-accessible regions).
