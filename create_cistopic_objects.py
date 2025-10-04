@@ -60,6 +60,14 @@ def main(fragments_dict_path, qc_results_pickle, regions_bed, blacklist_bed,
             project=sample_id,
             split_pattern="-"
         )
+
+        # FIX BARCODES: Remove -TH1/-TH2 suffixes to match scRNA-seq format
+        print(f"  Fixing barcodes for {sample_id}...")
+        cistopic_obj.cell_data.index = ['-'.join(barcode.split('-')[0:2]) for barcode in cistopic_obj.cell_data.index]
+        
+        # ADD THIS LINE: Ensure barcodes are also in the barcode column for consistency
+        cistopic_obj.cell_data['barcode'] = cistopic_obj.cell_data.index
+
         cistopic_obj_list.append(cistopic_obj)
 
     # Save all CistopicObjects
@@ -95,4 +103,3 @@ if __name__ == "__main__":
         args.output_pickle,
         args.n_cpu
     )
-

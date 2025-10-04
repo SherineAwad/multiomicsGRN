@@ -446,19 +446,29 @@ This step identifies **differentially accessible regions (DARs)** between groups
 
 ![Higly variable Regions](scenicOuts/DAR_results/highly_variable_regions.png?v=4)
 
+### Interpretation of DAR Mean–Dispersion Plot
+
+* **Accessible regions:** The plot shows a large number of features, indicating plenty of accessible regions in the dataset.
+* **Mean accessibility:** Most features have low mean accessibility (common in ATAC-seq), with some highly accessible peaks likely corresponding to promoters.
+* **Dispersion:** A strong subset of features (yellow) are highly variable, suggesting good biological variability.
+* **QC check:** The presence of many variable peaks (yellow) means the dataset has rich information for downstream DAR and regulatory network analysis.
+
+✅ Overall: The data contain a healthy number of accessible and variable regions, suitable for SCENIC+ analysis.
+
+
 ![Imputed features](scenicOuts/DAR_results/imputed_features.png?v=4)
 
 ## Number of DARs found using  --adjpval_thr 0.05 and  --log2fc_thr 0.5
 
 | Cell type   | DARs   |
 |-------------|--------|
-| AC          | 36,866 |
-| BC          | 31,794 |
+| AC          | 37,753 |
+| BC          | 33,504 |
 | Cones       | 0      |
-| MG          | 22,854 |
-| MGPC        | 8,077  |
-| Microglia   | 18,230 |
-| Rod         | 31,425 |
+| MG          | 23,660 |
+| MGPC        | 13,113 |
+| Microglia   | 15,838 |
+| Rod         | 27,449 |
 
 
 > ## 🔹 14. Exporting Region Sets from DAR Results
