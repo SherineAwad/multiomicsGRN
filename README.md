@@ -374,7 +374,7 @@ python run_mallet.py \
   --alpha_by_topic \
   --eta 0.1 \
   --eta_by_topic
-
+``` 
 
 --- 
 > ## 🔹 10. Adding LDA Model to Cistopic Object
