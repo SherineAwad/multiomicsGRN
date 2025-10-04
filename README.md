@@ -359,6 +359,23 @@ This step applies **Latent Dirichlet Allocation (LDA) topic modeling** to the ch
 - Output: an interpretable, low-dimensional representation of accessibility that underlies downstream analyses such as clustering, differential accessibility (DARs), and gene regulatory network (GRN) inference.  
 
 
+```python
+python run_mallet.py \
+  --cistopic_obj_pickle scenicOuts/merged_with_meta.pkl \
+  --mallet_path /nfs/turbo/umms-thahoang/sherine/tools/Mallet-202108/bin/mallet \
+  --n_topics 15 20 25 30 \
+  --n_cpu 12 \
+  --n_iter 500 \
+  --tmp_path scenicOuts/TMP \
+  --save_path scenicOuts/MALLET \
+  --mallet_memory 300G \
+  --random_state 555 \
+  --alpha 5 \
+  --alpha_by_topic \
+  --eta 0.1 \
+  --eta_by_topic
+
+
 --- 
 > ## 🔹 10. Adding LDA Model to Cistopic Object
 
