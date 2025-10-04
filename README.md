@@ -133,7 +133,7 @@ This is the cell counts in clusters based on barcodes:
 |**Total cells** | **6612** |
 
 
-## scATAC pre-analysis by Seurat as input to pycistopic preprocessing 
+## scATAC preprocessing 
 
 ![ATAC UMAP](ATAC_samples.png)
 
@@ -241,8 +241,6 @@ This step generates a **BED file containing the transcription start sites (TSSs)
 - General QC  
   ![](scenicOuts/QC/TH2_qc.png)
 
-## Comments on graphs 
-
 ## Comments on Graphs
 
 | Plot | What to Look For | Good | Bad/Warning |
@@ -280,16 +278,13 @@ This step merges **one or more cistopic objects** into a single unified object.
 
 ## Merged CistopicObject Summary
 
-### 📊 Dataset Overview
-- **Project**: TH1_TH2_merged
-- **Total Cells**: 552 (294 TH1 + 258 TH2)
-- **Total Regions**: 164,065
-- **File Size**: 226,875.51 KB
-
-### 🧫 Sample Integration
-- **Fragments**: Both TH1 and TH2 fragment files integrated
-- **Cell Data**: All 552 cells with complete QC metrics (23 columns)
-- **Region Data**: Unified genomic regions from both samples
+| Metric          | Value                     |
+|-----------------|---------------------------|
+| **Project**     | TH1_TH2_merged            |
+| **Cell Data**  | All 552 cells with complete QC metrics (23 columns) |
+| **Total Regions** | 164,065                 |
+| **Fragments**  | Both TH1 and TH2 fragment files integrated      |
+| **Region Data**| Unified genomic regions from both samples       |
 
 
 > ## 🔹 8. Adding scRNA-seq Metadata to Cistopic Objects
@@ -327,10 +322,6 @@ Latent Dirichlet Allocation (LDA) topic modeling works in three main steps:
 
 ---
 
-💡 **Note:** [MALLET](http://mallet.cs.umass.edu/) is a software package that provides an **efficient implementation of LDA**, making it faster and more scalable on large datasets.
-
-
-
 ### In GRN context 
 
 ### 🧩 What is a GRN Module?
@@ -357,6 +348,8 @@ This step applies **Latent Dirichlet Allocation (LDA) topic modeling** to the ch
 - **MALLET** (a high-performance Java toolkit) provides a fast and scalable implementation of LDA, making it suitable for large single-cell ATAC-seq datasets.  
 - Input: the annotated `cistopic` object containing the **peak-by-cell matrix** (from consensus peaks) and **cell metadata** (from scRNA-seq annotations).  
 - Output: an interpretable, low-dimensional representation of accessibility that underlies downstream analyses such as clustering, differential accessibility (DARs), and gene regulatory network (GRN) inference.  
+
+💡 **Note:** [MALLET](http://mallet.cs.umass.edu/) is a software package that provides an **efficient implementation of LDA**, making it faster and more scalable on large datasets.
 
 
 ```python
