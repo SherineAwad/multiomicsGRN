@@ -133,11 +133,6 @@ This is the cell counts in clusters based on barcodes:
 |**Total cells** | **6612** |
 
 
----
-# 🛑 PART B: Pycistopic
----
-
-
 ## scATAC pre-analysis by Seurat as input to pycistopic preprocessing 
 
 ![ATAC UMAP](ATAC_samples.png)
@@ -146,7 +141,12 @@ This is the cell counts in clusters based on barcodes:
 
 ![ATAC CLUSTERS](ATAC_clusters.png)
 
+
+
 ---
+# 🛑 PART B: Pycistopic
+---
+
 
 > ## 🔹 1. Pseudobulk Export with pycisTopic 
 
