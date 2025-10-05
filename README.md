@@ -153,9 +153,12 @@ This is the cell counts in clusters based on barcodes:
 
 > ## 🔹 1. Pseudobulk Export with pycisTopic 
 
-This step **executes the pseudobulk aggregation** using `pycisTopic`.  
-- Takes the conceptual idea and TSV intermediates from Step 1 and **produces the actual BED/BigWig files** for downstream analysis.  
-- Aggregates reads per **cell type × sample**, generating clean coverage tracks for visualization and peak calling.  
+### 🔹 Initial Pseudobulk Aggregation (from fragments)
+
+This step **combines raw ATAC-seq fragments into cell type–specific coverage tracks**:
+
+- Reads from the **fragment files** of each sample are summed across all cells of a given **cell type × sample**.  
+- Generates **BED/BigWig tracks** that capture chromatin accessibility at a summarized level.  
 
 
 Total barcodes across all samples: 1156914
