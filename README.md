@@ -654,20 +654,22 @@ They make sure that downstream TF–target links are not just statistically corr
 - Connect enriched regions to their nearby or correlated genes (using genomic proximity or co-variation with RNA).  
 - Produces **region–gene relationships**.
 
-`region_to_gene` Example
+###### `region_to_gene` Example
 
-target        region                  importance    rho        importance_x_rho     importance_x_abs_rho   Distance
-0610005C13Rik chr7:45451023-45451660  0.0236       -0.0711    -0.00168              0.00168                [-116452]
-0610005C13Rik chr7:45588873-45589602  0.0173        0.0866     0.00150              0.00150                [14062]
-0610005C13Rik chr7:45570041-45570645  0.0164        0.1017     0.00167              0.00167                [0]
-0610005C13Rik chr7:45567744-45568545  0.0194        0.0595     0.00115              0.00115                [0]
+| target        | region                 |           importance |                  rho |       importance_x_rho |  importance_x_abs_rho | Distance  |
+| ------------- | ---------------------- | -------------------: | -------------------: | ---------------------: | --------------------: | --------- |
+| 0610005C13Rik | chr7:45451023-45451660 | 0.023644760576675295 | -0.07113737037272991 | -0.0016820260905174732 | 0.0016820260905174732 | [-116452] |
+| 0610005C13Rik | chr7:45588873-45589602 | 0.017281679828869717 |  0.08660415959528277 |  0.0014966653579740119 | 0.0014966653579740119 | [14062]   |
+| 0610005C13Rik | chr7:45570041-45570645 | 0.016397470259162692 |  0.10171570471952794 |  0.0016678802430282337 | 0.0016678802430282337 | [0]       |
+| 0610005C13Rik | chr7:45567744-45568545 | 0.019381896115026935 |  0.05951350104480214 |   0.001153484494691902 |  0.001153484494691902 | [0]       |
 
-**Description:**  
-This output shows candidate regulatory regions linked to the target gene **0610005C13Rik**.  
-- **importance** → model weight of the region  
-- **rho** → correlation between accessibility and gene expression  
-- **importance × rho** → signed regulatory score (positive = activation, negative = repression)  
-- **Distance** → distance of the region from the gene’s TSS (bp)  
+**Description:** Links ATAC peaks (regions) to the target gene **0610005C13Rik**.
+
+* **importance:** model-derived weight (how informative the region is for predicting the gene).
+* **rho:** Spearman correlation between region accessibility and gene expression (sign shows direction).
+* **importance_x_rho:** signed score combining weight and correlation (positive → consistent with activation).
+* **importance_x_abs_rho:** absolute-strength score (magnitude only).
+* **Distance:** distance from region to the gene TSS (bp); negative = upstream, positive = downstream.
 
 ---
 
