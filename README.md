@@ -337,14 +337,17 @@ Modules help simplify complex GRNs by grouping together genes with coordinated a
 | Topic proportion | Module activity in a cell   | Number of regions/genes linked to each topic in a cell | How strongly each regulatory program is active in that cell |
 
 
-This step applies **Latent Dirichlet Allocation (LDA) topic modeling** to the chromatin accessibility data in the `cistopic` object.  
+### 🔹 LDA Topic Modeling on Chromatin Accessibility
+```
+LDA (Latent Dirichlet Allocation) is used to find **patterns of coordinated accessibility** across cells:
 
-- **Topics = sets of genomic regions (peaks)** that show coordinated accessibility across cells.  
-- By learning these topics, LDA reduces the **high-dimensional peak-by-cell matrix** into a smaller number of **regulatory accessibility patterns**, often reflecting transcription factor programs or cell type–specific regulation.  
-- **MALLET** (a high-performance Java toolkit) provides a fast and scalable implementation of LDA, making it suitable for large single-cell ATAC-seq datasets.  
-- Input: the annotated `cistopic` object containing the **peak-by-cell matrix** (from consensus peaks) and **cell metadata** (from scRNA-seq annotations).  
-- Output: an interpretable, low-dimensional representation of accessibility that underlies downstream analyses such as clustering, differential accessibility (DARs), and gene regulatory network (GRN) inference.  
+- Think of **topics** as groups of genomic regions (peaks) that tend to open or close together.  
+- By grouping peaks into topics, LDA **simplifies the huge peak-by-cell matrix** into a smaller set of meaningful patterns.  
+- These patterns often correspond to **transcription factor programs** or **cell type–specific regulatory signals**.
 
+> **Input:** `cistopic` object with the **peak-by-cell matrix** and optional **cell metadata** from scRNA-seq.  
+> **Output:** A **low-dimensional, interpretable representation** of chromatin accessibility, ready for clustering, differential accessibility (DAR) analysis, and GRN inference.
+``` 
 
 > 💡 **Note:** [MALLET](http://mallet.cs.umass.edu/) is a software package that provides an **efficient implementation of LDA**, making it faster and more scalable on large datasets.
 
