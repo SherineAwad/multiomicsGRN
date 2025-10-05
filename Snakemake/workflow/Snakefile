@@ -15,14 +15,14 @@ if config["params_data_preparation"]["is_multiome"]:
         output:
             config["output_data"]["combined_GEX_ACC_mudata"]
         params:
-            bc_transform_func=lambda wildcards: config["params_data_preparation"]["bc_transform_func"]
+            bc_transform_func= config["params_data_preparation"]["bc_transform_func"] 
         shell:
             """
             scenicplus prepare_data prepare_GEX_ACC \
                 --cisTopic_obj_fname {input.cisTopic_obj_fname} \
                 --GEX_anndata_fname {input.GEX_anndata_fname} \
                 --out_file {output} \
-                --bc_transform_func {params.bc_transform_func}
+                --bc_transform_func "{params.bc_transform_func}"
             """
 else:
     rule prepare_GEX_ACC_non_multiome:
@@ -41,9 +41,9 @@ else:
                 --cisTopic_obj_fname {input.cisTopic_obj_fname} \
                 --GEX_anndata_fname {input.GEX_anndata_fname} \
                 --out_file {output} \
-                --bc_transform_func {params.bc_transform_func} \
+                --bc_transform_func "{params.bc_transform_func}" \
                 --is_not_multiome \
-                --key_to_group_by {params.key_to_group_by} \
+                --key_to_group_by "{params.key_to_group_by}" \
                 --nr_cells_per_metacells {params.nr_cells_per_metacells}
             """
 

@@ -21,8 +21,8 @@ output_data:
   # output tf names .txt
   tf_names: "tf_names.txt"
   # output for download_genome_annotations .tsv
-  genome_annotation: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/Snakemake/workflow/genome_annotation.tsv"
-  chromsizes: "/nfs/turbo/umms-thahoang/sherine/scenicplus_neurog2/Snakemake/workflow/chromsizes.tsv"
+  genome_annotation: "genome_annotation.tsv"
+  chromsizes: "chromsizes.tsv"
   # output for search_space .tsb
   search_space: "search_space.tsv"
   # output tf_to_gene .tsv
@@ -45,16 +45,17 @@ params_general:
 
 params_data_preparation:
   # Params for prepare_GEX_ACC
-  bc_transform_func: "lambda x: '-'.join(x.split('-')[0:2])"
-  is_multiome: True
-  key_to_group_by: ""
+  bc_transform_func: "lambda x: x"  
+  is_multiome: False
+  key_to_group_by: "celltype"
   nr_cells_per_metacells: 10
   # Params for prepare_menr
   direct_annotation: "Direct_annot"
   extended_annotation: "Orthology_annot"
   # Params for download_genome_annotations
-  species: "mus_musculus"
-  biomart_host: "http://www.ensembl.org"
+  species: "mmusculus"
+  #biomart_host: "http://www.ensembl.org"
+  biomart_host: "http://may2017.archive.ensembl.org"
   # Params for search_space
   search_space_upstream: "1000 150000"
   search_space_downstream: "1000 150000"

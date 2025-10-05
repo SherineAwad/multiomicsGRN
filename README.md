@@ -613,17 +613,61 @@ SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-
 - Start from a **cisTopic object** (peak × cell accessibility matrix or topic binarization).  
 - Collect **cell metadata** such as clusters, cell types, or matched scRNA-seq expression.
 
----
-
-#### 2. Motif Enrichment (cisTarget step)
 - For each set of regions (e.g. DARs or topic-specific peaks), identify enriched transcription factor motifs using **prebuilt cisTarget databases** (`.feather` + `.tbl`).  
 - This reveals which TFs are likely associated with those accessible regions.
+
+The motif enrichment results ([`dem_results.html`](Snakemake/workflow/dem_results.html)) and `dem_results.hdf5` are generated from the **ATAC-seq modality**:
+
+- Peaks/DARs are identified from ATAC (cisTopic + DAR analysis).
+- SCENIC+ then tests for **differential motif enrichment (DEM)** in those regions.
+- This step checks whether certain TF motifs are significantly enriched in accessible regions linked to specific topics, clusters, or conditions.
+
+➡️ In short: **DEM is ATAC-driven**, but the motifs are mapped back to transcription factors (TFs).
+
+The overall goal of SCENIC+ is to reconstruct **gene regulatory networks (GRNs)** that are supported by both chromatin accessibility and gene expression.
+The motif enrichment layer plays several critical roles:
+
+- **TF prioritization**
+  - Many peaks can map to multiple TFs.
+  - Motif enrichment highlights which TFs are most likely active in a given state.
+
+- **Connecting ATAC to GEX**
+  - Later steps integrate motif enrichment (from ATAC) with co-expression (from RNA).
+  - This is how SCENIC+ builds *regulons* (TF → target gene sets).
+
+- **Filtering false positives**
+  - Expression correlations alone can give spurious TF–gene links.
+  - Motif support ensures that inferred connections have chromatin evidence.
+
+- **Interpreting biology**
+  - Differential motif activity per topic/cluster helps explain which TFs are driving specific cell states.
+
+---
+
+✅ The **DEM results act as a bridge** between ATAC and RNA modalities.
+They make sure that downstream TF–target links are not just statistically correlated, but also **biologically plausible**.
+
 
 ---
 
 #### 3. Link Regions to Genes
 - Connect enriched regions to their nearby or correlated genes (using genomic proximity or co-variation with RNA).  
 - Produces **region–gene relationships**.
+
+`region_to_gene` Example
+
+target        region                  importance    rho        importance_x_rho     importance_x_abs_rho   Distance
+0610005C13Rik chr7:45451023-45451660  0.0236       -0.0711    -0.00168              0.00168                [-116452]
+0610005C13Rik chr7:45588873-45589602  0.0173        0.0866     0.00150              0.00150                [14062]
+0610005C13Rik chr7:45570041-45570645  0.0164        0.1017     0.00167              0.00167                [0]
+0610005C13Rik chr7:45567744-45568545  0.0194        0.0595     0.00115              0.00115                [0]
+
+**Description:**  
+This output shows candidate regulatory regions linked to the target gene **0610005C13Rik**.  
+- **importance** → model weight of the region  
+- **rho** → correlation between accessibility and gene expression  
+- **importance × rho** → signed regulatory score (positive = activation, negative = repression)  
+- **Distance** → distance of the region from the gene’s TSS (bp)  
 
 ---
 
@@ -649,50 +693,6 @@ SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-
   - Network diagrams of TFs and targets  
 
 ---
-
-## Part D results: scenic+
-
-### Motif Enrichment in SCENIC+
-
-#### 1. Where do the motif enrichment results come from?
-
-The motif enrichment results ([`dem_results.html`](Snakemake/workflow/dem_results.html)) and `dem_results.hdf5` are generated from the **ATAC-seq modality**:
-
-- Peaks/DARs are identified from ATAC (cisTopic + DAR analysis).
-- SCENIC+ then tests for **differential motif enrichment (DEM)** in those regions.
-- This step checks whether certain TF motifs are significantly enriched in accessible regions linked to specific topics, clusters, or conditions.
-
-➡️ In short: **DEM is ATAC-driven**, but the motifs are mapped back to transcription factors (TFs).
-
----
-
-#### 2. Why are motif enrichment results needed downstream?
-
-The overall goal of SCENIC+ is to reconstruct **gene regulatory networks (GRNs)** that are supported by both chromatin accessibility and gene expression.  
-The motif enrichment layer plays several critical roles:
-
-- **TF prioritization**  
-  - Many peaks can map to multiple TFs.  
-  - Motif enrichment highlights which TFs are most likely active in a given state.
-
-- **Connecting ATAC to GEX**  
-  - Later steps integrate motif enrichment (from ATAC) with co-expression (from RNA).  
-  - This is how SCENIC+ builds *regulons* (TF → target gene sets).
-
-- **Filtering false positives**  
-  - Expression correlations alone can give spurious TF–gene links.  
-  - Motif support ensures that inferred connections have chromatin evidence.
-
-- **Interpreting biology**  
-  - Differential motif activity per topic/cluster helps explain which TFs are driving specific cell states.
-
----
-
-✅ The **DEM results act as a bridge** between ATAC and RNA modalities.  
-They make sure that downstream TF–target links are not just statistically correlated, but also **biologically plausible**.
-
-🚨🚨🚨🚨🚨 
-##### SNAKEMAKE is still running, more rules are under execution and in the way 
 
 
 ## References
