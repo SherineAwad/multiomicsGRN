@@ -321,9 +321,11 @@ Each **topic** is defined by a group of **words that tend to occur together** (e
 
 ### In GRN context 
 
+```
 > ### 🧩 What is a GRN Module?
 > A group of **genes and/or regulatory regions (peaks)** that are **co-regulated**, meaning they tend to be active together in the same cells.  
 > Modules often correspond to the set of genes controlled by the same transcription factor or regulatory program.  
+```
 
 Modules help simplify complex GRNs by grouping together genes with coordinated activity, making it easier to understand regulatory patterns in single-cell data.
 
@@ -342,6 +344,7 @@ This step applies **Latent Dirichlet Allocation (LDA) topic modeling** to the ch
 - **MALLET** (a high-performance Java toolkit) provides a fast and scalable implementation of LDA, making it suitable for large single-cell ATAC-seq datasets.  
 - Input: the annotated `cistopic` object containing the **peak-by-cell matrix** (from consensus peaks) and **cell metadata** (from scRNA-seq annotations).  
 - Output: an interpretable, low-dimensional representation of accessibility that underlies downstream analyses such as clustering, differential accessibility (DARs), and gene regulatory network (GRN) inference.  
+
 
 > 💡 **Note:** [MALLET](http://mallet.cs.umass.edu/) is a software package that provides an **efficient implementation of LDA**, making it faster and more scalable on large datasets.
 
