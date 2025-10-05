@@ -46,16 +46,17 @@ SCENIC+ is a workflow for inferring gene regulatory networks from single-cell mu
 
 This step performs **cell-level preprocessing, dimensionality reduction, clustering, and visualization** for single-cell RNA-seq data.  
 
-The goal is to **group similar cells together** based on their gene expression profiles and prepare the data for downstream analyses and interpretation.
-
-1. **Defines cell types or states**
-   - Clustering organizes cells based on similarity, providing a clear structure for interpretation.
-
-2. **Supports downstream analyses**
-   - Clusters and cell type labels can guide pseudobulk aggregation, marker gene evaluation, or further integrative analyses.
-
-3. **Improves interpretability**
-   - Visualization and marker gene plotting help assign biological meaning to clusters, making results easier to understand and communicate.
+> In SCENIC+, the goal is to infer **transcription factor (TF) regulon activity** and understand how these regulons drive cell states. Preprocessed and clustered scRNA-seq data allows:
+>
+> - **Assigning regulon activity to defined cell types or clusters**  
+>   Regulon activity is quantified per cell and then interpreted within the context of biologically meaningful clusters.
+>
+> - **Visualizing TF–target relationships across populations**  
+>   Proper clustering and dimensionality reduction make it possible to map regulon activity onto UMAP/tSNE plots, highlighting which TFs are active in which cell types.
+>
+> - **Integrative interpretation with scATAC-seq**  
+>   Clusters from scRNA guide the integration with chromatin accessibility data, linking TF motif activity (from ATAC) to actual gene expression in specific cell populations.
+>
 
 
 ## Part A Results: scRNA-seq results    
