@@ -613,6 +613,8 @@ SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-
 - Start from a **cisTopic object** (peak × cell accessibility matrix or topic binarization).  
 - Collect **cell metadata** such as clusters, cell types, or matched scRNA-seq expression.
 
+#### 2. Motif Enrichment (cisTarget step)
+
 - For each set of regions (e.g. DARs or topic-specific peaks), identify enriched transcription factor motifs using **prebuilt cisTarget databases** (`.feather` + `.tbl`).  
 - This reveals which TFs are likely associated with those accessible regions.
 
