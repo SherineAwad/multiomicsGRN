@@ -213,10 +213,6 @@ After pseudobulk aggregation and MACS2 peak calling, each sample (or cell type �
 
 Think of it as **finding all regions that are open in at least one sample and merging overlapping regions into a master list**.
 
-Imagine several people drawing maps of the same city, each highlighting where the windows are open.  
-- Each map may differ slightly.  
-- The consensus peak step **merges all maps into one master map** that shows all open windows observed across everyone.  
-
 ---
 
 
@@ -306,18 +302,18 @@ Source : Blei, D.M., 2012. Probabilistic topic models. Commun. ACM 55(4)
 Think of **documents** (e.g., research articles) as mixtures of **topics** (e.g., "neurodevelopment", "immune response").  
 Each **topic** is defined by a group of **words that tend to occur together** (e.g., *axon, neuron, synapse*).
 
-Latent Dirichlet Allocation (LDA) topic modeling works in three main steps:
-
-1. **Guessing topics**  
-   - LDA scans across documents and looks for patterns of words that frequently co-occur.  
-
-2. **Assigning words to topics**  
-   - Each word in a document is (probabilistically) assigned to a topic.  
-   - This assignment is refined repeatedly using *Gibbs sampling* (like shuffling topic labels until a stable pattern emerges).  
-
-3. **Producing outputs**  
-   - A list of topics = groups of words that often appear together.  
-   - For each document = the proportion of topics it contains.  
+> ### 🔹 Latent Dirichlet Allocation (LDA) Topic Modeling
+>
+> 1. **🕵️‍♂️ Guessing topics**  
+>    - LDA scans across documents to find patterns of words that frequently co-occur.
+>
+> 2. **📝 Assigning words to topics**  
+>    - Each word in a document is probabilistically assigned to a topic.  
+>    - Assignments are refined using *Gibbs sampling* (shuffling topic labels until a stable pattern emerges).
+>
+> 3. **📊 Producing outputs**  
+>    - A list of topics: groups of words that often appear together.  
+>    - For each document: the proportion of topics it contains.
 
 👉 In short: **LDA discovers hidden themes in large text collections by grouping words that “like to appear together,” and shows how much each document is made of those themes.**
 
@@ -325,10 +321,7 @@ Latent Dirichlet Allocation (LDA) topic modeling works in three main steps:
 
 ### In GRN context 
 
-### 🧩 What is a GRN Module?
-
-In the context of gene regulatory networks (GRNs), a **module** is:
-
+> ### 🧩 What is a GRN Module?
 > A group of **genes and/or regulatory regions (peaks)** that are **co-regulated**, meaning they tend to be active together in the same cells.  
 > Modules often correspond to the set of genes controlled by the same transcription factor or regulatory program.  
 
@@ -350,7 +343,7 @@ This step applies **Latent Dirichlet Allocation (LDA) topic modeling** to the ch
 - Input: the annotated `cistopic` object containing the **peak-by-cell matrix** (from consensus peaks) and **cell metadata** (from scRNA-seq annotations).  
 - Output: an interpretable, low-dimensional representation of accessibility that underlies downstream analyses such as clustering, differential accessibility (DARs), and gene regulatory network (GRN) inference.  
 
-💡 **Note:** [MALLET](http://mallet.cs.umass.edu/) is a software package that provides an **efficient implementation of LDA**, making it faster and more scalable on large datasets.
+> 💡 **Note:** [MALLET](http://mallet.cs.umass.edu/) is a software package that provides an **efficient implementation of LDA**, making it faster and more scalable on large datasets.
 
 
 ```python
