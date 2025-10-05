@@ -322,7 +322,7 @@ Each **topic** is defined by a group of **words that tend to occur together** (e
 ### In GRN context 
 
 ```
-> **🧩 What is a GRN Module** 
+> 🧩 `What is a GRN Module`
 > A group of **genes and/or regulatory regions (peaks)** that are **co-regulated**, meaning they tend to be active together in the same cells.  
 > Modules often correspond to the set of genes controlled by the same transcription factor or regulatory program.  
 ```
