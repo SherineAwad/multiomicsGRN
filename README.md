@@ -46,6 +46,8 @@ SCENIC+ is a workflow for inferring gene regulatory networks from single-cell mu
 
 This step performs **cell-level preprocessing, dimensionality reduction, clustering, and visualization** for single-cell RNA-seq data.  
 
+> **Regulon 🧩:** a group of genes controlled by the same transcription factor — the “team” of genes that respond together whenever their TF “coach” is active.
+
 > In SCENIC+, the goal is to infer **transcription factor (TF) regulon activity** and understand how these regulons drive cell states. Preprocessed and clustered scRNA-seq data allows:
 >
 > - **Assigning regulon activity to defined cell types or clusters**  
