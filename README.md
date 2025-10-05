@@ -392,9 +392,9 @@ This step performs **dimensionality reduction and clustering** of cells based on
 
 ### Clustering output 
 
-![](scenicOuts/umap_clusters/annotated_clusters_umap.png)
 ![](scenicOuts/umap_clusters/celltype_umap.png)
 ![](scenicOuts/umap_clusters/qc_metrics_umap.png)
+![](scenicOuts/umap_clusters/annotated_clusters_umap.png)
 ![](scenicOuts/umap_clusters/topic_celltype_heatmap.png)
 
 
