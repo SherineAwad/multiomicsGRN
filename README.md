@@ -160,6 +160,7 @@ This step **combines raw ATAC-seq fragments into cell type–specific coverage t
 - Reads from the **fragment files** of each sample are summed across all cells of a given **cell type × sample**.  
 - Generates **BED/BigWig tracks** that capture chromatin accessibility at a summarized level.  
 
+It uses `pycistopic_pseudobulk.py`
 
 Total barcodes across all samples: 1156914
 -----------------------
