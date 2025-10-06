@@ -256,6 +256,12 @@ This step generates a **BED file containing the transcription start sites (TSSs)
 | **TSS profile** | Enrichment around TSS | Strong peak centered at 0 = good | Flat = background noise |
 
 
+- A high number of fragments with a low fraction in peaks suggests that fragments are spread across large regions but aren't associated with meaningful or enriched features, indicating less informative data.
+- High duplication ratios indicate that many fragments are duplicates, likely due to technical biases like PCR duplication, making the data less informative as they don't provide unique information.
+- Before the Knee: The curve shows a sharp decline, indicating high-quality, informative barcodes with more unique and meaningful data.
+- After the Knee: The curve flattens or drops sharply, suggesting low-quality data or background noise (e.g., technical artifacts, duplicates, low-coverage barcodes).
+
+
 > ## 🔹 6. Creating Cistopic Objects Step
 
 This step creates a **cistopic object**, which is the central data structure used by pycisTopic for **topic modeling of chromatin accessibility**.  
