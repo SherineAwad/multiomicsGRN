@@ -352,7 +352,8 @@ Modules help simplify complex GRNs by grouping together genes with coordinated a
 LDA (Latent Dirichlet Allocation) is used to find **patterns of coordinated accessibility** across cells:
 
 - Think of **topics** as groups of genomic regions (peaks) that tend to open or close together.  
-- LDA looks for patterns of co-accessibility — regions that tend to be open together in the same cells.
+- LDA looks for patterns of co-accessibility — regions that tend 
+  to be open together in the same cells.
 - Each “topic” it finds = one module of co-accessible peaks.
 - For each cell, how “active” each module is — i.e. how much the cell shows the pattern of that module 
 
