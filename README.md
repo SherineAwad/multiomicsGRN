@@ -406,7 +406,7 @@ This step performs **dimensionality reduction and clustering** of cells based on
 
 ###### Cell-based level 
 ![](scenicOuts/umap_clusters/celltype_umap.png)
-##### Cluster-based level 
+###### Cluster-based level 
 ![](scenicOuts/umap_clusters/annotated_clusters_umap.png)
 ![](scenicOuts/umap_clusters/qc_metrics_umap.png)
 ![](scenicOuts/umap_clusters/topic_celltype_heatmap.png)
@@ -456,13 +456,18 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 ---
 
-> ## 🔹 13.  Differential Accessibility (DAR) Analysis Step
+> ## 🔹 13.  Differential Accessibility (DAR) Analysis 
 
-This step identifies **differentially accessible regions (DARs)** between groups of cells, such as cell types or clusters.  
+In this step, we try to find regions of the genome that are more accessible (open) in one group of cells compared to another. This helps us understand what makes different cell types or clusters unique.
 
-- Uses the **binarized cistopic object** from the previous step.  
-- Tests which peaks are significantly more accessible in one group of cells versus others.  
-- Results can reveal **cell type–specific regulatory regions** or other biologically meaningful patterns.  
+- **Input:** We use a **binarized cistopic object** from the previous step (data that tells us which regions of the genome are open or closed in each cell).
+  
+- **Analysis:** We compare the accessibility of **genomic peaks** (regions) across different cell groups. The goal is to identify which peaks are more open in one group compared to another.
+
+- **Output:** The results show which **genomic regions** are specific to certain cell types or groups, helping us uncover important biological differences between cells.
+
+**Why it's different:** Unlike the previous step, which identifies general co-accessibility patterns across all cells, this step specifically compares accessibility across **different cell groups** to find regions that are uniquely accessible in one group versus others.
+
 
 #### DAR preliminary results
 
