@@ -1,6 +1,21 @@
 > # **Scenic+: Gene Regulatory Network (GRN) Inference**
 
-## Running 
+```
+A **Gene Regulatory Network (GRN)** inferred by **SCENIC** is a network linking **transcription factors (TFs)** to their **target genes**—revealing how **gene expression programs** are controlled across different **cell states**.
+```
+## Scenic+ workflow 
+### 🧰 **Tool vs. 🧬 Workflow**
+
+| Aspect | **Tool** | **Workflow** |
+|:--|:--|:--|
+| **Definition** | A **tool** is a specific **software or algorithm** designed to perform a defined task — often one step in an analysis pipeline. | A **workflow** is a **series of connected tools or steps** that together perform a complete analytical process from input to output. |
+| **Scope** | Focused on a **single functionality** (e.g., normalization, clustering, motif analysis). | Covers **multiple stages** — from preprocessing to final interpretation. |
+| **Example** | `Seurat` — a tool (and R package) mainly for single-cell data analysis (normalization, clustering, visualization). | `SCENIC+` — a workflow that integrates several tools to reconstruct and interpret gene regulatory networks from single-cell multi-omics data. |
+| **Input/Output** | Takes a specific type of data and outputs one analytical result (e.g., PCA, clustering, GRN). | Takes raw or processed data and passes it through **a sequence of tools**, each feeding into the next. |
+| **Analogy** | Like a **screwdriver** — useful for one task. | Like an **assembly line** — combines many tools to produce a final product. |
+
+  
+## Installation hints 
 
 ```
 snakemake --use-conda -j 1 -p \
