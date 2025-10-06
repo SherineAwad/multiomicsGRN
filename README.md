@@ -633,7 +633,7 @@ SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-
 
 #### 2. Motif Enrichment (cisTarget step)
 
-###### cisTarget (ctx) 
+##### cisTarget (ctx) 
 For each set of regions (e.g., DARs or topic-specific peaks), enriched transcription factor motifs are identified using prebuilt **cisTarget databases** (`.feather` + `.tbl`).
 
 This step runs **cisTarget (ctx) motif enrichment**, which detects TF motifs that are overrepresented in each region set (e.g., per topic). These results provide a mapping between **motifs and the accessible regions** they are enriched in.
@@ -641,7 +641,7 @@ This step runs **cisTarget (ctx) motif enrichment**, which detects TF motifs tha
 📄 The **cisTarget (ctx) output** — [`ctx_results.html`](Snakemake/workflow/ctx_results.html) — summarizes **motif enrichment per topic or region set**, helping prioritize transcription factors linked to accessibility patterns.
 
 
-###### Differential Motif Enrichment (DEM) 
+##### Differential Motif Enrichment (DEM) 
 
 The **Differential Motif Enrichment (DEM)** step builds directly on the ctx results:
 
@@ -651,42 +651,11 @@ The **Differential Motif Enrichment (DEM)** step builds directly on the ctx resu
 
 📄 The **DEM output** — [`dem_results.html`](Snakemake/workflow/dem_results.html) — reports **differential motif activity per motif across cell groups**, highlighting motifs with condition- or cluster-specific accessibility patterns.
 
----
-
-#### Summary of Results
-
-| Aspect         | **cisTarget (ctx) Results**                            | **DEM Results**                                                    |
-| -------------- | -------------------------------------------------- | -------------------------------------------------------------- |
-| **Input**          | Sets of genomic regions (peaks or DARs) grouped by topics or accessibility patterns; derived from ATAC-seq and tools like cisTopic. | Motif–region mappings from ctx + single-cell ATAC-seq accessibility grouped by cluster or condition. |
-| **Output**         | List of enriched motifs per region set, with enrichment scores (e.g., NES, AUC); identifies TFs linked to region sets. | Motif activity per group (cluster/condition), plus differential statistics (log2FC, p-value); highlights motifs with group-specific activity. |
-| **Biological use** | Identifies candidate TFs for each group of accessible regions (topics, DARs). | Highlights TF motifs likely driving differences between cell types, conditions, or states. |
-
----
 
 ✅ **In summary**:  
 - **cisTarget (ctx)** finds *what motifs are enriched* in accessible regions.  
 - **DEM** tests *which of those motifs show cell group–specific activity patterns*.  
 - Together, they define both the **regulatory elements** and the **context-specific activity** of transcription factors.
-
-
----
-
-#### Summary of Results
-
-| Aspect         | **cisTarget (ctx) Results**                            | **DEM Results**                                                    |
-| -------------- | -------------------------------------------------- | -------------------------------------------------------------- |
-| **Input**          | Sets of genomic regions (peaks or DARs) grouped by topics or accessibility patterns; derived from ATAC-seq and tools like cisTopic. | Motif–region mappings from ctx + single-cell ATAC-seq accessibility grouped by cluster or condition. |
-| **Output**         | List of enriched motifs per region set, with enrichment scores (e.g., NES, AUC); identifies TFs linked to region sets. | Motif activity per group (cluster/condition), plus differential statistics (log2FC, p-value); highlights motifs with group-specific activity. |
-| **Biological use** | Identifies candidate TFs for each group of accessible regions (topics, DARs). | Highlights TF motifs likely driving differences between cell types, conditions, or states. |
-
----
-
-✅ **In summary**:  
-- **cisTarget (ctx)** finds *what motifs are enriched* in accessible regions.
-- **DEM** tests *which of those motifs show cell group–specific activity patterns*.
-- Together, they define both the **regulatory elements** and the **context-specific activity** of transcription factors.
-
-
 
 ---
 
