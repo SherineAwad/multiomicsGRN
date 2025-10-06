@@ -525,7 +525,7 @@ This step involves **using cisTarget databases** for motif and regulatory networ
 
 For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically include:
 
-1. **Motif rankings (`.feather` files)**  
+> 🌟🌟  1. **Motif rankings (`.feather` files)**  
    - Stores **motif–region scores** → tells how well each motif matches each genomic region.  
 
 ### Example from `mm10_screen_v10_clust.regions_vs_motifs.rankings.feather`
@@ -542,7 +542,7 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
 
 👉 **Motif matching a region = the region’s DNA sequence looks like a potential binding site for the TF that recognizes that motif.**
 
-2. **Motif annotations (`.motifs.tbl`)**  
+> 🌟🌟 2. **Motif annotations (`.motifs.tbl`)**  
    - Provides **motif annotations** → maps motifs to their likely TF(s), related motifs, and orthologs.  
 
 ### Example from `motifs-v10nr_clust-nr.mgi-m0.001-o0.0.tbl`
