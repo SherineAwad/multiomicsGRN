@@ -1,4 +1,4 @@
-> # ** A walk through Scenic+ workflow: Gene Regulatory Network (GRN) Inference**
+> # A walk through Scenic+ workflow: Gene Regulatory Network (GRN) Inference
 
 ## Gene Regulatory Network (GRN)
 A **Gene Regulatory Network (GRN)** inferred by **SCENIC** is a network linking **transcription factors (TFs)** to their **target genes**—revealing how **gene expression programs** are controlled across different **cell states**.
@@ -44,7 +44,7 @@ SCENIC+ is a workflow for inferring gene regulatory networks from single-cell mu
 
 
 ---
-# 🛑 PART A: Preprocessing of scRNA
+# 🛑 PART A: Preprocessing of scRNA and scATAC
 ---
 
 This step performs **cell-level preprocessing, dimensionality reduction, clustering, and visualization** for single-cell RNA-seq data.  
