@@ -1,8 +1,7 @@
 > # ** A walk through Scenic+ workflow: Gene Regulatory Network (GRN) Inference**
 
-```
-> A **Gene Regulatory Network (GRN)** inferred by **SCENIC** is a network linking **transcription factors (TFs)** to their **target genes**—revealing how **gene expression programs** are controlled across different **cell states**.
-```
+## Gene Regulatory Network (GRN)
+A **Gene Regulatory Network (GRN)** inferred by **SCENIC** is a network linking **transcription factors (TFs)** to their **target genes**—revealing how **gene expression programs** are controlled across different **cell states**.
   
 ## Installation hints 
 
