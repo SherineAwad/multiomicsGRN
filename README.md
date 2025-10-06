@@ -528,13 +528,12 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
    - Motif matching a region = the region’s DNA sequence looks like
      a potential binding site for the TF that recognizes that motif.
 
-### Example from `mm10_screen_v10_clust.regions_vs_motifs.rankings.feather`
+### Example
 
 | chr10:100001588-100001754 | chr10:100004590-100004749 | chr10:100009729-100010013 | ... | chrY:9986285-9986625 | chrY:9992323-9992533 | motifs          |
 |----------------------------|---------------------------|---------------------------|-----|----------------------|----------------------|-----------------|
 | 635378                     | 961923                    | 81883                     | ... | 261962               | 1096188              | bergman__Su_H_  |
 | 294685                     | 79408                     | 809215                    | ... | 108758               | 747006               | bergman__croc   |
-| 772320                     | 771634                    | 289363                    | ... | 430798               | 855092               | bergman__pho    |
 | 577456                     | 435983                    | 23497                     | ... | 682309               | 706782               | bergman__tll    |
 | 976643                     | 795153                    | 810566                    | ... | 3809                 | 1018969              | c2h2_zfs__M0369 |
 
@@ -542,7 +541,7 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
 > 🌟🌟 2. **Motif annotations (`.motifs.tbl`)**  
    - Provides **motif annotations** → maps motifs to their likely TF(s), related motifs, and orthologs.  
 
-### Example from `motifs-v10nr_clust-nr.mgi-m0.001-o0.0.tbl`
+### Example 
  
 | motif_id         | motif_name | gene_name | motif_similarity_qvalue | similar_motif_id | orthologous_identity |
 | ---------------- | ---------- | --------- | ----------------------- | ---------------- | -------------------- |
@@ -607,6 +606,27 @@ SCENIC+ takes chromatin accessibility data (and optionally RNA data) and integra
 SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-gene linking → TF activity per cell**, providing a powerful way to dissect cell-type–specific gene regulation.
 ---
 
+```
+### Prepare Input Matrices
+✔️ Correct — SCENIC+ starts from the cisTopic object (peak × cell matrix) and cell metadata.
+
+### Motif Enrichment (cisTarget step)
+✔️ Correct — uses cisTarget databases to find enriched TF motifs for sets of regions.
+
+### Link Regions to Genes
+✔️ Correct — links accessible regions to genes by proximity or co-variation with expression.
+
+### Build Regulatory Networks
+✔️ Correct — integrates TF-region links (motifs) and region-gene links to build GRNs.
+
+### Score TF Activity Per Cell
+✔️ Correct — calculates TF activity scores per cell by summarizing accessibility of TF target regions.
+
+### Visualization & Modules
+✔️ Correct — creates regulatory modules and generates plots like heatmaps and networks.
+
+``` 
+
 #### 1. Prepare Input Matrices
 - Start from a **cisTopic object** (peak × cell accessibility matrix or topic binarization).  
 - Collect **cell metadata** such as clusters, cell types, or matched scRNA-seq expression.
@@ -618,34 +638,13 @@ SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-
 
 The motif enrichment results ([`dem_results.html`](Snakemake/workflow/dem_results.html)) and `dem_results.hdf5` are generated from the **ATAC-seq modality**:
 
-- Peaks/DARs are identified from ATAC (cisTopic + DAR analysis).
-- SCENIC+ then tests for **differential motif enrichment (DEM)** in those regions.
-- This step checks whether certain TF motifs are significantly enriched in accessible regions linked to specific topics, clusters, or conditions.
 
-➡️ In short: **DEM is ATAC-driven**, but the motifs are mapped back to transcription factors (TFs).
+| Aspect             | cisTarget (ctx) Results                                                                                                                                                           | DEM Results                                                                                                                                                                                                 |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Input**          | Sets of genomic regions (peaks or DARs) grouped by biological topics or differential accessibility; derived from ATAC-seq data processed by tools like cisTopic and DAR analysis. | Motif accessibility scores computed per group (cluster or condition) based on ATAC-seq data, plus motif-to-region mappings from cisTarget results.                                                          |
+| **Output**         | Lists of TF motifs enriched in each region set, with scores reflecting strength of motif enrichment; identifies candidate TFs regulating those accessible regions.                | For each motif, group-specific motif activity scores and statistical tests comparing groups, including Log2 fold change and adjusted p-values; shows which motifs are differentially active between groups. |
+| **Biological use** | Maps TF motifs to accessible region groups, supporting identification of TF regulators per topic or peak set.                                                                     | Identifies motifs with significantly different activity across cell types or conditions, refining candidate TFs driving regulatory programs.                                                                |
 
-The overall goal of SCENIC+ is to reconstruct **gene regulatory networks (GRNs)** that are supported by both chromatin accessibility and gene expression.
-The motif enrichment layer plays several critical roles:
-
-- **TF prioritization**
-  - Many peaks can map to multiple TFs.
-  - Motif enrichment highlights which TFs are most likely active in a given state.
-
-- **Connecting ATAC to GEX**
-  - Later steps integrate motif enrichment (from ATAC) with co-expression (from RNA).
-  - This is how SCENIC+ builds *regulons* (TF → target gene sets).
-
-- **Filtering false positives**
-  - Expression correlations alone can give spurious TF–gene links.
-  - Motif support ensures that inferred connections have chromatin evidence.
-
-- **Interpreting biology**
-  - Differential motif activity per topic/cluster helps explain which TFs are driving specific cell states.
-
----
-
-✅ The **DEM results act as a bridge** between ATAC and RNA modalities.
-They make sure that downstream TF–target links are not just statistically correlated, but also **biologically plausible**.
 
 
 ---
