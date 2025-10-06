@@ -57,13 +57,6 @@ A regulon is a group of genes controlled by the same transcription factor — th
 > - **Assigning regulon activity to defined cell types or clusters**  
 >   Regulon activity is quantified per cell and then interpreted within the context of biologically meaningful clusters.
 >
-> - **Visualizing TF–target relationships across populations**  
->   Proper clustering and dimensionality reduction make it possible to map regulon activity onto UMAP/tSNE plots, highlighting which TFs are active in which cell types.
->
-> - **Integrative interpretation with scATAC-seq**  
->   Clusters from scRNA guide the integration with chromatin accessibility data, linking TF motif activity (from ATAC) to actual gene expression in specific cell populations.
->
-
 
 ## Part A Results: scRNA-seq results    
 
