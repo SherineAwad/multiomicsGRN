@@ -308,7 +308,7 @@ Each **topic** is defined by a group of **words that tend to occur together** (e
 
 > ### 🔹 Latent Dirichlet Allocation (LDA) Topic Modeling
 >
-> 1. **🕵️‍♂️ Guessing topics**  
+> 1. **🕵️ Guessing topics**  
 >    - LDA scans across documents to find patterns of words that frequently co-occur.
 >
 > 2. **📝 Assigning words to topics**  
@@ -400,8 +400,8 @@ This step performs **dimensionality reduction and clustering** of cells based on
 ### Clustering output 
 
 ![](scenicOuts/umap_clusters/celltype_umap.png)
-![](scenicOuts/umap_clusters/qc_metrics_umap.png)
 ![](scenicOuts/umap_clusters/annotated_clusters_umap.png)
+![](scenicOuts/umap_clusters/qc_metrics_umap.png)
 ![](scenicOuts/umap_clusters/topic_celltype_heatmap.png)
 
 
@@ -434,16 +434,16 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 #### How to interpret the plots
 
-- **Topics with sharp right tails** (e.g., Topic 1, 3, 6, 13, 18, 19):  
+- **Topics with sharp right tails** (e.g., Topic 6, 13):  
   - Most cells have low probabilities; only a subset passes the threshold.  
   - → These topics are active in **specific subsets of cells** (likely distinct cell states or regulatory programs).  
 
-- **Topics with broad or bimodal distributions** (e.g., Topic 5, 9, 11, 15, 17):  
+- **Topics with broad or bimodal distributions** (e.g., Topic 4, 10):  
   - Many cells span medium to high probabilities.  
   - Threshold selects a large fraction of cells.  
   - → These topics may represent **widespread regulatory programs** across multiple cell types.  
 
-- **Topics with flatter/noisy distributions** (e.g., Topic 7, 10, 14, 20):  
+- **Topics with flatter/noisy distributions** (e.g., Topic 2, 9):  
   - Fewer cells clearly pass the threshold.  
   - → These may be **weaker or less biologically meaningful topics**, or background noise.  
 
