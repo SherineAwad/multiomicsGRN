@@ -346,24 +346,10 @@ Modules help simplify complex GRNs by grouping together genes with coordinated a
 | Topic            | Regulatory module / Program | Groups of peaks or genes that co-occur across many cells | Which features form a coherent regulatory program |
 | Topic proportion | Module activity in a cell   | Number of regions/genes linked to each topic in a cell | How strongly each regulatory program is active in that cell |
 
-
-### 🔹 LDA Topic Modeling on Chromatin Accessibility
-```
-LDA (Latent Dirichlet Allocation) is used to find **patterns of coordinated accessibility** across cells:
-
-- Think of **topics** as groups of genomic regions (peaks) that tend to open or close together.  
-- LDA looks for patterns of co-accessibility — regions that tend 
-  to be open together in the same cells.
-- Each “topic” it finds = one module of co-accessible peaks.
-- For each cell, how “active” each module is — i.e. how much 
-  the cell shows the pattern of that module 
-
-``` 
-
 > 💡 **Note:** [MALLET](http://mallet.cs.umass.edu/) is a software package that provides an **efficient implementation of LDA**, making it faster and more scalable on large datasets.
 
 
-```python
+``` 
 python run_mallet.py \
   --cistopic_obj_pickle scenicOuts/merged_with_meta.pkl \
   --mallet_path /nfs/turbo/umms-thahoang/sherine/tools/Mallet-202108/bin/mallet \
@@ -398,7 +384,7 @@ LDA finds **patterns of coordinated accessibility** across cells:
 - **Topics** represent groups of genomic regions (peaks) that open/close together.
 - Each “topic” = one module of co-accessible peaks.
 - For each cell, LDA measures the activity of each module.
-
+  i.e. how much the cell shows the pattern of that module  
 ### 🔹 Output
 
 Mallet (via LDA) generates two key matrices:
