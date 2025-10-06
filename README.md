@@ -633,17 +633,58 @@ SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-
 
 #### 2. Motif Enrichment (cisTarget step)
 
-- For each set of regions (e.g. DARs or topic-specific peaks), identify enriched transcription factor motifs using **prebuilt cisTarget databases** (`.feather` + `.tbl`).  
-- This reveals which TFs are likely associated with those accessible regions.
+###### cisTarget (ctx) 
+For each set of regions (e.g., DARs or topic-specific peaks), enriched transcription factor motifs are identified using prebuilt **cisTarget databases** (`.feather` + `.tbl`).
 
-The motif enrichment results ([`dem_results.html`](Snakemake/workflow/dem_results.html)) and `dem_results.hdf5` are generated from the **ATAC-seq modality**:
+This step runs **cisTarget (ctx) motif enrichment**, which detects TF motifs that are overrepresented in each region set (e.g., per topic). These results provide a mapping between **motifs and the accessible regions** they are enriched in.
+
+📄 The **cisTarget (ctx) output** — [`ctx_results.html`](Snakemake/workflow/ctx_results.html) — summarizes **motif enrichment per topic or region set**, helping prioritize transcription factors linked to accessibility patterns.
 
 
-| Aspect             | cisTarget (ctx) Results                                                                                                                                                           | DEM Results                                                                                                                                                                                                 |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Input**          | Sets of genomic regions (peaks or DARs) grouped by biological topics or differential accessibility; derived from ATAC-seq data processed by tools like cisTopic and DAR analysis. | Motif accessibility scores computed per group (cluster or condition) based on ATAC-seq data, plus motif-to-region mappings from cisTarget results.                                                          |
-| **Output**         | Lists of TF motifs enriched in each region set, with scores reflecting strength of motif enrichment; identifies candidate TFs regulating those accessible regions.                | For each motif, group-specific motif activity scores and statistical tests comparing groups, including Log2 fold change and adjusted p-values; shows which motifs are differentially active between groups. |
-| **Biological use** | Maps TF motifs to accessible region groups, supporting identification of TF regulators per topic or peak set.                                                                     | Identifies motifs with significantly different activity across cell types or conditions, refining candidate TFs driving regulatory programs.                                                                |
+###### Differential Motif Enrichment (DEM) 
+
+The **Differential Motif Enrichment (DEM)** step builds directly on the ctx results:
+
+- It uses the **motif–region assignments from the cisTarget (ctx) analysis**.
+- It then summarizes the **accessibility of those regions per motif** across all cells (using ATAC-seq data).
+- Finally, it performs statistical tests (e.g., log2 fold change, adjusted p-value) to compare motif activity between groups (e.g., clusters or conditions).
+
+📄 The **DEM output** — [`dem_results.html`](Snakemake/workflow/dem_results.html) — reports **differential motif activity per motif across cell groups**, highlighting motifs with condition- or cluster-specific accessibility patterns.
+
+---
+
+#### Summary of Results
+
+| Aspect         | **cisTarget (ctx) Results**                            | **DEM Results**                                                    |
+| -------------- | -------------------------------------------------- | -------------------------------------------------------------- |
+| **Input**          | Sets of genomic regions (peaks or DARs) grouped by topics or accessibility patterns; derived from ATAC-seq and tools like cisTopic. | Motif–region mappings from ctx + single-cell ATAC-seq accessibility grouped by cluster or condition. |
+| **Output**         | List of enriched motifs per region set, with enrichment scores (e.g., NES, AUC); identifies TFs linked to region sets. | Motif activity per group (cluster/condition), plus differential statistics (log2FC, p-value); highlights motifs with group-specific activity. |
+| **Biological use** | Identifies candidate TFs for each group of accessible regions (topics, DARs). | Highlights TF motifs likely driving differences between cell types, conditions, or states. |
+
+---
+
+✅ **In summary**:  
+- **cisTarget (ctx)** finds *what motifs are enriched* in accessible regions.  
+- **DEM** tests *which of those motifs show cell group–specific activity patterns*.  
+- Together, they define both the **regulatory elements** and the **context-specific activity** of transcription factors.
+
+
+---
+
+#### Summary of Results
+
+| Aspect         | **cisTarget (ctx) Results**                            | **DEM Results**                                                    |
+| -------------- | -------------------------------------------------- | -------------------------------------------------------------- |
+| **Input**          | Sets of genomic regions (peaks or DARs) grouped by topics or accessibility patterns; derived from ATAC-seq and tools like cisTopic. | Motif–region mappings from ctx + single-cell ATAC-seq accessibility grouped by cluster or condition. |
+| **Output**         | List of enriched motifs per region set, with enrichment scores (e.g., NES, AUC); identifies TFs linked to region sets. | Motif activity per group (cluster/condition), plus differential statistics (log2FC, p-value); highlights motifs with group-specific activity. |
+| **Biological use** | Identifies candidate TFs for each group of accessible regions (topics, DARs). | Highlights TF motifs likely driving differences between cell types, conditions, or states. |
+
+---
+
+✅ **In summary**:  
+- **cisTarget (ctx)** finds *what motifs are enriched* in accessible regions.
+- **DEM** tests *which of those motifs show cell group–specific activity patterns*.
+- Together, they define both the **regulatory elements** and the **context-specific activity** of transcription factors.
 
 
 
