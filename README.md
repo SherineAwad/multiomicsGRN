@@ -352,11 +352,10 @@ Modules help simplify complex GRNs by grouping together genes with coordinated a
 LDA (Latent Dirichlet Allocation) is used to find **patterns of coordinated accessibility** across cells:
 
 - Think of **topics** as groups of genomic regions (peaks) that tend to open or close together.  
-- By grouping peaks into topics, LDA **simplifies the huge peak-by-cell matrix** into a smaller set of meaningful patterns.  
-- These patterns often correspond to **transcription factor programs** or **cell type–specific regulatory signals**.
+- LDA looks for patterns of co-accessibility — regions that tend to be open together in the same cells.
+- Each “topic” it finds = one module of co-accessible peaks.
+- For each cell, how “active” each module is — i.e. how much the cell shows the pattern of that module 
 
-> **Input:** `cistopic` object with the **peak-by-cell matrix** and optional **cell metadata** from scRNA-seq.  
-> **Output:** A **low-dimensional, interpretable representation** of chromatin accessibility, ready for clustering, differential accessibility (DAR) analysis, and GRN inference.
 ``` 
 
 > 💡 **Note:** [MALLET](http://mallet.cs.umass.edu/) is a software package that provides an **efficient implementation of LDA**, making it faster and more scalable on large datasets.
@@ -390,6 +389,16 @@ Output:
 - 1) Modules = groups of co-occurring/co-regulated genes/peaks, 
 - 2) Module activity per cell = how strongly each module is present in each cell. 
 - LDA is essentially finding hidden patterns of co-regulation from the raw co-occurrence data prepared by Mallet.
+
+### 🔹 Output 
+
+Mallet (via LDA) produces two key matrices:
+
+- **Region–Topic matrix**  
+  Shows which peaks belong to which topic (module).
+
+- **Topic–Cell matrix**  
+  Shows how active each topic/module is in each cell.
 
 
 > ## 🔹 11. Clustering Cistopic Objects and UMAP Visualization
