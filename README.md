@@ -355,7 +355,8 @@ LDA (Latent Dirichlet Allocation) is used to find **patterns of coordinated acce
 - LDA looks for patterns of co-accessibility — regions that tend 
   to be open together in the same cells.
 - Each “topic” it finds = one module of co-accessible peaks.
-- For each cell, how “active” each module is — i.e. how much the cell shows the pattern of that module 
+- For each cell, how “active” each module is — i.e. how much 
+  the cell shows the pattern of that module 
 
 ``` 
 
@@ -382,25 +383,27 @@ python run_mallet.py \
 --- 
 > ## 🔹 10. Adding LDA Model to Cistopic Object
 
-**Input from Mallet:** A count matrix of genes/peaks per cell: each row = a cell, each column = a gene/peak, each entry = how often that gene/peak occurs (or is active) in that cell.
+**Input from Mallet:** A count matrix of genes/peaks per cell, where each row = a cell, each column = a gene/peak, and each entry = occurrence/activity.
 
-**Goal of LDA in SCENIC+:** Discover hidden regulatory structure in single-cell data.  
-Input: Mallet counts of genes/peaks per cell.  
-Output:
-- 1) Modules = groups of co-occurring/co-regulated genes/peaks, 
-- 2) Module activity per cell = how strongly each module is present in each cell. 
-- LDA is essentially finding hidden patterns of co-regulation from the raw co-occurrence data prepared by Mallet.
+**Goal of LDA in SCENIC+:** Discover hidden regulatory patterns in single-cell data.
+- **Output:** 
+  - 1) **Modules** = co-regulated gene/peak groups.
+  - 2) **Module activity** = presence of each module in cells.
 
-### 🔹 Output 
+LDA identifies co-regulation patterns from Mallet's co-occurrence data.
 
-Mallet (via LDA) produces two key matrices:
+### 🔹 LDA Topic Modeling on Chromatin Accessibility
 
-- **Region–Topic matrix**  
-  Shows which peaks belong to which topic (module).
+LDA finds **patterns of coordinated accessibility** across cells:
+- **Topics** represent groups of genomic regions (peaks) that open/close together.
+- Each “topic” = one module of co-accessible peaks.
+- For each cell, LDA measures the activity of each module.
 
-- **Topic–Cell matrix**  
-  Shows how active each topic/module is in each cell.
+### 🔹 Output
 
+Mallet (via LDA) generates two key matrices:
+- **Region-Topic matrix:** Shows which peaks belong to each topic.
+- **Topic-Cell matrix:** Shows how active each module is in each cell.
 
 > ## 🔹 11. Clustering Cistopic Objects and UMAP Visualization
 
