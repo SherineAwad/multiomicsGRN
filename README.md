@@ -456,8 +456,6 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 ---
 
-
-
 > ## 🔹 13.  Differential Accessibility (DAR) Analysis Step
 
 This step identifies **differentially accessible regions (DARs)** between groups of cells, such as cell types or clusters.  
