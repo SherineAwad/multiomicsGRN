@@ -518,8 +518,6 @@ This step involves **using cisTarget databases** for motif and regulatory networ
 - cisTarget databases link **genomic regions (peaks) to transcription factor motifs** and candidate target genes.  
 - They are required for **motif enrichment analysis, regulatory network inference, and linking DARs to TF activity**.  
 - **Creating custom cisTarget databases is optional**, but can be done if you want to analyze a specific genome, species, or motif collection.  
-- For speed and convenience, we will **rely on prebuilt databases** in this workflow.
-
 
 ## Prebuilt Databases
 
@@ -527,6 +525,8 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
 
 > 🌟🌟  1. **Motif rankings (`.feather` files)**  
    - Stores **motif–region scores** → tells how well each motif matches each genomic region.  
+   - Motif matching a region = the region’s DNA sequence looks like
+     a potential binding site for the TF that recognizes that motif.
 
 ### Example from `mm10_screen_v10_clust.regions_vs_motifs.rankings.feather`
 
@@ -538,9 +538,6 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
 | 577456                     | 435983                    | 23497                     | ... | 682309               | 706782               | bergman__tll    |
 | 976643                     | 795153                    | 810566                    | ... | 3809                 | 1018969              | c2h2_zfs__M0369 |
 
-**Table dimensions:** 5032 motifs × 1,110,656 genomic regions  
-
-👉 **Motif matching a region = the region’s DNA sequence looks like a potential binding site for the TF that recognizes that motif.**
 
 > 🌟🌟 2. **Motif annotations (`.motifs.tbl`)**  
    - Provides **motif annotations** → maps motifs to their likely TF(s), related motifs, and orthologs.  
@@ -571,16 +568,6 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
      - Identify candidate TFs controlling cell type–specific chromatin accessibility.  
 
 - Without these databases, the downstream steps (cisTarget enrichment) cannot run efficiently.  
-
----
-
-## Using Prebuilt vs Custom Databases
-
-- **Prebuilt databases (recommended):**  
-  - Saves time, standardized, widely used, compatible with pycisTopic.  
-- **Custom databases (optional):**  
-  - Can be created if you need specific motifs, a custom genome build, or updated annotations.  
-  - Takes longer but provides maximum flexibility.
 
 ---
 # 🛑 PART D: Running Scenic+ workflow step 
