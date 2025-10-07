@@ -9,7 +9,7 @@ In SCENIC+, regulons are identified and their activity is quantified across cell
 
 #### We will connect the pieces of the workflow, no optimization yet
   
-## Installation hints 
+## Workflow -- conda envs  
 
 ```
 snakemake --use-conda -j 1 -p \
@@ -195,7 +195,8 @@ scenicOuts/
         └── KO.bw
 ```
 ### A snapshot of the bigwig file 
-![SCENIC+ BigWig Signal Tracks](chr3_filled_tracks.png)
+
+![chr19](chr19_full.png)
 
 > ## 🔹 2. Peak Calling Step with MACS2
 
@@ -584,9 +585,10 @@ SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate ge
 🔹 **cisTarget (ctx):**  
         Find motifs enriched in accessible regions
         ![](ctx_sample.png)
-        - **NES (Normalized Enrichment Score):** How strongly the motif is enriched compared to background — higher = stronger enrichment.
-        - **AUC (Area Under Curve):** Reflects how consistently the motif ranks high across regions — measures enrichment quality.
-        - **Rank_at_max:** The position in the ranked region list where enrichment was highest.
+
+   - **NES (Normalized Enrichment Score):** How strongly the motif is enriched compared to background — higher = stronger enrichment.
+   - **AUC (Area Under Curve):** Reflects how consistently the motif ranks high across regions — measures enrichment quality.
+   - **Rank_at_max:** The position in the ranked region list where enrichment was highest.
 
 🔹 **Differential Motif Enrichment (DEM):**  
       Finds motifs with activity differences between groups or conditions. 

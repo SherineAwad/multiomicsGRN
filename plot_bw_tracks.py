@@ -14,29 +14,54 @@ def read_bw_signal(bw_path, chrom, start, end):
         values = np.array(bw.values(chrom, start, end, numpy=True))
     return values, end
 
+def downsample_signal(positions, values, bin_size=1000):
+    """Average signal over bins for large regions."""
+    if len(positions) <= bin_size:
+        return positions, values
+    binned_positions = positions[::bin_size]
+    binned_values = [np.nanmean(values[i:i+bin_size]) for i in range(0, len(values), bin_size)]
+    return binned_positions, np.array(binned_values)
+
+def normalize_signal(values):
+    """Normalize signal to 0-100 for plotting."""
+    max_val = np.nanmax(values)
+    if max_val == 0:
+        return values
+    return values / max_val * 100
+
 def plot_bw_tracks(bw1, bw2, chrom, start, end, output):
     values1, end1 = read_bw_signal(bw1, chrom, start, end)
     values2, end2 = read_bw_signal(bw2, chrom, start, end)
     end = min(end1, end2)
     positions = np.arange(start, end)
 
-    fig, axes = plt.subplots(2, 1, figsize=(12, 5), sharex=True)
+    # Downsample if region is large
+    max_points = 20000  # max points to plot for performance
+    if len(positions) > max_points:
+        bin_size = len(positions) // max_points
+        positions, values1 = downsample_signal(positions, values1, bin_size)
+        _, values2 = downsample_signal(positions, values2, bin_size)
 
-    # Track 1 (filled area)
-    axes[0].fill_between(positions, 0, values1[:len(positions)],
-                         color='steelblue', alpha=0.7, linewidth=0)
+    # Normalize signals
+    values1 = normalize_signal(values1)
+    values2 = normalize_signal(values2)
+
+    # Plot
+    fig, axes = plt.subplots(2, 1, figsize=(20, 6), sharex=True)
+
+    # Track 1
+    axes[0].fill_between(positions, 0, values1, color='steelblue', alpha=1.0, linewidth=0)
     axes[0].set_ylabel(bw1.split('/')[-1].replace('.bw', ''), rotation=0, labelpad=40, fontsize=10)
-    axes[0].set_ylim(0, np.nanmax(values1) * 1.1)
+    axes[0].set_ylim(0, 110)
     axes[0].set_yticks([])
     axes[0].spines['top'].set_visible(False)
     axes[0].spines['right'].set_visible(False)
     axes[0].spines['left'].set_visible(False)
 
-    # Track 2 (filled area)
-    axes[1].fill_between(positions, 0, values2[:len(positions)],
-                         color='darkorange', alpha=0.7, linewidth=0)
+    # Track 2
+    axes[1].fill_between(positions, 0, values2, color='darkorange', alpha=1.0, linewidth=0)
     axes[1].set_ylabel(bw2.split('/')[-1].replace('.bw', ''), rotation=0, labelpad=40, fontsize=10)
-    axes[1].set_ylim(0, np.nanmax(values2) * 1.1)
+    axes[1].set_ylim(0, 110)
     axes[1].set_yticks([])
     axes[1].spines['top'].set_visible(False)
     axes[1].spines['right'].set_visible(False)
