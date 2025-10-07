@@ -582,11 +582,15 @@ SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate ge
 #### 1. Motif Enrichment (cisTarget step)
 
 🔹 **cisTarget (ctx):**  
-	Finds enriched motifs
+        Find motifs enriched in accessible regions
         ![](ctx_sample.png)
+        **NES (Normalized Enrichment Score)**:  How strongly the motif is enriched compared to background — higher = stronger enrichment. 
+	**AUC (Area Under Curve)**: Reflects how consistently the motif ranks high across regions — measures enrichment quality. 
+        **Rank_at_max**: The position in the ranked region list where enrichment was highest 
+
 🔹 **Differential Motif Enrichment (DEM):**  
-       Finds motifs that change activity between groups.
-       ![](dem_sample.png)
+      Finds motifs with activity differences between groups or conditions. 
+      ![](dem_sample.png)
         
 
 📄 The **ctx output** — [`ctx_results.html`](Snakemake/workflow/ctx_results.html) —  
