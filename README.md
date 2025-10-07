@@ -559,11 +559,6 @@ These rankings let SCENIC+ quickly find **which TF motifs are enriched** in acce
 | metacluster_196.3| EcR_usp    | Nr1h4     | 1.04865e-07             | metacluster_64.14| 0.539514             |
 | metacluster_196.3| EcR_usp    | Nr2f1     | 8.38436e-08             | metacluster_64.14| 0.995238             |
 
-**Notes:**  
-- `motif_similarity_qvalue` = statistical score (FDR-adjusted p-value). Smaller values mean stronger similarity between motifs.  
-- `similar_motif_id` = the motif cluster this motif is most similar to.  
-- `orthologous_identity` = percent sequence identity between the TF gene in your species and an orthologous TF from another species.  
-
 ---
 
 -  🧠 **The `.feather` file** tells you **“where might a motif bind?”** — i.e., which genomic regions look like good binding sites for each motif (based purely on DNA sequence similarity).
@@ -602,32 +597,28 @@ SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate ge
 
 ### What SCENIC+ does
 
-SCENIC+ takes chromatin accessibility data (and optionally RNA data) and integrates cisTarget motif enrichment to build and score regulatory networks.  
-
 👉 In short:
 SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-gene linking → TF activity per cell**, providing a powerful way to dissect cell-type–specific gene regulation.
 ---
-
-```
-### Motif Enrichment (cisTarget step)
-✔️ Correct — uses cisTarget databases to find enriched TF motifs for sets of regions.
-
-### Link Regions to Genes
-✔️ Correct — links accessible regions to genes by proximity or co-variation with expression.
-
-### Build Regulatory Networks
-✔️ Correct — integrates TF-region links (motifs) and region-gene links to build GRNs.
-
-### Score TF Activity Per Cell
-✔️ Correct — calculates TF activity scores per cell by summarizing accessibility of TF target regions.
-
-### Visualization & Modules
-✔️ Correct — creates regulatory modules and generates plots like heatmaps and networks.
-
-``` 
+> **Steps**
+>  
+> 1. **Motif Enrichment (cisTarget step)**  
+>    - Uses cisTarget databases to identify enriched transcription factor (TF) motifs in sets of regions.  
+>  
+> 2. **Link Regions to Genes**  
+>    - Connects accessible regions to nearby genes or genes with correlated expression.  
+>  
+> 3. **Build Regulatory Networks**  
+>    - Integrates TF–region motif links and region–gene associations to construct gene regulatory networks (GRNs).  
+>  
+> 4. **Score TF Activity Per Cell**  
+>    - Calculates TF activity scores per cell by summarizing accessibility across target regions.  
+>  
+> 5. **Visualization & Modules**  
+>    - Defines regulatory modules and produces visual outputs such as heatmaps and network diagrams.
 
 
-####  Motif Enrichment (cisTarget step)
+#### 1. Motif Enrichment (cisTarget step)
 
 **cisTarget (ctx):**  
 Finds **which TF motifs are enriched** in accessible regions (e.g., DARs or topics), using the prebuilt `.feather` and `.tbl` databases.  
@@ -650,7 +641,7 @@ reports **differential motif activity** across cell groups or conditions, highli
 
 ---
 
-####  Link Regions to Genes
+#### 2. Link Regions to Genes
 - Connect enriched regions to their nearby or correlated genes (using genomic proximity or co-variation with RNA).  
 - Produces **region–gene relationships**.
 
@@ -673,21 +664,21 @@ reports **differential motif activity** across cell groups or conditions, highli
 
 ---
 
-#### Build Regulatory Networks
+#### 3. Build Regulatory Networks
 - Combine **TF–region links** (from motif enrichment) with **region–gene links**.  
 - Result: TF → region → gene connections, i.e. a **Gene Regulatory Network (GRN)**.  
 - Optionally integrate **scRNA-seq expression** to refine TF–target predictions.
 
 ---
 
-#### Score TF Activity Per Cell
+#### 4. Score TF Activity Per Cell
 - Evaluate the accessibility of each TF’s target regions per cell.  
 - Produces a **cell × TF activity matrix** (similar to regulon activity in SCENIC).  
 - Allows clustering and visualization of regulatory programs across cell states.
 
 ---
 
-#### Visualization & Modules
+#### 5. Visualization & Modules
 - Summarize TF–target relationships into **regulatory modules** (groups of co-regulated genes).  
 - Generate plots:  
   - Heatmaps of TF activity  
