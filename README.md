@@ -518,11 +518,11 @@ This step exports **lists of genomic regions (peaks) identified as DARs** into s
 # 🛑 PART C: cisTarget Databases
 ---
 
-This step involves **using cisTarget databases** for motif and regulatory network analysis downstream of pycisTopic.  
+- **cisTarget databases** link genomic regions (peaks) to **transcription factor (TF) motifs** **.  
+They are essential for **motif enrichment analysis**, **regulatory network inference**, and for **linking DARs or accessible regions to potential TF activity**.
 
-- cisTarget databases link **genomic regions (peaks) to transcription factor motifs** and candidate target genes.  
-- They are required for **motif enrichment analysis, regulatory network inference, and linking DARs to TF activity**.  
 - **Creating custom cisTarget databases is optional**, but can be done if you want to analyze a specific genome, species, or motif collection.  
+
 
 ## Prebuilt Databases
 
@@ -532,6 +532,11 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
    - Stores **motif–region scores** → tells how well each motif matches each genomic region.  
    - Motif matching a region = the region’s DNA sequence looks like
      a potential binding site for the TF that recognizes that motif.
+
+🧠 *Think of each motif as a fingerprint, and each genomic region as a surface — the score tells how well the fingerprint fits that surface.*  
+
+These rankings let SCENIC+ quickly find **which TF motifs are enriched** in accessible regions or DARs, without rescanning the entire genome.  
+
 
 ### Example
 
@@ -561,17 +566,9 @@ For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically inc
 
 ---
 
-## Role in Workflow
+-  🧠 **The `.feather` file** tells you **“where might a motif bind?”** — i.e., which genomic regions look like good binding sites for each motif (based purely on DNA sequence similarity).
 
-- cisTarget databases are used **after DARs or topic regions are identified**.  
-- They allow pycisTopic to perform:
-
-  1. **Motif enrichment analysis**  
-     - Determine which TF motifs are overrepresented in DARs or topic-specific peaks.  
-  2. **Regulatory network inference**  
-     - Identify candidate TFs controlling cell type–specific chromatin accessibility.  
-
-- Without these databases, the downstream steps (cisTarget enrichment) cannot run efficiently.  
+- 🧠 **The `.motifs.tbl` file** tells you **“which transcription factor probably uses that motif?”** — i.e., it adds biological context by mapping motifs to their likely TF(s), similar motifs, and orthologs.
 
 ---
 # 🛑 PART D: Running Scenic+ workflow step 
