@@ -592,6 +592,51 @@ SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate ge
       Finds motifs with activity differences between groups or conditions. 
       ![](dem_sample.png)
         
+```text
+=== Checking dem_results.hdf5 ===
+
+Region set: DARs_cell_type_AC_vs_all
+  ✅ Successfully read table
+  Table shape: (133, 5)
+  Columns: ['Logo', 'Log2FC', 'Adjusted_pval', 'Mean_fg', 'Mean_bg']
+  First few rows:
+                                                                Logo    Log2FC  Adjusted_pval   Mean_fg   Mean_bg
+motifs                                                                                                           
+tfdimers__MD00460  <img src="https://motifcollections.aertslab.or...  1.387483       0.000820  0.396494  0.151552
+tfdimers__MD00142  <img src="https://motifcollections.aertslab.or...  1.266810       0.000034  0.478549  0.198874
+
+Region set: DARs_cell_type_BC_vs_all
+  ✅ Successfully read table
+  Table shape: (131, 5)
+  Columns: ['Logo', 'Log2FC', 'Adjusted_pval', 'Mean_fg', 'Mean_bg']
+  First few rows:
+                                                                Logo    Log2FC  Adjusted_pval   Mean_fg   Mean_bg
+motifs                                                                                                           
+jaspar__MA1967.1   <img src="https://motifcollections.aertslab.or...  1.606740   4.944225e-02  0.204470  0.067136
+tfdimers__MD00013  <img src="https://motifcollections.aertslab.or...  1.486858   1.247218e-11  0.698589  0.249249
+
+=== Checking ctx_results.hdf5 ===
+
+Region set: DARs_cell_type_AC
+  ✅ Successfully read table
+  Table shape: (194, 6)
+  Columns: ['Logo', 'Region_set', 'NES', 'AUC', 'Rank_at_max', 'Motif_hits']
+  First few rows:
+                                                                   Logo         Region_set       NES       AUC  Rank_at_max  Motif_hits
+metacluster_0.2       <img src="https://motifcollections.aertslab.or...  DARs_cell_type_AC  9.682544  0.017032     110814.0        9901
+transfac_pro__M08895  <img src="https://motifcollections.aertslab.or...  DARs_cell_type_AC  8.976697  0.016032      78783.0        7580
+
+Region set: DARs_cell_type_BC
+  ✅ Successfully read table
+  Table shape: (197, 6)
+  Columns: ['Logo', 'Region_set', 'NES', 'AUC', 'Rank_at_max', 'Motif_hits']
+  First few rows:
+                                                                   Logo         Region_set       NES       AUC  Rank_at_max  Motif_hits
+metacluster_0.2       <img src="https://motifcollections.aertslab.or...  DARs_cell_type_BC  9.987203  0.019089     108318.0        8402
+transfac_pro__M08895  <img src="https://motifcollections.aertslab.or...  DARs_cell_type_BC  9.272902  0.017959      85435.0        6908
+
+```
+
 
 📄 The **ctx output** — [`ctx_results.html`](Snakemake/workflow/ctx_results.html) —  
 summarizes **motif enrichment** across region sets (e.g., topics or DARs), helping identify transcription factors whose motifs are overrepresented in accessible regions.
