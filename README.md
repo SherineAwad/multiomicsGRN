@@ -628,9 +628,10 @@ Output (`ctx_results.html`) shows **motif enrichment per region set**, helping l
 Builds on cisTarget results to test **which motifs show differential activity** between cell groups or conditions.  
 Output (`dem_results.html`) reports **motifs with group-specific accessibility**.
 
-✅ **In short:**  
-- **cisTarget** → finds enriched motifs.  
-- **DEM** → finds motifs that change activity between groups.  
+> ✅ **In short:**
+> - **cisTarget** → finds enriched motifs.  
+> - **DEM** → finds motifs that change activity between groups.
+
 
 
 📄 The **ctx output** — [`ctx_results.html`](Snakemake/workflow/ctx_results.html) —  
