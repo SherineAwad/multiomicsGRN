@@ -574,19 +574,19 @@ SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate ge
 
 ----
 
-#### What SCENIC+ does
+### What SCENIC+ does
 
 👉 In short, SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-gene linking → TF activity per cell**, providing a powerful way to dissect **cell type–specific gene regulation**.  
 
 
-#### 1. Motif Enrichment (cisTarget step)
+### 1. Motif Enrichment (cisTarget step)
 
 🔹 **cisTarget (ctx):**  
         Find motifs enriched in accessible regions
         ![](ctx_sample.png)
-        **NES (Normalized Enrichment Score)**:  How strongly the motif is enriched compared to background — higher = stronger enrichment. 
-	**AUC (Area Under Curve)**: Reflects how consistently the motif ranks high across regions — measures enrichment quality. 
-        **Rank_at_max**: The position in the ranked region list where enrichment was highest 
+        - **NES (Normalized Enrichment Score):** How strongly the motif is enriched compared to background — higher = stronger enrichment.
+        - **AUC (Area Under Curve):** Reflects how consistently the motif ranks high across regions — measures enrichment quality.
+        - **Rank_at_max:** The position in the ranked region list where enrichment was highest.
 
 🔹 **Differential Motif Enrichment (DEM):**  
       Finds motifs with activity differences between groups or conditions. 
@@ -601,7 +601,7 @@ reports **differential motif activity** across cell groups or conditions, highli
 
 ---
 
-#### 2. Link Regions to Genes
+### 2. Link Regions to Genes
 - Connect enriched regions to their **nearby or co-expressed genes**, using both **genomic proximity** and **correlation with RNA expression**.  
 - Produces **region–gene relationships** that suggest potential regulatory links.
 
@@ -626,21 +626,21 @@ reports **differential motif activity** across cell groups or conditions, highli
 
 ### ⏳ In Progress / Pending 
 
-#### 3. Build Regulatory Networks
+### 3. Build Regulatory Networks
 - Combine **TF–region links** (from motif enrichment) with **region–gene links**.  
 - Result: TF → region → gene connections, i.e. a **Gene Regulatory Network (GRN)**.  
 - Optionally integrate **scRNA-seq expression** to refine TF–target predictions.
 
 ---
 
-#### 4. Score TF Activity Per Cell
+### 4. Score TF Activity Per Cell
 - Evaluate the accessibility of each TF’s target regions per cell.  
 - Produces a **cell × TF activity matrix** (similar to regulon activity in SCENIC).  
 - Allows clustering and visualization of regulatory programs across cell states.
 
 ---
 
-#### 5. Visualization & Modules
+### 5. Visualization & Modules
 - Summarize TF–target relationships into **regulatory modules** (groups of co-regulated genes).  
 - Generate plots:  
   - Heatmaps of TF activity  
