@@ -196,6 +196,10 @@ scenicOuts/
 ```
 ### A snapshot of the bigwig file 
 
+##### Chr1 [--start 97,710,985 --end 97,760,985 ]
+![chr1](chr1_middle.png)
+
+##### Chr19 
 ![chr19](chr19_full.png)
 
 > ## 🔹 2. Peak Calling Step with MACS2
