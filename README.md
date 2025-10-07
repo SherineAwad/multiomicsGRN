@@ -524,11 +524,9 @@ They are essential for **motif enrichment analysis**, **regulatory network infer
 - **Creating custom cisTarget databases is optional**, but can be done if you want to analyze a specific genome, species, or motif collection.  
 
 
-## Prebuilt Databases
+>> 1. 🧠 **The `.feather` file** tells you **“where might a motif bind?”** — i.e., which genomic regions look like good binding sites for each motif (based purely on DNA sequence similarity).
 
-1. 🧠 **The `.feather` file** tells you **“where might a motif bind?”** — i.e., which genomic regions look like good binding sites for each motif (based purely on DNA sequence similarity).
-
-2. 🧠 **The `.motifs.tbl` file** tells you **“which transcription factor probably uses that motif?”** — i.e., it adds biological context by mapping motifs to their likely TF(s), similar motifs, and orthologs.
+>> 2. 🧠 **The `.motifs.tbl` file** tells you **“which transcription factor probably uses that motif?”** — i.e., it adds biological context by mapping motifs to their likely TF(s), similar motifs, and orthologs.
 
 
 ### Feather file Example
@@ -580,40 +578,16 @@ SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate ge
 
 👉 In short, SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-gene linking → TF activity per cell**, providing a powerful way to dissect **cell type–specific gene regulation**.  
 
----
-> **Steps**
->  
-> 1. **Motif Enrichment (cisTarget step)**  
->    - Uses cisTarget databases to identify enriched transcription factor (TF) motifs in sets of regions.  
->  
-> 2. **Link Regions to Genes**  
->    - Connects accessible regions to nearby genes or genes with correlated expression.  
->  
-> 3. **Build Regulatory Networks**  
->    - Integrates TF–region motif links and region–gene associations to construct gene regulatory networks (GRNs).  
->  
-> 4. **Score TF Activity Per Cell**  
->    - Calculates TF activity scores per cell by summarizing accessibility across target regions.  
->  
-> 5. **Visualization & Modules**  
->    - Defines regulatory modules and produces visual outputs such as heatmaps and network diagrams.
-
 
 #### 1. Motif Enrichment (cisTarget step)
 
 🔹 **cisTarget (ctx):**  
-Finds **which TF motifs are enriched** in accessible regions (e.g., DARs or topics), using the prebuilt `.feather` and `.tbl` databases.  
-Output (`ctx_results.html`) shows **motif enrichment per region set**, helping link TFs to accessibility patterns.
-
+	Finds enriched motifs
+        ![](ctx_sample.png)
 🔹 **Differential Motif Enrichment (DEM):**  
-Builds on cisTarget results to test **which motifs show differential activity** between cell groups or conditions.  
-Output (`dem_results.html`) reports **motifs with group-specific accessibility**.
-
-> ✅ **In short:**
-> - **cisTarget** → finds enriched motifs.  
-> - **DEM** → finds motifs that change activity between groups.
-
-
+       Finds motifs that change activity between groups.
+       ![](dem_sample.png)
+        
 
 📄 The **ctx output** — [`ctx_results.html`](Snakemake/workflow/ctx_results.html) —  
 summarizes **motif enrichment** across region sets (e.g., topics or DARs), helping identify transcription factors whose motifs are overrepresented in accessible regions.
@@ -643,7 +617,7 @@ reports **differential motif activity** across cell groups or conditions, highli
 * **importance_x_rho:** signed score combining weight and correlation (positive → consistent with activation).
 * **importance_x_abs_rho:** absolute-strength score (magnitude only).
 * **Distance:** distance from region to the gene TSS (bp); negative = upstream, positive = downstream.
-
+* “Distance = 0” = region overlaps the gene’s promoter (very likely a direct regulatory link). 
 ---
 
 ### ⏳ In Progress / Pending 
