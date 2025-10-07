@@ -183,7 +183,8 @@ scenicOuts/
         ├── Control.bw
         └── KO.bw
 ```
-
+### A snapshot of the bigwig file 
+![SCENIC+ BigWig Signal Tracks](chr3_filled_tracks.png)
 
 > ## 🔹 2. Peak Calling Step with MACS2
 
