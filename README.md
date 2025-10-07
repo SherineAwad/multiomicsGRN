@@ -215,12 +215,10 @@ This step identifies **peaks**, i.e., genomic regions that are significantly enr
 
 > ## 🔹 3. Consensus Peak Generation Step
 
-
-After pseudobulk aggregation and MACS2 peak calling, each sample (or cell type × sample) has its **own set of peaks**.  
-- Different samples may have slightly different peaks because of biological variability or sequencing depth.  
-- To do comparative analyses across samples or feed data into pycisTopic, we need **one unified set of peaks** — the **consensus peak set**.  
-
-Think of it as **finding all regions that are open in at least one sample and merging overlapping regions into a master list**.
+- Consensus peaks are created by merging all peaks detected across samples.  
+- Any region open in **at least one sample** is included, forming a unified peak set.  
+- This is useful when you want a shared reference space (same coordinates for all samples) for downstream analysis like LDA or accessibility matrices.
+- Later analyses determine which peaks are condition-specific or shared.
 
 ---
 
