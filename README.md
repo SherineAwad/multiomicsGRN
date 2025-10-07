@@ -581,8 +581,9 @@ SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate ge
 
 ### What SCENIC+ does
 
-👉 In short, SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-gene linking → TF activity per cell**, providing a powerful way to dissect **cell type–specific gene regulation**.  
 
+```plaintext
+Chromatin Accessibility  -->  Motif Enrichment  -->  Region-to-Gene Linking  -->  TF Activity per Cell
 
 ### 1. Motif Enrichment (cisTarget step)
 
