@@ -60,6 +60,7 @@ This step performs **cell-level preprocessing, dimensionality reduction, cluster
 
 - **Linking regions to genes**  
   Uses gene expression to correlate accessible regions (from scATAC) with nearby genes, helping identify which open regions actually regulate those genes.
+  And here we mean accessible regions are likely associated with gene activation not just close by the genome.
 
 - **Scoring and validating regulatory modules**  
   Tests TF → region → gene modules against expression patterns — co-expressed target genes strengthen the TF–gene link.
@@ -164,7 +165,7 @@ This is the cell counts in clusters based on barcodes:
 
 This step **combines raw ATAC-seq fragments into cell type–specific coverage tracks**:
 
-- Reads from the **fragment files** of each sample are summed across all cells of a given **cell type × sample**.  
+- Reads from the **fragment files** of each sample are summed across all cells **.  
 - Generates **BED/BigWig tracks** that capture chromatin accessibility at a summarized level.  
 
 It uses `pycistopic_pseudobulk.py`
@@ -201,13 +202,9 @@ scenicOuts/
 
 This step identifies **peaks**, i.e., genomic regions that are significantly enriched for ATAC-seq fragments.  
 
-- Pseudobulk files summarize the signal for each **cell type × sample**.  
-- MACS2 uses these aggregated fragment coordinates to detect regions with **high accessibility**, likely representing regulatory elements such as enhancers or promoters.  
-- The output peaks are later used to generate **consensus peaks** and for topic modeling in pycisTopic.
-
-Think of the pseudobulk BED as a **heat map of open windows across the city**.  
-- MACS2 finds **clusters of “hot spots”** where many windows are open at once — these are your peaks.  
-- Each peak represents a genomic region with strong evidence of accessibility in that cell type.
+- **Pseudobulk files** summarize chromatin accessibility for each **cell type × sample**.  
+- **MACS2** runs **separately for each pseudobulk**, detecting regions with high accessibility that likely correspond to **regulatory elements** (enhancers or promoters).  
+- The resulting **peak files (per sample)** are later combined to generate a **consensus peak set**, used for **topic modeling** in *pycisTopic*.
 
 
 ![Control](Control_peaks.png)  
