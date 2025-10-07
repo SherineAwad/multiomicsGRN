@@ -609,9 +609,6 @@ SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-
 ---
 
 ```
-### Prepare Input Matrices
-✔️ Correct — SCENIC+ starts from the cisTopic object (peak × cell matrix) and cell metadata.
-
 ### Motif Enrichment (cisTarget step)
 ✔️ Correct — uses cisTarget databases to find enriched TF motifs for sets of regions.
 
@@ -629,39 +626,31 @@ SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-
 
 ``` 
 
-#### 1. Prepare Input Matrices
-- Start from a **cisTopic object** (peak × cell accessibility matrix or topic binarization).  
-- Collect **cell metadata** such as clusters, cell types, or matched scRNA-seq expression.
 
-#### 2. Motif Enrichment (cisTarget step)
+####  Motif Enrichment (cisTarget step)
 
-##### cisTarget (ctx) 
-For each set of regions (e.g., DARs or topic-specific peaks), enriched transcription factor motifs are identified using prebuilt **cisTarget databases** (`.feather` + `.tbl`).
+**cisTarget (ctx):**  
+Finds **which TF motifs are enriched** in accessible regions (e.g., DARs or topics), using the prebuilt `.feather` and `.tbl` databases.  
+Output (`ctx_results.html`) shows **motif enrichment per region set**, helping link TFs to accessibility patterns.
 
-This step runs **cisTarget (ctx) motif enrichment**, which detects TF motifs that are overrepresented in each region set (e.g., per topic). These results provide a mapping between **motifs and the accessible regions** they are enriched in.
+**Differential Motif Enrichment (DEM):**  
+Builds on cisTarget results to test **which motifs show differential activity** between cell groups or conditions.  
+Output (`dem_results.html`) reports **motifs with group-specific accessibility**.
 
-📄 The **cisTarget (ctx) output** — [`ctx_results.html`](Snakemake/workflow/ctx_results.html) — summarizes **motif enrichment per topic or region set**, helping prioritize transcription factors linked to accessibility patterns.
-
-
-##### Differential Motif Enrichment (DEM) 
-
-The **Differential Motif Enrichment (DEM)** step builds directly on the ctx results:
-
-- It uses the **motif–region assignments from the cisTarget (ctx) analysis**.
-- It then summarizes the **accessibility of those regions per motif** across all cells (using ATAC-seq data).
-- Finally, it performs statistical tests (e.g., log2 fold change, adjusted p-value) to compare motif activity between groups (e.g., clusters or conditions).
-
-📄 The **DEM output** — [`dem_results.html`](Snakemake/workflow/dem_results.html) — reports **differential motif activity per motif across cell groups**, highlighting motifs with condition- or cluster-specific accessibility patterns.
+✅ **In short:**  
+- **cisTarget** → finds enriched motifs.  
+- **DEM** → finds motifs that change activity between groups.  
 
 
-✅ **In summary**:  
-- **cisTarget (ctx)** finds *what motifs are enriched* in accessible regions.  
-- **DEM** tests *which of those motifs show cell group–specific activity patterns*.  
-- Together, they define both the **regulatory elements** and the **context-specific activity** of transcription factors.
+📄 The **ctx output** — [`ctx_results.html`](Snakemake/workflow/ctx_results.html) —  
+summarizes **motif enrichment** across region sets (e.g., topics or DARs), helping identify transcription factors whose motifs are overrepresented in accessible regions.
+
+📄 The **DEM output** — [`dem_results.html`](Snakemake/workflow/dem_results.html) —  
+reports **differential motif activity** across cell groups or conditions, highlighting motifs with cluster- or condition-specific accessibility patterns.
 
 ---
 
-#### 3. Link Regions to Genes
+####  Link Regions to Genes
 - Connect enriched regions to their nearby or correlated genes (using genomic proximity or co-variation with RNA).  
 - Produces **region–gene relationships**.
 
@@ -684,21 +673,21 @@ The **Differential Motif Enrichment (DEM)** step builds directly on the ctx resu
 
 ---
 
-#### 4. Build Regulatory Networks
+#### Build Regulatory Networks
 - Combine **TF–region links** (from motif enrichment) with **region–gene links**.  
 - Result: TF → region → gene connections, i.e. a **Gene Regulatory Network (GRN)**.  
 - Optionally integrate **scRNA-seq expression** to refine TF–target predictions.
 
 ---
 
-#### 5. Score TF Activity Per Cell
+#### Score TF Activity Per Cell
 - Evaluate the accessibility of each TF’s target regions per cell.  
 - Produces a **cell × TF activity matrix** (similar to regulon activity in SCENIC).  
 - Allows clustering and visualization of regulatory programs across cell states.
 
 ---
 
-#### 6. Visualization & Modules
+#### Visualization & Modules
 - Summarize TF–target relationships into **regulatory modules** (groups of co-regulated genes).  
 - Generate plots:  
   - Heatmaps of TF activity  
