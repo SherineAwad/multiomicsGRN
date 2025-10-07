@@ -1,7 +1,11 @@
 > # A walk through Scenic+ workflow: Gene Regulatory Network (GRN) Inference
 
-## Gene Regulatory Network (GRN)
-A **Gene Regulatory Network (GRN)** inferred by **SCENIC** is a network linking **transcription factors (TFs)** to their **target genes**—revealing how **gene expression programs** are controlled across different **cell states**.
+### 🧠 Gene Regulatory Network (GRN) and Regulons
+
+A **Gene Regulatory Network (GRN)** represents the regulatory relationships between **transcription factors (TFs)** and their **target genes**, describing how TFs can potentially control gene activity 
+
+Within this network, a **regulon** is a functional unit consisting of a *TF and the set of genes it directly regulates*.  
+In SCENIC+, regulons are identified and their activity is quantified across cells to reveal which regulatory programs are active in different cell states.
 
 #### We will connect the pieces of the workflow, no optimization yet
   
@@ -51,14 +55,18 @@ SCENIC+ is a workflow for inferring gene regulatory networks from single-cell mu
 
 This step performs **cell-level preprocessing, dimensionality reduction, clustering, and visualization** for single-cell RNA-seq data.  
 
-#### Regulon 
-A regulon is a group of genes controlled by the same transcription factor — the “team” of genes that respond together whenever their TF “coach” is active.
+ 
+### 🔹 Role of scRNA-seq in SCENIC+
 
-> In SCENIC+, the goal is to infer **transcription factor (TF) regulon activity** and understand how these regulons drive cell states. Preprocessed and clustered scRNA-seq data allows:
->
-> - **Assigning regulon activity to defined cell types or clusters**  
->   Regulon activity is quantified per cell and then interpreted within the context of biologically meaningful clusters.
->
+- **Linking regions to genes**  
+  Uses gene expression to correlate accessible regions (from scATAC) with nearby genes, helping identify which open regions actually regulate those genes.
+
+- **Scoring and validating regulatory modules**  
+  Tests TF → region → gene modules against expression patterns — co-expressed target genes strengthen the TF–gene link.
+
+- **Quantifying regulon activity per cell**  
+  Computes regulon activity scores for each cell based on gene expression, enabling comparison across cell types or clusters to interpret biological function.
+
 
 ## Part A Results: scRNA-seq results    
 
