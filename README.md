@@ -526,19 +526,12 @@ They are essential for **motif enrichment analysis**, **regulatory network infer
 
 ## Prebuilt Databases
 
-For mouse (`mm10`) or human (`hg38`), prebuilt cisTarget databases typically include:
+1. 🧠 **The `.feather` file** tells you **“where might a motif bind?”** — i.e., which genomic regions look like good binding sites for each motif (based purely on DNA sequence similarity).
 
-> 🌟🌟  1. **Motif rankings (`.feather` files)**  
-   - Stores **motif–region scores** → tells how well each motif matches each genomic region.  
-   - Motif matching a region = the region’s DNA sequence looks like
-     a potential binding site for the TF that recognizes that motif.
-
-🧠 *Think of each motif as a fingerprint, and each genomic region as a surface — the score tells how well the fingerprint fits that surface.*  
-
-These rankings let SCENIC+ quickly find **which TF motifs are enriched** in accessible regions or DARs, without rescanning the entire genome.  
+2. 🧠 **The `.motifs.tbl` file** tells you **“which transcription factor probably uses that motif?”** — i.e., it adds biological context by mapping motifs to their likely TF(s), similar motifs, and orthologs.
 
 
-### Example
+### Feather file Example
 
 | chr10:100001588-100001754 | chr10:100004590-100004749 | chr10:100009729-100010013 | ... | chrY:9986285-9986625 | chrY:9992323-9992533 | motifs          |
 |----------------------------|---------------------------|---------------------------|-----|----------------------|----------------------|-----------------|
@@ -548,10 +541,7 @@ These rankings let SCENIC+ quickly find **which TF motifs are enriched** in acce
 | 976643                     | 795153                    | 810566                    | ... | 3809                 | 1018969              | c2h2_zfs__M0369 |
 
 
-> 🌟🌟 2. **Motif annotations (`.motifs.tbl`)**  
-   - Provides **motif annotations** → maps motifs to their likely TF(s), related motifs, and orthologs.  
-
-### Example 
+### tbl file Example 
  
 | motif_id         | motif_name | gene_name | motif_similarity_qvalue | similar_motif_id | orthologous_identity |
 | ---------------- | ---------- | --------- | ----------------------- | ---------------- | -------------------- |
@@ -559,21 +549,12 @@ These rankings let SCENIC+ quickly find **which TF motifs are enriched** in acce
 | metacluster_196.3| EcR_usp    | Nr1h4     | 1.04865e-07             | metacluster_64.14| 0.539514             |
 | metacluster_196.3| EcR_usp    | Nr2f1     | 8.38436e-08             | metacluster_64.14| 0.995238             |
 
----
-
--  🧠 **The `.feather` file** tells you **“where might a motif bind?”** — i.e., which genomic regions look like good binding sites for each motif (based purely on DNA sequence similarity).
-
-- 🧠 **The `.motifs.tbl` file** tells you **“which transcription factor probably uses that motif?”** — i.e., it adds biological context by mapping motifs to their likely TF(s), similar motifs, and orthologs.
 
 ---
 # 🛑 PART D: Running Scenic+ workflow step 
 ---
 
-- The Snakemake workflow runs the SCENIC+ pipeline on your processed ATAC (and optional scRNA) data.  
-- Its main goal is to **infer gene regulatory networks (GRNs)** and compute **TF activity scores per cell**.
-
 SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate gene regulatory networks (GRNs).
-
 ----
 
 > **Outputs**  
@@ -643,8 +624,8 @@ reports **differential motif activity** across cell groups or conditions, highli
 ---
 
 #### 2. Link Regions to Genes
-- Connect enriched regions to their nearby or correlated genes (using genomic proximity or co-variation with RNA).  
-- Produces **region–gene relationships**.
+- Connect enriched regions to their **nearby or co-expressed genes**, using both **genomic proximity** and **correlation with RNA expression**.  
+- Produces **region–gene relationships** that suggest potential regulatory links.
 
 ###### `region_to_gene` Example
 
@@ -664,6 +645,8 @@ reports **differential motif activity** across cell groups or conditions, highli
 * **Distance:** distance from region to the gene TSS (bp); negative = upstream, positive = downstream.
 
 ---
+
+### ⏳ In Progress / Pending 
 
 #### 3. Build Regulatory Networks
 - Combine **TF–region links** (from motif enrichment) with **region–gene links**.  
