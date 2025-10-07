@@ -2,6 +2,8 @@
 
 ## Gene Regulatory Network (GRN)
 A **Gene Regulatory Network (GRN)** inferred by **SCENIC** is a network linking **transcription factors (TFs)** to their **target genes**—revealing how **gene expression programs** are controlled across different **cell states**.
+
+#### We will connect the pieces of the workflow, no optimization yet
   
 ## Installation hints 
 
@@ -403,8 +405,10 @@ This step performs **dimensionality reduction and clustering** of cells based on
 ### Clustering output 
 
 ###### Cell-based level 
+
 ![](scenicOuts/umap_clusters/celltype_umap.png)
-###### Cluster-based level 
+###### Cluster-based level: More resolution more clusters more cell types as it is based on counting 
+ 
 ![](scenicOuts/umap_clusters/annotated_clusters_umap.png)
 ![](scenicOuts/umap_clusters/qc_metrics_umap.png)
 ![](scenicOuts/umap_clusters/topic_celltype_heatmap.png)
