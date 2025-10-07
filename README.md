@@ -595,10 +595,10 @@ SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate ge
 
 ----
 
-### What SCENIC+ does
+#### What SCENIC+ does
 
-👉 In short:
-SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-gene linking → TF activity per cell**, providing a powerful way to dissect cell-type–specific gene regulation.
+👉 In short, SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-gene linking → TF activity per cell**, providing a powerful way to dissect **cell type–specific gene regulation**.  
+
 ---
 > **Steps**
 >  
@@ -620,11 +620,11 @@ SCENIC+ moves from **chromatin accessibility → motif enrichment → region-to-
 
 #### 1. Motif Enrichment (cisTarget step)
 
-**cisTarget (ctx):**  
+🔹 **cisTarget (ctx):**  
 Finds **which TF motifs are enriched** in accessible regions (e.g., DARs or topics), using the prebuilt `.feather` and `.tbl` databases.  
 Output (`ctx_results.html`) shows **motif enrichment per region set**, helping link TFs to accessibility patterns.
 
-**Differential Motif Enrichment (DEM):**  
+🔹 **Differential Motif Enrichment (DEM):**  
 Builds on cisTarget results to test **which motifs show differential activity** between cell groups or conditions.  
 Output (`dem_results.html`) reports **motifs with group-specific accessibility**.
 
