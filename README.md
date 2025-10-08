@@ -645,6 +645,9 @@ reports **differential motif activity** across cell groups or conditions, highli
 ### 2. Link Regions to Genes
 - Connect enriched regions to their **nearby or co-expressed genes**, using both **genomic proximity** and **correlation with RNA expression**.  
 - Produces **region–gene relationships** that suggest potential regulatory links.
+- “These peaks have binding motifs for TF X — which genes might they be regulating?” 
+- Assign the region to nearby genes (e.g., within 10–100 kb) 
+- Check if accessibility of the region is correlated with the expression of a gene across single cells
 
 ###### `region_to_gene` Example
 
@@ -657,7 +660,7 @@ reports **differential motif activity** across cell groups or conditions, highli
 
 **Description:** Links ATAC peaks (regions) to the target gene **0610005C13Rik**.
 
-* **importance:** model-derived weight (how informative the region is for predicting the gene).
+* **importance:** model-derived weight - How important the motif/TF binding in this region is (from earlier motif enrichment step) 
 * **rho:** Spearman correlation between region accessibility and gene expression (sign shows direction).
 * **importance_x_rho:** signed score combining weight and correlation (positive → consistent with activation).
 * **importance_x_abs_rho:** absolute-strength score (magnitude only).
