@@ -1,6 +1,7 @@
 > # A walk through Scenic+ workflow: Gene Regulatory Network (GRN) Inference
 
 #### ⚠️ Disclaimer: Connecting the pieces of the pipeline with dummy results 
+     We will connect the pieces of the workflow, no optimization yet
 
 ### 🧠 Gene Regulatory Network (GRN) and Regulons
 
@@ -222,10 +223,14 @@ This step identifies **peaks**, i.e., genomic regions that are significantly enr
 
 > ## 🔹 3. Consensus Peak Generation Step
 
-- Consensus peaks are created by merging all peaks detected across samples.  
-- Any region open in **at least one sample** is included, forming a unified peak set.  
-- This is useful when you want a shared reference space (same coordinates for all samples) for downstream analysis like LDA or accessibility matrices.
-- Later analyses determine which peaks are condition-specific or shared.
+- Peaks from all samples are merged to form a **unified peak set** representing all accessible regions.
+- Any region open in **at least one sample** is included, ensuring no regulatory element is missed.
+- Overlapping peaks are resolved by:
+  - Keeping the original peak if only one overlaps,
+  - Selecting the peak with the highest score if two overlap,
+  - Choosing the most significant peak and removing overlapping others if three or more overlap.
+- This creates a **shared reference space** (same peak coordinates across samples) for downstream analyses like LDA and accessibility matrices.
+- Later steps identify which peaks are condition-specific or shared across samples.
 
 ---
 
