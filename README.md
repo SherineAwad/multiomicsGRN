@@ -286,10 +286,10 @@ This step creates a **cistopic object**, which is the central data structure use
 
 ###### ⚠️ Disclaimer: Cells with no fragments overlapping peaks is filtered out: Very low number of cells ==relax the minimum fragments overlapping peaks cutoof 
 
-| Sample | Cells | Regions | Project Name | Fragment File |
-|--------|-------|---------|--------------|---------------|
-| **TH1** | 294 cells | 163,474 regions | `TH1` | `TH1_atac_fragments.tsv.gz` |
-| **TH2** | 258 cells | 163,375 regions | `TH2` | `TH2_atac_fragments.tsv.gz` |
+| Sample | Cells | Regions | Fragment File |
+|--------|-------|---------|---------------|
+| **Control** | 294 cells | 163,474 regions |`TH1_atac_fragments.tsv.gz` |
+| **KO** | 258 cells | 163,375 regions |`TH2_atac_fragments.tsv.gz` |
 
 
 > ## 🔹 7. Merging Cistopic Objects Step
