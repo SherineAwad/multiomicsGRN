@@ -284,7 +284,7 @@ This step creates a **cistopic object**, which is the central data structure use
 
 ## 🧫 Sample Overview
 
-###### ⚠️ Disclaimer: Very low number of cells? Still using fragments with peaks 
+###### ⚠️ Disclaimer: Cells with no fragments overlapping peaks is filtered out: Very low number of cells ==relax the minimum fragments overlapping peaks cutoof 
 
 | Sample | Cells | Regions | Project Name | Fragment File |
 |--------|-------|---------|--------------|---------------|
