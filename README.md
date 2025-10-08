@@ -18,8 +18,8 @@ snakemake --use-conda -j 1 -p \
     --latency-wait 60
 
 .snakemake/conda/
-├── conda-abcdef123/   <- env for preprocessing.yml
-├── conda-123456abc/   <- env for scenicplus.yml
+├── conda-abcdef123/   <-  env1.yml env for step1,2, and 3 
+├── conda-123456abc/   <-  env2.yml env for step4,5, and 6 
 ├── conda-7890def456/   <- env for plotting.yml
 ├── conda-456def789/   <- env for some_other_rule.yml
 ├── conda-789abc012/   <- env for analysis_step2.yml
@@ -211,9 +211,9 @@ This step identifies **peaks**, i.e., genomic regions that are significantly enr
 - **MACS2** runs **separately for each pseudobulk**, detecting regions with high accessibility that likely correspond to **regulatory elements** (enhancers or promoters).  
 - The resulting **peak files (per sample)** are later combined to generate a **consensus peak set**, used for **topic modeling** in *pycisTopic*.
 
-
+###### Control Peaks 
 ![Control](Control_peaks.png)  
-
+###### KO Peaks
 ![KO](KO_peaks.png)
 
 
@@ -341,8 +341,10 @@ Each **topic** is defined by a group of **words that tend to occur together** (e
 
 ```
 > 🧩 `What is a GRN Module`
-> A group of **genes and/or regulatory regions (peaks)** that are **co-regulated**, meaning they tend to be active together in the same cells.  
-> Modules often correspond to the set of genes controlled by the same transcription factor or regulatory program.  
+> A group of **genes and/or regulatory regions (peaks)** that are **co-regulated**, 
+  meaning they tend to be active together in the same cells.  
+> Modules often correspond to the set of genes controlled by 
+  the same transcription factor or regulatory program.  
 ```
 
 Modules help simplify complex GRNs by grouping together genes with coordinated activity, making it easier to understand regulatory patterns in single-cell data.
