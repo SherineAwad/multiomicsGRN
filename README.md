@@ -1,5 +1,7 @@
 > # A walk through Scenic+ workflow: Gene Regulatory Network (GRN) Inference
 
+#### ⚠️ Disclaimer: Connecting the pieces of the pipeline with dummy results 
+
 ### 🧠 Gene Regulatory Network (GRN) and Regulons
 
 A **Gene Regulatory Network (GRN)** represents the regulatory relationships between **transcription factors (TFs)** and their **target genes**, describing how TFs can potentially control gene activity 
@@ -9,7 +11,7 @@ In SCENIC+, regulons are identified and their activity is quantified across cell
 
 #### We will connect the pieces of the workflow, no optimization yet
   
-## Workflow -- conda envs  
+## Workflow -- Step A-Z conda envs  
 
 ```
 snakemake --use-conda -j 1 -p \
@@ -279,6 +281,8 @@ This step creates a **cistopic object**, which is the central data structure use
 - This step is **critical** because it transforms raw and pseudobulk fragment data into a structured object suitable for all downstream pycisTopic analyses.
 
 ## 🧫 Sample Overview
+
+###### ⚠️ Disclaimer: Very low number of cells.
 
 | Sample | Cells | Regions | Project Name | Fragment File |
 |--------|-------|---------|--------------|---------------|
