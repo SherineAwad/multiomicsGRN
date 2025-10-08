@@ -407,10 +407,6 @@ This step performs **dimensionality reduction and clustering** of cells based on
 
 - Each cell now has a **topic proportion vector** from the previous LDA step.  
 - Clustering identifies groups of cells with similar chromatin accessibility patterns.  
-- UMAP is used to **visualize the cells in 2D space** for exploratory analysis and interpretation.  
-- **Takes the cistopic object with integrated LDA model** (topic distributions per cell).
-- **Uses topic proportions** to construct a similarity graph for clustering.
-- Prepares the object for **differential accessibility analysis, visualization, and interpretation**.
 
 ### Clustering output 
 
