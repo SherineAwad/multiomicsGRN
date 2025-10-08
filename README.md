@@ -385,8 +385,6 @@ python run_mallet.py \
 --- 
 > ## 🔹 10. Adding LDA Model to Cistopic Object
 
-**Input from Mallet:** A count matrix of genes/peaks per cell, where each row = a cell, each column = a gene/peak, and each entry = occurrence/activity.
-
 LDA finds **patterns of coordinated accessibility** across cells:
 - **Topics** represent groups of genomic regions (peaks) that open/close together.
 - Each “topic” = one module of co-accessible peaks.
