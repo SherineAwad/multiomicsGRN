@@ -240,6 +240,8 @@ This step generates a **BED file containing the transcription start sites (TSSs)
 > ## 🔹 5. QC check and plots 
 
 
+###  ⚠️  ⚠️  QC plots only includes fragments that overlap called peaks
+
 ### TH1
 - Barcode QC  
   ![](scenicOuts/QC/TH1_barcode_qc.png)
@@ -282,7 +284,7 @@ This step creates a **cistopic object**, which is the central data structure use
 
 ## 🧫 Sample Overview
 
-###### ⚠️ Disclaimer: Very low number of cells.
+###### ⚠️ Disclaimer: Very low number of cells? Still using fragments with peaks 
 
 | Sample | Cells | Regions | Project Name | Fragment File |
 |--------|-------|---------|--------------|---------------|
