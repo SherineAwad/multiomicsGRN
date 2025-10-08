@@ -387,25 +387,11 @@ python run_mallet.py \
 
 **Input from Mallet:** A count matrix of genes/peaks per cell, where each row = a cell, each column = a gene/peak, and each entry = occurrence/activity.
 
-**Goal of LDA in SCENIC+:** Discover hidden regulatory patterns in single-cell data.
-- **Output:** 
-  - 1) **Modules** = co-regulated gene/peak groups.
-  - 2) **Module activity** = presence of each module in cells.
-
-LDA identifies co-regulation patterns from Mallet's co-occurrence data.
-
-### 🔹 LDA Topic Modeling on Chromatin Accessibility
-
 LDA finds **patterns of coordinated accessibility** across cells:
 - **Topics** represent groups of genomic regions (peaks) that open/close together.
 - Each “topic” = one module of co-accessible peaks.
 - For each cell, LDA measures the activity of each module.
   i.e. how much the cell shows the pattern of that module  
-### 🔹 Output
-
-Mallet (via LDA) generates two key matrices:
-- **Region-Topic matrix:** Shows which peaks belong to each topic.
-- **Topic-Cell matrix:** Shows how active each module is in each cell.
 
 > ## 🔹 11. Clustering Cistopic Objects and UMAP Visualization
 
