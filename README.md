@@ -371,6 +371,7 @@ Processing TH2_atac_fragments.tsv.gz ...
 
 ##### Now lets force cutoff for minumum of unique fragments 500 
 
+```
 > === Inspecting QC pickle: scenicOuts2/QC_custom/qc_barcodes_thresholds.pkl ===
 > Top-level keys: ['barcodes', 'thresholds']
 
@@ -381,7 +382,7 @@ Processing TH2_atac_fragments.tsv.gz ...
 > === QC thresholds per sample ===
 > TH1: {'unique_fragments_threshold': 500}
 > TH2: {'unique_fragments_threshold': 500}
-
+``` 
 
 
 > ## 🔹 8. Adding scRNA-seq Metadata to Cistopic Objects
