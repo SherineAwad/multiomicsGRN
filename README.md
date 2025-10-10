@@ -352,11 +352,10 @@ Processing TH2_atac_fragments.tsv.gz ...
      - This can be percentile-based or use heuristics on the fragment count distribution.  
   3. **Apply the threshold:** Barcodes with **unique fragments below this value** are removed from the dataset.
 
-
-```
 ###### Inspecting cells and barcodes using default calculated filtering 
 
-> === Inspecting QC pickle: scenicOuts/qc_barcodes_thresholds.pkl ===
+```
+> 👀 👀 Inspecting QC pickle: scenicOuts/qc_barcodes_thresholds.pkl ===
 > Top-level keys: ['barcodes', 'thresholds']
 
 > === Number of barcodes per sample (after QC) ===
@@ -372,7 +371,7 @@ Processing TH2_atac_fragments.tsv.gz ...
 ##### Now lets force cutoff for minumum of unique fragments 500 
 
 ```
-> === Inspecting QC pickle: scenicOuts2/QC_custom/qc_barcodes_thresholds.pkl ===
+> 👀 👀 Inspecting QC pickle: scenicOuts2/QC_custom/qc_barcodes_thresholds.pkl ===
 > Top-level keys: ['barcodes', 'thresholds']
 
 > === Number of barcodes per sample (after QC) ===
