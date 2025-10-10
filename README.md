@@ -313,6 +313,77 @@ This step merges **one or more cistopic objects** into a single unified object.
 | **Region Data**| Unified genomic regions from both samples       |
 
 
+
+##### Debuggging the low number of cells 
+```
+Using `check_fragments.py`
+
+✅ Found 584491 unique barcodes in TH1_atac_fragments.tsv.gz
+   Average fragments per barcode: 416.81
+   Top 5 barcodes by fragment count:
+      CATGGCGGTATACTGG-1: 1263518 fragments
+      GGTTTGTAGGTCCACA-1: 1225892 fragments
+      GCATGAAAGTCATGCG-1: 1073890 fragments
+      AGCAGGTAGGTCCAAT-1: 1065719 fragments
+      CATTGTAAGTAACGGA-1: 862144 fragments
+
+Processing TH2_atac_fragments.tsv.gz ...
+✅ Found 572423 unique barcodes in TH2_atac_fragments.tsv.gz
+   Average fragments per barcode: 398.19
+   Top 5 barcodes by fragment count:
+      ACTTGTCGTGACATAT-1: 1358252 fragments
+      ACTTAGTCATCGTTCT-1: 803456 fragments
+      ACCTGGTCAGGCTACT-1: 624974 fragments
+      TGTGGCCAGATGGACA-1: 552221 fragments
+      GGTACTAGTGCTCCAC-1: 537775 fragments
+
+=== Summary of barcodes per fragment file ===
+                        file  n_barcodes  avg_fragments_per_barcode
+0  TH2_atac_fragments.tsv.gz      572423                 398.188153
+1  TH1_atac_fragments.tsv.gz      584491                 416.813467
+```
+
+###### How PycisTopic Calculates the `unique_fragments_threshold`
+
+- PycisTopic determines the `unique_fragments_threshold` **per sample** based on the distribution of fragments per barcode.  
+- The process roughly works as follows:
+  1. **Count unique fragments per barcode:** For each barcode in the ATAC-seq fragment file, count the number of distinct fragments mapped to the genome.  
+  2. **Estimate a quality threshold:** Using the distribution of fragment counts, PycisTopic selects a threshold to filter out low-quality barcodes (likely empty droplets or background).  
+     - This can be percentile-based or use heuristics on the fragment count distribution.  
+  3. **Apply the threshold:** Barcodes with **unique fragments below this value** are removed from the dataset.
+
+
+```
+###### Inspecting cells and barcodes using default calculated filtering 
+
+> === Inspecting QC pickle: scenicOuts/qc_barcodes_thresholds.pkl ===
+> Top-level keys: ['barcodes', 'thresholds']
+
+> === Number of barcodes per sample (after QC) ===
+> TH1: 294 barcodes
+> TH2: 258 barcodes
+
+> === QC thresholds per sample ===
+> TH1: {'unique_fragments_threshold': np.float64(1353.9226250681177), 'tss_enrichment_threshold': np.float64(1.71825), 'frip_threshold': 0}
+> TH2: {'unique_fragments_threshold': np.float64(1174.007653731433), 'tss_enrichment_threshold': np.float64(1.8663188118811882), 'frip_threshold': 0}
+```
+
+
+##### Now lets force cutoff for minumum of unique fragments 500 
+
+> === Inspecting QC pickle: scenicOuts2/QC_custom/qc_barcodes_thresholds.pkl ===
+> Top-level keys: ['barcodes', 'thresholds']
+
+> === Number of barcodes per sample (after QC) ===
+> TH1: 12040 barcodes
+> TH2: 15246 barcodes
+
+> === QC thresholds per sample ===
+> TH1: {'unique_fragments_threshold': 500}
+> TH2: {'unique_fragments_threshold': 500}
+
+
+
 > ## 🔹 8. Adding scRNA-seq Metadata to Cistopic Objects
 
 This step integrates **scRNA-seq-derived metadata** into the merged cistopic object.  
