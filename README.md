@@ -147,6 +147,42 @@ This is the cell counts in clusters based on barcodes:
 |**Total cells** | **6612** |
 
 
+## Second round scRNA annotations: to use a h5ad accepted by scenic+ 
+
+![Clusters UMAP](figures/umap_clustered_sNeurog2_Clusters.png)
+
+### DOTPLOT 
+![Dotplot](figures/clustered_sNeurog2_Dotplot.png)
+
+### Marker Genes UMAP
+
+<img src="figures/umap_clustered_sNeurog2_Abca8a.png?v=4" alt="Abca8a" width="33%"><img src="figures/umap_clustered_sNeurog2_Ccr2.png?v=4" alt="Ccr2" width="33%"><img src="figures/umap_clustered_sNeurog2_Hes1.png?v=4" alt="Hes1" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Notch1.png?v=4" alt="Notch1" width="33%"><img src="figures/umap_clustered_sNeurog2_Rlbp1.png?v=4" alt="Rlbp1" width="33%"><img src="figures/umap_clustered_sNeurog2_Acta2.png?v=4" alt="Acta2" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Chat.png?v=4" alt="Chat" width="33%"><img src="figures/umap_clustered_sNeurog2_Hes5.png?v=4" alt="Hes5" width="33%"><img src="figures/umap_clustered_sNeurog2_Nrl.png?v=4" alt="Nrl" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Rpe65.png?v=4" alt="Rpe65" width="33%"><img src="figures/umap_clustered_sNeurog2_Apoe.png?v=4" alt="Apoe" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Insm1.png?v=4" alt="Insm1" width="33%"><img src="figures/umap_clustered_sNeurog2_Olig2.png?v=4" alt="Olig2" width="33%"><img src="figures/umap_clustered_sNeurog2_Sebox.png?v=4" alt="Sebox" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Aqp4.png?v=4" alt="Aqp4" width="33%"><img src="figures/umap_clustered_sNeurog2_Csf1r.png?v=4" alt="Csf1r" width="33%"><img src="figures/umap_clustered_sNeurog2_Isl1.png?v=4" alt="Isl1" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Otx2.png?v=4" alt="Otx2" width="33%"><img src="figures/umap_clustered_sNeurog2_Slc17a7.png?v=4" alt="Slc17a7" width="33%"><img src="figures/umap_clustered_sNeurog2_Arr3.png?v=4" alt="Arr3" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Elavl3.png?v=4" alt="Elavl3" width="33%"><img src="figures/umap_clustered_sNeurog2_Kcnj8.png?v=4" alt="Kcnj8" width="33%"><img src="figures/umap_clustered_sNeurog2_Pax2.png?v=4" alt="Pax2" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Slc1a3.png?v=4" alt="Slc1a3" width="33%"><img src="figures/umap_clustered_sNeurog2_Ascl1.png?v=4" alt="Ascl1" width="33%"><img src="figures/umap_clustered_sNeurog2_Elavl4.png?v=4" alt="Elavl4" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Lhx1.png?v=4" alt="Lhx1" width="33%"><img src="figures/umap_clustered_sNeurog2_Pax6.png?v=4" alt="Pax6" width="33%"><img src="figures/umap_clustered_sNeurog2_Slc6a9.png?v=4" alt="Slc6a9" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Atoh7.png?v=4" alt="Atoh7" width="33%"><img src="figures/umap_clustered_sNeurog2_Emx1.png?v=4" alt="Emx1" width="33%"><img src="figures/umap_clustered_sNeurog2_Lhx2.png?v=4" alt="Lhx2" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Pou4f2.png?v=4" alt="Pou4f2" width="33%"><img src="figures/umap_clustered_sNeurog2_Sox11.png?v=4" alt="Sox11" width="33%"><img src="figures/umap_clustered_sNeurog2_Bsn.png?v=4" alt="Bsn" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Foxn4.png?v=4" alt="Foxn4" width="33%"><img src="figures/umap_clustered_sNeurog2_Lhx4.png?v=4" alt="Lhx4" width="33%"><img src="figures/umap_clustered_sNeurog2_Prdm1.png?v=4" alt="Prdm1" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Sox9.png?v=4" alt="Sox9" width="33%"><img src="figures/umap_clustered_sNeurog2_Cabp5.png?v=4" alt="Cabp5" width="33%"><img src="figures/umap_clustered_sNeurog2_Gad1.png?v=4" alt="Gad1" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Malat1.png?v=4" alt="Malat1" width="33%"><img src="figures/umap_clustered_sNeurog2_Prdx6.png?v=4" alt="Prdx6" width="33%"><img src="figures/umap_clustered_sNeurog2_Tfap2a.png?v=4" alt="Tfap2a" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Calb1.png?v=4" alt="Calb1" width="33%"><img src="figures/umap_clustered_sNeurog2_Gfap.png?v=4" alt="Gfap" width="33%"><img src="figures/umap_clustered_sNeurog2_mt-Atp6.png?v=4" alt="mt-Atp6" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Rbfox3.png?v=4" alt="Rbfox3" width="33%"><img src="figures/umap_clustered_sNeurog2_Tie1.png?v=4" alt="Tie1" width="33%"><img src="figures/umap_clustered_sNeurog2_Calb2.png?v=4" alt="Calb2" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Glul.png?v=4" alt="Glul" width="33%"><img src="figures/umap_clustered_sNeurog2_Neurog2.png?v=4" alt="Neurog2" width="33%"><img src="figures/umap_clustered_sNeurog2_Rho.png?v=4" alt="Rho" width="33%">
+<img src="figures/umap_clustered_sNeurog2_Vim.png?v=4" alt="Vim" width="33%">
+
+### Annotations 
+
+![Annotations ON](figures/annotated_clustered_sNeurog2_annotationsON.png)
+
+![Annotations](figures/annotated_clustered_sNeurog2_annotations.png)
+
+
 ## scATAC preprocessing 
 
 ![ATAC UMAP](ATAC_samples.png)
