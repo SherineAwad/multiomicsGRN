@@ -432,18 +432,17 @@ Processing TH2_atac_fragments.tsv.gz ...
 
 ### TH1
 - Barcode QC  
-  ![](scenicResults/QC/TH1_barcode_qc.png?v=2)
+  ![](scenicResults/QC/TH1_barcode_qc.png?v=3)
 
 - General QC  
-  ![](scenicResults/QC/TH1_qc.png?v=2)
+  ![](scenicResults/QC/TH1_qc.png?v=3)
 
 ### TH2
 - Barcode QC  
-  ![](scenicResults/QC/TH2_barcode_qc.png?v=2)
+  ![](scenicResults/QC/TH2_barcode_qc.png?v=3)
 
 - General QC  
-  ![](scenicResults/QC/TH2_qc.png?v=2)
-
+  ![](scenicResults/QC/TH2_qc.png?v=3)
 
 ### Checking how many cells we have: 
 
