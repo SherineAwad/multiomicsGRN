@@ -178,9 +178,9 @@ This is the cell counts in clusters based on barcodes:
 
 ### Annotations 
 
-![Annotations ON](figures/annotated_clustered_sNeurog2_annotationsON.png)
+![Annotations ON](figures/annotated_clustered_sNeurog2_annotationsON.png?v=2)
 
-![Annotations](figures/annotated_clustered_sNeurog2_annotations.png)
+![Annotations](figures/annotated_clustered_sNeurog2_annotations.png?v=2)
 
 
 ## scATAC preprocessing 
