@@ -420,6 +420,29 @@ Processing TH2_atac_fragments.tsv.gz ...
 ``` 
 
 
+##### Adjusting our object to specified cutoff 
+
+>    --unique_fragments_threshold 500 
+>    --tss_enrichment_threshold 5 
+>    --frip_threshold 0.1
+
+### TH1
+- Barcode QC  
+  ![](scenicResults/QC/TH1_barcode_qc.png)
+
+- General QC  
+  ![](scenicResults/QC/TH1_qc.png)
+
+### TH2
+- Barcode QC  
+  ![](scenicResults/QC/TH2_barcode_qc.png)
+
+- General QC  
+  ![](scenicResults/QC/TH2_qc.png)
+
+
+
+
 > ## 🔹 8. Adding scRNA-seq Metadata to Cistopic Objects
 
 This step integrates **scRNA-seq-derived metadata** into the merged cistopic object.  
