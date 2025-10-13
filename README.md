@@ -420,28 +420,47 @@ Processing TH2_atac_fragments.tsv.gz ...
 ``` 
 
 
-##### Adjusting our object to specified cutoff 
+### Adjusting our object to specified cutoff 
 
+```
 >    --unique_fragments_threshold 500 
->    --tss_enrichment_threshold 5 
->    --frip_threshold 0.1
+
+>    --tss_enrichment_threshold 0 
+
+>    --frip_threshold 0
+```
 
 ### TH1
 - Barcode QC  
-  ![](scenicResults/QC/TH1_barcode_qc.png)
+  ![](scenicResults/QC/TH1_barcode_qc.png?v=2)
 
 - General QC  
-  ![](scenicResults/QC/TH1_qc.png)
+  ![](scenicResults/QC/TH1_qc.png?v=2)
 
 ### TH2
 - Barcode QC  
-  ![](scenicResults/QC/TH2_barcode_qc.png)
+  ![](scenicResults/QC/TH2_barcode_qc.png?v=2)
 
 - General QC  
-  ![](scenicResults/QC/TH2_qc.png)
+  ![](scenicResults/QC/TH2_qc.png?v=2)
 
 
+### Checking how many cells we have: 
 
+```
+python check_pickle.py scenicResults/QC/qc_barcodes_thresholds.pkl
+=== Inspecting QC pickle: scenicResults/QC/qc_barcodes_thresholds.pkl ===
+Top-level keys: ['barcodes', 'thresholds']
+
+=== Number of barcodes per sample (after QC) ===
+TH1: 8580 barcodes
+TH2: 8834 barcodes
+
+=== QC thresholds per sample ===
+TH1: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 0.0, 'frip_threshold': 0.0}
+TH2: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 0.0, 'frip_threshold': 0.0}
+
+```
 
 > ## 🔹 8. Adding scRNA-seq Metadata to Cistopic Objects
 
