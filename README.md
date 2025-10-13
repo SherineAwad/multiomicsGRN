@@ -404,22 +404,6 @@ Processing TH2_atac_fragments.tsv.gz ...
 ```
 
 
-##### Now lets force cutoff for minumum of unique fragments 500 
-
-```
-> 👀 👀 Inspecting QC pickle: scenicOuts2/QC_custom/qc_barcodes_thresholds.pkl ===
-> Top-level keys: ['barcodes', 'thresholds']
-
-> === Number of barcodes per sample (after QC) ===
-> TH1: 12040 barcodes
-> TH2: 15246 barcodes
-
-> === QC thresholds per sample ===
-> TH1: {'unique_fragments_threshold': 500}
-> TH2: {'unique_fragments_threshold': 500}
-``` 
-
-
 ### Adjusting our object to specified cutoff 
 
 ```
