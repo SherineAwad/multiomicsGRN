@@ -191,6 +191,32 @@ This is the cell counts in clusters based on barcodes:
 
 ![ATAC CLUSTERS](ATAC_clusters.png)
 
+### 🧬 Cell Counts per Type (`celltype`)
+
+| Cell Type | Number of Cells |
+|------------|----------------|
+| MG         | 11,705 |
+| AC         | 2,680 |
+| Rod        | 1,385 |
+| Microglia  | 1,189 |
+| BC         | 1,001 |
+| MGPC       | 484 |
+| Cones      | 95 |
+| RGC        | 87 |
+
+
+### 🧬 Cell Counts per TType and Sample  
+
+| Cell Type   | Control | KO    |
+|-------------|---------|-------|
+| AC          | 36      | 2644  |
+| BC          | 96      | 905   |
+| Cones       | 13      | 82    |
+| MG          | 7427    | 4278  |
+| MGPC        | 9       | 475   |
+| Microglia   | 957     | 232   |
+| RGC         | 18      | 69    |
+| Rod         | 505     | 880   |
 
 
 ---
@@ -612,16 +638,16 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 #### How to interpret the plots
 
-- **Topics with sharp right tails** (e.g., Topic 6, 13):  
+- **Topics with sharp right tails** (e.g., Topic 16):  
   - Most cells have low probabilities; only a subset passes the threshold.  
   - → These topics are active in **specific subsets of cells** (likely distinct cell states or regulatory programs).  
 
-- **Topics with broad or bimodal distributions** (e.g., Topic 4, 10):  
+- **Topics with broad or bimodal distributions** (e.g., Topic 2):  
   - Many cells span medium to high probabilities.  
   - Threshold selects a large fraction of cells.  
   - → These topics may represent **widespread regulatory programs** across multiple cell types.  
 
-- **Topics with flatter/noisy distributions** (e.g., Topic 2, 9):  
+- **Topics with flatter/noisy distributions** (e.g., Topic 12):  
   - Fewer cells clearly pass the threshold.  
   - → These may be **weaker or less biologically meaningful topics**, or background noise.  
 
