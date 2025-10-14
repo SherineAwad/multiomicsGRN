@@ -205,7 +205,7 @@ This is the cell counts in clusters based on barcodes:
 | RGC        | 87 |
 
 
-### 🧬 Cell Counts per TType and Sample  
+### 🧬 Cell Counts per  Type and Sample  
 
 | Cell Type   | Control | KO    |
 |-------------|---------|-------|
@@ -619,8 +619,7 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 #### Binarisations output 
 
-![Cell Topic LI](scenicResults/topics/cell_topic_li.png)  
-
+![Cell Topic LI](scenicResults/topics/cell_topic_li.png?v=2)
 
 #### What the plots show
 

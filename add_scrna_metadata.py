@@ -7,7 +7,7 @@ import pandas as pd
 def add_scrna_metadata(cistopic_pickle, scrna_csv, output_pickle):
     """
     Add scRNA metadata to a merged CistopicObject.
-    - Adds 'celltype_scrna' column from scRNA data
+    - Adds 'celltype' column from scRNA data
     - Removes empty 'celltype_atac' column if it exists
     """
     # Load CistopicObject
@@ -43,7 +43,7 @@ def add_scrna_metadata(cistopic_pickle, scrna_csv, output_pickle):
     cistopic_obj.cell_data.set_index('barcode_stripped', inplace=True)
 
     # Add scRNA metadata
-    sc_col_name = 'celltype_scrna'
+    sc_col_name = 'celltype'
     if sc_col_name in cistopic_obj.cell_data.columns:
         raise ValueError(f"Column {sc_col_name} already exists")
     matched_meta = scrna_meta[['celltype']].rename(columns={'celltype': sc_col_name})

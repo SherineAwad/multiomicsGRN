@@ -64,9 +64,17 @@ def main(fragments_dict_path, qc_results_pickle, regions_bed, blacklist_bed,
         # FIX BARCODES: Remove -TH1/-TH2 suffixes to match scRNA-seq format
         print(f"  Fixing barcodes for {sample_id}...")
         cistopic_obj.cell_data.index = ['-'.join(barcode.split('-')[0:2]) for barcode in cistopic_obj.cell_data.index]
-        
+
         # ADD THIS LINE: Ensure barcodes are also in the barcode column for consistency
         cistopic_obj.cell_data['barcode'] = cistopic_obj.cell_data.index
+
+        # NEW: Remove cells with nan celltype annotations if they exist
+        if 'celltype' in cistopic_obj.cell_data.columns:
+            before_count = len(cistopic_obj.cell_data)
+            cistopic_obj.cell_data = cistopic_obj.cell_data[cistopic_obj.cell_data['celltype'].notna()]
+            after_count = len(cistopic_obj.cell_data)
+            if before_count != after_count:
+                print(f"  Removed {before_count - after_count} cells with nan celltype annotations")
 
         cistopic_obj_list.append(cistopic_obj)
 

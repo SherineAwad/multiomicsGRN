@@ -3,6 +3,9 @@ import os
 import pickle
 import glob
 import argparse
+import numpy as np
+import pandas as pd
+
 
 def main():
     parser = argparse.ArgumentParser(description='Add LDA models to CistopicObject')
@@ -17,10 +20,10 @@ def main():
     # Find all topic model files
     mallet_dir = os.path.dirname(args.input)
     model_files = glob.glob(os.path.join(mallet_dir, "**/Topic*.pkl"), recursive=True)
-    
+
     if not model_files:
         raise FileNotFoundError("No Topic*.pkl files found")
-    
+
     print(f"Found {len(model_files)} topic models")
 
     # Load all models
@@ -31,15 +34,15 @@ def main():
             models.append(model)
             print(f"Loaded: {os.path.basename(model_file)}")
 
-    # FIX: Manually add the matrices since add_LDA_model() is broken
+    # Select best model
     best_model = max(models, key=lambda m: m.metrics.loc['Metric', 'loglikelihood'])
-    
+
     # Manually attach the topic matrices
     cistopic_obj.cell_topic = best_model.cell_topic
     cistopic_obj.topic_region = best_model.topic_region
     cistopic_obj.models = models
     cistopic_obj.selected_model = best_model
-    
+
     print(f"✓ Manually attached topic matrices from {best_model.n_topic} topic model")
     print(f"  cell_topic shape: {cistopic_obj.cell_topic.shape}")
     print(f"  topic_region shape: {cistopic_obj.topic_region.shape}")
