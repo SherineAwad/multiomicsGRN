@@ -45,7 +45,7 @@ def cluster_cistopic(input_pickle, output_pickle, outdir, resolutions=[0.6, 1.2,
     # --- Simple plotting that works ---
     # Plot cell types
     try:
-        plot_metadata(obj, reduction_name='UMAP', variables=['celltype_scrna'], target='cell')
+        plot_metadata(obj, reduction_name='UMAP', variables=['celltype'], target='cell')
         plt.savefig(os.path.join(outdir, "celltype_umap.png"), bbox_inches='tight')
         plt.close()
     except Exception as e:
@@ -55,7 +55,7 @@ def cluster_cistopic(input_pickle, output_pickle, outdir, resolutions=[0.6, 1.2,
     try:
         # Get cell_topic matrix and cell types
         cell_topic_df = obj.selected_model.cell_topic.T  # Cells x Topics
-        cell_topic_df['celltype'] = obj.cell_data['celltype_scrna']
+        cell_topic_df['celltype'] = obj.cell_data['celltype']
         
         # Group by cell type and average topic contributions
         topic_by_celltype = cell_topic_df.groupby('celltype').mean()
