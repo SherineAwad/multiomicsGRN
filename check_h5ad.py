@@ -20,6 +20,28 @@ print("OBS (cell metadata):")
 print(adata.obs)
 print()
 
+# 🧠 Check if the file is annotated with cell type info
+celltype_cols = [col for col in adata.obs.columns if "celltype" in col.lower() or "cell_type" in col.lower()]
+if len(celltype_cols) > 0:
+    print("Detected potential cell type annotation columns:", celltype_cols)
+    # Try to detect sample column
+    sample_cols = [col for col in adata.obs.columns if "sample" in col.lower()]
+    sample_col = sample_cols[0] if len(sample_cols) > 0 else None
+    if sample_col:
+        print(f"Detected sample column: '{sample_col}'")
+    
+    for col in celltype_cols:
+        print(f"\nCell counts per type in '{col}':")
+        print(adata.obs[col].value_counts())
+        
+        if sample_col:
+            print(f"\nCell counts per type in '{col}' per sample:")
+            counts_per_sample = adata.obs.groupby([sample_col, col]).size()
+            print(counts_per_sample)
+else:
+    print("No cell type annotation column detected in adata.obs.")
+print()
+
 print("VAR (gene metadata):")
 print(adata.var)
 print()
@@ -45,3 +67,4 @@ if adata.raw is not None:
     print("RAW shape:", adata.raw.shape)
 
 print("="*50)
+
