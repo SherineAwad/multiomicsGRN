@@ -452,6 +452,13 @@ This step integrates **scRNA-seq-derived metadata** into the merged cistopic obj
 - Single-cell RNA-seq preprocessing (clustering, cell type annotation) provides **cell type labels, sample IDs, or other metadata**.  
 - Attaching this information to the cistopic object allows **linking chromatin accessibility topics to known cell types** for interpretation.  
 
+##### After merging and adding scRNA metadata 
+
+```
+  📋 SUMMARY STATISTICS:
+      Number of cells: 17414
+      Number of regions: 164077
+``` 
 
 > ## 🔹 9. Topic Modeling with Mallet (run_mallet.py)
 
@@ -568,12 +575,12 @@ This step performs **dimensionality reduction and clustering** of cells based on
 
 ###### Cell-based level 
 
-![](scenicOuts/umap_clusters/celltype_umap.png)
+![](scenicResults/umap_clusters/celltype_umap.png)
 ###### Cluster-based level: More resolution more clusters more cell types as it is based on counting 
  
-![](scenicOuts/umap_clusters/annotated_clusters_umap.png)
-![](scenicOuts/umap_clusters/qc_metrics_umap.png)
-![](scenicOuts/umap_clusters/topic_celltype_heatmap.png)
+![](scenicResults/umap_clusters/annotated_clusters_umap.png)
+![](scenicResults/umap_clusters/qc_metrics_umap.png)
+![](scenicResults/umap_clusters/topic_celltype_heatmap.png)
 
 
 > ## 🔹 12. Binarizing Topics Step
