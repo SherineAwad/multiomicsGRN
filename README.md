@@ -1,7 +1,6 @@
 > # A walk through Scenic+ workflow: Gene Regulatory Network (GRN) Inference
 
-#### ⚠️ Disclaimer: Connecting the pieces of the pipeline with dummy results 
-     We will connect the pieces of the workflow, no optimization yet
+#### ⚠️ Disclaimer: We will connect the pieces of the workflow, no optimization yet
 
 ### 🧠 Gene Regulatory Network (GRN) and Regulons
 

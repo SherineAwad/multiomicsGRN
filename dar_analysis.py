@@ -112,7 +112,7 @@ if __name__ == "__main__":
                         help="CistopicObject pickle")
     parser.add_argument("-o", "--output_dir", required=True,
                         help="Directory to save DAR results and plots")
-    parser.add_argument("-v", "--var_column", default="celltype_scrna",
+    parser.add_argument("-v", "--var_column", default="celltype",
                         help="Metadata column in cell_data for group comparisons")
     parser.add_argument("--scale_impute", type=float, default=1e7,
                         help="Scale factor for impute_accessibility")

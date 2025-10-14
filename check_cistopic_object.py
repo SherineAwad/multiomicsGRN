@@ -98,11 +98,11 @@ def debug_single_cistopic(cistopic_obj, obj_name):
                     print(f"      Data types: {attr_value.dtypes.value_counts().to_dict()}")
                     if not attr_value.empty:
                         print(f"      First few rows (all columns):")
-                        with pd.option_context('display.max_rows', 50,
+                        with pd.option_context('display.max_rows', 5,
                                                'display.max_columns', None,
                                                'display.width', 2000,
                                                'display.max_colwidth', None):
-                            print(attr_value.head(50))
+                            print(attr_value.head(5))
             else:
                 print(f"  🔍 {component}: None")
         else:
