@@ -593,7 +593,7 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 #### Binarisations output 
 
-![Cell Topic LI](scenicOuts/topics/cell_topic_li.png)  
+![Cell Topic LI](scenicResults/topics/cell_topic_li.png)  
 
 
 #### What the plots show
