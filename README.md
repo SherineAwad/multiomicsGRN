@@ -481,10 +481,14 @@ This step integrates **scRNA-seq-derived metadata** into the merged cistopic obj
 ##### After merging and adding scRNA metadata 
 
 ```
-  📋 SUMMARY STATISTICS:
-      Number of cells: 17414
-      Number of regions: 164077
+=== BARCODE DEBUG INFO ===
+ATAC barcodes (first 5): ['GTCCTCAGTTGGTGAC-1', 'GCACTTACAACAGCCT-1', 'CGCTCAGCAAACTGTT-1', 'CAGCTCAAGGAGCAAC-1', 'AGGAACCAGCGATAGA-1']
+scRNA barcodes (first 5): ['AAACAGCCAGTTATGT-1', 'AAACAGCCATAAAGCA-1', 'AAACAGCCATAGCGGA-1', 'AAACAGCCATGGTTAT-1', 'AAACATGCAATGAGGT-1']
+ATAC shape: (17414, 24)
+scRNA shape: (18626, 1)
+Matched 14710 out of 17414 cells (84.47%)
 ``` 
+
 
 > ## 🔹 9. Topic Modeling with Mallet (run_mallet.py)
 
@@ -667,6 +671,8 @@ In this step, we try to find regions of the genome that are more accessible (ope
 
 #### DAR preliminary results
 
+- Number of highly variable regions: 71379
+
 ![Higly variable Regions](scenicOuts/DAR_results/highly_variable_regions.png?v=4)
 
 ### Interpretation of DAR Mean–Dispersion Plot
@@ -681,7 +687,7 @@ In this step, we try to find regions of the genome that are more accessible (ope
 
 ![Imputed features](scenicOuts/DAR_results/imputed_features.png?v=4)
 
-## Number of DARs found using  --adjpval_thr 0.05 and  --log2fc_thr 0.5
+## Number of DARs found using  --adjpval_thr 0.09 and  --log2fc_thr 0.1
 
 | Cell type   | DARs   |
 |-------------|--------|
