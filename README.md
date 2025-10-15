@@ -375,8 +375,8 @@ Processing TH2_atac_fragments.tsv.gz ...
 
 ### Adjusting our object to specified cutoff 
 
-#### Checking how many cells we have: 
 
+#### ✨✨✨✨✨
 ```
 python check_pickle.py scenicResults/QC/qc_barcodes_thresholds.pkl
 === Inspecting QC pickle: scenicResults/QC/qc_barcodes_thresholds.pkl ===
@@ -392,7 +392,7 @@ TH2: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 0.0, 'frip_
 
 ```
 
-
+#### ✨✨✨✨✨
 ```
 === Inspecting QC pickle: scenicResults/QC/qc_barcodes_thresholds.pkl ===
 Top-level keys: ['barcodes', 'thresholds']
@@ -406,7 +406,7 @@ TH1: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 1.5, 'frip_
 TH2: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 1.5, 'frip_threshold': 0.0}
 ```
 
-##### Selected Paramters 
+#### ✨✨✨✨✨ Selected Parameters 
 
 ```
 python check_pickle.py scenicResults/QC/qc_barcodes_thresholds.pkl
@@ -439,8 +439,6 @@ TH2: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 0.5, 'frip_
   ![](scenicResults/QC/TH2_qc.png?v=5)
 
 
-
-
 > ## 🔹 8. Adding scRNA-seq Metadata to Cistopic Objects
 
 This step integrates **scRNA-seq-derived metadata** into the merged cistopic object.  
@@ -451,14 +449,29 @@ This step integrates **scRNA-seq-derived metadata** into the merged cistopic obj
 ##### After merging and adding scRNA metadata 
 
 ```
-=== BARCODE DEBUG INFO ===
-ATAC barcodes (first 5): ['GTCCTCAGTTGGTGAC-1', 'GCACTTACAACAGCCT-1', 'CGCTCAGCAAACTGTT-1', 'CAGCTCAAGGAGCAAC-1', 'AGGAACCAGCGATAGA-1']
-scRNA barcodes (first 5): ['AAACAGCCAGTTATGT-1', 'AAACAGCCATAAAGCA-1', 'AAACAGCCATAGCGGA-1', 'AAACAGCCATGGTTAT-1', 'AAACATGCAATGAGGT-1']
-ATAC shape: (17414, 24)
-scRNA shape: (18626, 1)
-Matched 14710 out of 17414 cells (84.47%)
-``` 
 
+=== Number of cells per sample ===
+TH2: 3776 cells | Total fragments: 333679438 | Unique fragments: 126727394
+TH1: 3772 cells | Total fragments: 388782996 | Unique fragments: 134826700
+
+🔍 region_data:
+  Shape: (164077, 8)
+  Columns: ['Chromosome', 'Start', 'End', 'Width', 'cisTopic_nr_frag', 'cisTopic_log_nr_frag', 'cisTopic_nr_acc', 'cisTopic_log_nr_acc']
+  First 5 regions: ['chr3:51159930-51160965', 'chr9:9444218-9444498', 'chr15:60811975-60812217', 'chr1:130979196-130979797', 'chr11:44546215-44546765']
+
+📋 SUMMARY STATISTICS:
+  Number of cells: 8209
+  Number of regions: 164077
+
+=== BARCODE DEBUG INFO ===
+ATAC barcodes (first 5): ['GTCCTCAGTTGGTGAC-1', 'CGCTCAGCAAACTGTT-1', 'GCTGTGATCTGCAAGT-1', 'AGGTACGCAGGAACTG-1', 'CTAGTGAGTTTACGTC-1']
+scRNA barcodes (first 5): ['AAACAGCCAGTTATGT-1', 'AAACAGCCATAAAGCA-1', 'AAACAGCCATAGCGGA-1', 'AAACAGCCATGGTTAT-1', 'AAACATGCAATGAGGT-1']
+ATAC shape: (8209, 23)
+scRNA shape: (18626, 1)
+Matched 7548 out of 8209 cells (91.95%)
+✓ Removed 661 cells with missing 'celltype' metadata
+
+``` 
 
 > ## 🔹 9. Topic Modeling with Mallet (run_mallet.py)
 
