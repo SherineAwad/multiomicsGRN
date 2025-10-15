@@ -803,6 +803,12 @@ total                              13
 
 ![](dag.png)
 
+
+
+> 👀 👀  AssertionError: An AUC threshold of 0.600000 corresponds to 666393 top ranked genes/regions in the database. Please increase the rank threshold or decrease the AUC threshold.
+
+
+
 ### 1. Motif Enrichment (cisTarget step)
 
 🔹 **cisTarget (ctx):**  
