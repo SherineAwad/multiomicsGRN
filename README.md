@@ -622,7 +622,7 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 #### Binarisations output 
 
-![Cell Topic LI](scenicResults/topics/cell_topic_li.png?v=2)
+![Cell Topic LI](scenicResults/topics/cell_topic_li.png?v=3)
 
 #### What the plots show
 
@@ -921,11 +921,14 @@ total                              13
 ![](dag.png)
 
 
-
+```
 > ❗ 👀 👀 AssertionError: An AUC threshold of 0.600000 corresponds to 666393 top ranked genes/regions in the database. Please increase the rank threshold or decrease the AUC threshold.
+
 > ❗ 👀 👀 AssertionError: An AUC threshold of 0.550000 corresponds to 610860 top ranked genes/regions in the database. Please increase the rank threshold or decrease the AUC threshold.
+
 > ❗ 👀 👀 AssertionError: An AUC threshold of 0.450000 corresponds to 499795 top ranked genes/regions in the database. Please increase the rank threshold or decrease the AUC threshold.
 
+```
 
 
 ---
