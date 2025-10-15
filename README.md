@@ -777,6 +777,32 @@ SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate ge
 Chromatin Accessibility  -->  Motif Enrichment  -->  Region-to-Gene Linking  -->  TF Activity per Cell
 ```
 
+
+#### Snakefile rules
+
+```
+Job stats:
+job                             count
+----------------------------  -------
+AUCell_direct                       1
+AUCell_extended                     1
+all                                 1
+eGRN_direct                         1
+eGRN_extended                       1
+get_search_space                    1
+motif_enrichment_cistarget          1
+motif_enrichment_dem                1
+prepare_GEX_ACC_non_multiome        1
+prepare_menr                        1
+region_to_gene                      1
+scplus_mudata                       1
+tf_to_gene                          1
+total                              13
+
+```
+
+![](dag.png)
+
 ### 1. Motif Enrichment (cisTarget step)
 
 🔹 **cisTarget (ctx):**  
