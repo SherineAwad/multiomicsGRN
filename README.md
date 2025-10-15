@@ -375,29 +375,7 @@ Processing TH2_atac_fragments.tsv.gz ...
 
 ### Adjusting our object to specified cutoff 
 
-```
->    --unique_fragments_threshold 500 
-
->    --tss_enrichment_threshold 0 
-
->    --frip_threshold 0
-```
-
-### TH1
-- Barcode QC  
-  ![](scenicResults/QC/TH1_barcode_qc.png?v=4)
-
-- General QC  
-  ![](scenicResults/QC/TH1_qc.png?v=4)
-
-### TH2
-- Barcode QC  
-  ![](scenicResults/QC/TH2_barcode_qc.png?v=4)
-
-- General QC  
-  ![](scenicResults/QC/TH2_qc.png?v=4)
-
-### Checking how many cells we have: 
+#### Checking how many cells we have: 
 
 ```
 python check_pickle.py scenicResults/QC/qc_barcodes_thresholds.pkl
@@ -413,6 +391,55 @@ TH1: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 0.0, 'frip_
 TH2: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 0.0, 'frip_threshold': 0.0}
 
 ```
+
+
+```
+=== Inspecting QC pickle: scenicResults/QC/qc_barcodes_thresholds.pkl ===
+Top-level keys: ['barcodes', 'thresholds']
+
+=== Number of barcodes per sample ===
+TH1: 514 barcodes
+TH2: 591 barcodes
+
+=== QC thresholds per sample ===
+TH1: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 1.5, 'frip_threshold': 0.0}
+TH2: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 1.5, 'frip_threshold': 0.0}
+```
+
+##### Selected Paramters 
+
+```
+python check_pickle.py scenicResults/QC/qc_barcodes_thresholds.pkl
+=== Inspecting QC pickle: scenicResults/QC/qc_barcodes_thresholds.pkl ===
+Top-level keys: ['barcodes', 'thresholds']
+
+=== Number of barcodes per sample ===
+TH1: 4113 barcodes
+TH2: 4096 barcodes
+
+=== QC thresholds per sample ===
+TH1: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 0.5, 'frip_threshold': 0.0}
+TH2: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 0.5, 'frip_threshold': 0.0}
+```
+
+##### QC plots
+
+### TH1
+- Barcode QC
+  ![](scenicResults/QC/TH1_barcode_qc.png?v=5)
+
+- General QC
+  ![](scenicResults/QC/TH1_qc.png?v=5)
+
+### TH2
+- Barcode QC
+  ![](scenicResults/QC/TH2_barcode_qc.png?v=5)
+
+- General QC
+  ![](scenicResults/QC/TH2_qc.png?v=5)
+
+
+
 
 > ## 🔹 8. Adding scRNA-seq Metadata to Cistopic Objects
 
