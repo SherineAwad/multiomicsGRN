@@ -9,6 +9,7 @@ def add_scrna_metadata(cistopic_pickle, scrna_csv, output_pickle):
     Add scRNA metadata to a merged CistopicObject.
     - Adds 'celltype' column from scRNA data
     - Removes empty 'celltype_atac' column if it exists
+    - Removes cells with missing 'celltype' after join
     """
     # Load CistopicObject
     with open(cistopic_pickle, "rb") as f:
@@ -29,9 +30,9 @@ def add_scrna_metadata(cistopic_pickle, scrna_csv, output_pickle):
     scrna_meta['barcode'] = scrna_meta['barcode'].astype(str).str.strip()
     scrna_meta.set_index('barcode', inplace=True)
 
-    # Prepare ATAC barcodes
+    # Prepare ATAC barcodes - barcodes are now in INDEX, not column
     if 'barcode_stripped' not in cistopic_obj.cell_data.columns:
-        cistopic_obj.cell_data['barcode_stripped'] = cistopic_obj.cell_data['barcode'].astype(str).str.strip()
+        cistopic_obj.cell_data['barcode_stripped'] = cistopic_obj.cell_data.index.astype(str).str.strip()
 
     # DEBUG: Check barcode alignment
     print("=== BARCODE DEBUG INFO ===")
@@ -53,6 +54,12 @@ def add_scrna_metadata(cistopic_pickle, scrna_csv, output_pickle):
     n_matched = cistopic_obj.cell_data[sc_col_name].notna().sum()
     total_cells = cistopic_obj.cell_data.shape[0]
     print(f"Matched {n_matched} out of {total_cells} cells ({n_matched/total_cells*100:.2f}%)")
+
+    # Remove cells with missing 'celltype'
+    before_drop = cistopic_obj.cell_data.shape[0]
+    cistopic_obj.cell_data.dropna(subset=[sc_col_name], inplace=True)
+    after_drop = cistopic_obj.cell_data.shape[0]
+    print(f"✓ Removed {before_drop - after_drop} cells with missing '{sc_col_name}' metadata")
 
     # Remove empty celltype_atac column if it exists and is all NA
     if 'celltype_atac' in cistopic_obj.cell_data.columns:
@@ -80,3 +87,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     add_scrna_metadata(args.cistopic_pickle, args.scrna_csv, args.output_pickle)
+
