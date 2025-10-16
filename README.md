@@ -942,43 +942,12 @@ ch has 6063 regions
 ....
 
 
-2025-10-16 10:37:45,475 cisTarget    INFO     Reading cisTarget database
-2025-10-16 10:38:05,505 cisTarget    INFO     Running cisTarget for DARs_cell_type_Rod which has 32001 regions
-2025-10-16 10:38:09,741 cisTarget    INFO     Running cisTarget for DARs_cell_type_MGPC which has 14335 regions
-2025-10-16 10:39:48,936 cisTarget    INFO     Annotating motifs for Topics_top_3k_Topic1
-2025-10-16 10:39:58,826 cisTarget    INFO     Getting cistromes for Topics_top_3k_Topic1
-2025-10-16 10:40:11,879 cisTarget    INFO     Reading cisTarget database
-2025-10-16 10:40:35,530 cisTarget    INFO     Running cisTarget for DARs_cell_type_MG which has 37052 regions
-2025-10-16 10:40:59,242 cisTarget    INFO     Annotating motifs for Topics_top_3k_Topic2
-2025-10-16 10:41:06,565 cisTarget    INFO     Getting cistromes for Topics_top_3k_Topic2
-2025-10-16 10:41:16,107 cisTarget    INFO     Reading cisTarget database
-2025-10-16 10:41:31,999 cisTarget    INFO     Running cisTarget for DARs_cell_type_Microglia which has 19063 regions
-2025-10-16 10:41:52,406 cisTarget    INFO     Annotating motifs for DARs_cell_type_BC
-2025-10-16 10:42:18,303 cisTarget    INFO     Annotating motifs for Topics_top_3k_Topic20
-2025-10-16 10:42:23,185 cisTarget    INFO     Getting cistromes for Topics_top_3k_Topic20
-2025-10-16 10:42:26,341 cisTarget    INFO     Getting cistromes for DARs_cell_type_BC
-2025-10-16 10:42:30,116 cisTarget    INFO     Reading cisTarget database
-2025-10-16 10:42:40,717 cisTarget    INFO     Annotating motifs for DARs_cell_type_AC
-2025-10-16 10:42:58,872 cisTarget    INFO     Running cisTarget for Topics_otsu_Topic16 which has 9343 regions
-2025-10-16 10:43:07,439 cisTarget    INFO     Reading cisTarget database
-2025-10-16 10:43:18,560 cisTarget    INFO     Annotating motifs for DARs_cell_type_MGPC
-2025-10-16 10:43:23,714 cisTarget    INFO     Running cisTarget for Topics_otsu_Topic19 which has 11832 regions
-2025-10-16 10:43:26,046 cisTarget    INFO     Getting cistromes for DARs_cell_type_AC
-2025-10-16 10:43:37,123 cisTarget    INFO     Annotating motifs for Topics_top_3k_Topic9
-2025-10-16 10:43:37,450 cisTarget    INFO     Getting cistromes for DARs_cell_type_MGPC
-2025-10-16 10:43:42,813 cisTarget    INFO     Getting cistromes for Topics_top_3k_Topic9
-2025-10-16 10:43:50,283 cisTarget    INFO     Reading cisTarget database
-2025-10-16 10:43:57,099 cisTarget    INFO     Annotating motifs for DARs_cell_type_Rod
-2025-10-16 10:44:06,338 cisTarget    INFO     Running cisTarget for Topics_otsu_Topic3 which has 11568 regions
-2025-10-16 10:44:07,075 cisTarget    INFO     Reading cisTarget database
-2025-10-16 10:44:23,542 cisTarget    INFO     Annotating motifs for DARs_cell_type_MG
-2025-10-16 10:44:24,139 cisTarget    INFO     Running cisTarget for Topics_otsu_Topic6 which has 17013 regions
-2025-10-16 10:44:25,981 cisTarget    INFO     Reading cisTarget database
-2025-10-16 10:44:26,189 cisTarget    INFO     Getting cistromes for DARs_cell_type_Rod
-2025-10-16 10:44:42,328 cisTarget    INFO     Running cisTarget for Topics_otsu_Topic11 which has 12510 regions
-2025-10-16 10:44:44,745 cisTarget    INFO     Getting cistromes for DARs_cell_type_MG
-2025-10-16 10:45:04,862 cisTarget    INFO     Reading cisTarget database
-
+2025-10-16 10:52:26,847 cisTarget    INFO     Running cisTarget for Topics_otsu_Topic7 which has 13145 regions
+2025-10-16 10:52:32,784 cisTarget    INFO     Getting cistromes for Topics_otsu_Topic3
+2025-10-16 10:53:25,286 cisTarget    INFO     Running cisTarget for Topics_otsu_Topic5 which has 12035 regions
+2025-10-16 10:53:53,554 cisTarget    INFO     Getting cistromes for Topics_otsu_Topic12
+2025-10-16 10:54:05,382 cisTarget    INFO     Reading cisTarget database
+2025-10-16 10:54:06,576 cisTarget    INFO     Getting cistromes for Topics_otsu_Topic4
 
 ```
 ---
