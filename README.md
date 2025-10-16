@@ -942,9 +942,6 @@ ch has 6063 regions
 ....
 
 
-  warnings.warn(
-/nfs/turbo/umms-thahoang/sherine/miniconda/envs/myScenicP/lib/python3.11/site-packages/scenicplus/__init__.py:1: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
-  from pkg_resources import get_distribution, DistributionNotFound
 2025-10-16 10:37:45,475 cisTarget    INFO     Reading cisTarget database
 2025-10-16 10:38:05,505 cisTarget    INFO     Running cisTarget for DARs_cell_type_Rod which has 32001 regions
 2025-10-16 10:38:09,741 cisTarget    INFO     Running cisTarget for DARs_cell_type_MGPC which has 14335 regions
@@ -981,8 +978,7 @@ ch has 6063 regions
 2025-10-16 10:44:42,328 cisTarget    INFO     Running cisTarget for Topics_otsu_Topic11 which has 12510 regions
 2025-10-16 10:44:44,745 cisTarget    INFO     Getting cistromes for DARs_cell_type_MG
 2025-10-16 10:45:04,862 cisTarget    INFO     Reading cisTarget database
-/nfs/turbo/umms-thahoang/sherine/miniconda/envs/myScenicP/lib/python3.11/site-packages/joblib/externals/loky/process_executor.py:752: UserWarning: A worker stopped while some jobs were given to the executor. This can be caused by a too short worker timeout or by a memory leak.
-  warnings.warn(
+
 
 ```
 ---
