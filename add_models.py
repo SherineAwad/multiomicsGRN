@@ -37,8 +37,8 @@ def main():
     # Select best model
     best_model = max(models, key=lambda m: m.metrics.loc['Metric', 'loglikelihood'])
 
-    # Manually attach the topic matrices
-    cistopic_obj.cell_topic = best_model.cell_topic
+    # Manually attach the topic matrices - TRANSPOSE cell_topic to (cells, topics)
+    cistopic_obj.cell_topic = best_model.cell_topic.T
     cistopic_obj.topic_region = best_model.topic_region
     cistopic_obj.models = models
     cistopic_obj.selected_model = best_model
