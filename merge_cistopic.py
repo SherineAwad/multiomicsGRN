@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 import pickle
 import argparse
-import pandas as pd
 import os
-import numpy as np
+import time
 from scipy import sparse
+import pandas as pd
+import numpy as np
+from pycisTopic.cistopic_class import CistopicObject
 
 def main():
     parser = argparse.ArgumentParser(description="Merge cisTopic objects while preserving original barcodes")
@@ -13,6 +15,7 @@ def main():
     args = parser.parse_args()
 
     # Load input
+    print("Loading cisTopic objects...")
     with open(args.input, "rb") as f:
         obj = pickle.load(f)
 
@@ -26,163 +29,130 @@ def main():
 
     print(f"✓ Processing {len(cistopic_list)} cisTopic objects")
 
-    # Merge cell_data with original barcodes preserved
+    # Quick dimension check
+    for i, co in enumerate(cistopic_list):
+        print(f"  Object {i+1}: {len(co.cell_names)} cells × {len(co.region_names)} regions")
+
+    # Merge cell_data
+    print("Merging cell_data...")
     merged_cell_data = []
     all_cell_names = []
-    all_region_names = None
-    
     for i, co in enumerate(cistopic_list):
         df = co.cell_data.copy()
-        sample_name = f"Sample{i+1}"
-        df["sample_id"] = sample_name
-        
-        # Store original barcode from index
-        original_barcodes = df.index.tolist()
-        df["orig_barcode"] = original_barcodes
-        
+        df["sample_id"] = f"Sample{i+1}"
+        df["orig_barcode"] = df.index.tolist()
         merged_cell_data.append(df)
-        all_cell_names.extend(original_barcodes)
-        print(f"✓ Sample {i+1}: {df.shape[0]} cells | Barcode examples: {original_barcodes[:3]}")
+        all_cell_names.extend(df.index.tolist())
+    merged_cell_data = pd.concat(merged_cell_data, axis=0)
+    print(f"✓ Merged cell_data: {merged_cell_data.shape}")
 
-    # Concatenate while preserving original indices
-    merged_df = pd.concat(merged_cell_data, axis=0)
+    # Collect all unique regions
+    print("Collecting unique regions...")
+    all_regions = sorted(set().union(*[co.region_data.index.tolist() for co in cistopic_list]))
+    region_index_map = {r: i for i, r in enumerate(all_regions)}
+    print(f"✓ Total unique regions: {len(all_regions)}")
+
+    # FAST VERSION: Merge matrices using efficient alignment
+    print("Merging matrices (fast method)...")
     
-    # Use original barcodes as index (they should be unique across samples)
-    merged_df.index = merged_df["orig_barcode"]
-    
-    print(f"✓ Merged cell_data shape: {merged_df.shape}")
-
-    # Merge region_data (should be identical across samples)
-    if all(hasattr(co, 'region_data') for co in cistopic_list):
-        first_region_data = cistopic_list[0].region_data
-        if all(co.region_data.equals(first_region_data) for co in cistopic_list[1:]):
-            merged_region_data = first_region_data.copy()
-            all_region_names = merged_region_data.index.tolist()
-            print(f"✓ Region data merged: {merged_region_data.shape}")
-        else:
-            print("⚠️  Region data differs between samples, using first sample's region_data")
-            merged_region_data = first_region_data.copy()
-            all_region_names = merged_region_data.index.tolist()
-    else:
-        # Get region names from counts matrix if region_data doesn't exist
-        if hasattr(cistopic_list[0], 'counts'):
-            all_region_names = cistopic_list[0].counts.columns.tolist()
-            merged_region_data = pd.DataFrame(index=all_region_names)
-        else:
-            raise ValueError("No region data or counts matrix found to determine region names")
-
-    # Merge count matrices
-    merged_counts = None
-    merged_binary = None
-    merged_nr_frag = None
-    merged_nr_acc = None
-    
-    # Merge counts matrices
-    if all(hasattr(co, 'counts') and getattr(co, 'counts') is not None for co in cistopic_list):
-        print("✓ Merging counts matrices...")
-        count_matrices = []
-        for co in cistopic_list:
-            if sparse.issparse(co.counts):
-                count_matrices.append(co.counts)
-            else:
-                count_matrices.append(sparse.csr_matrix(co.counts))
-        merged_counts = sparse.vstack(count_matrices, format='csr')
-        print(f"  Counts matrix merged: {merged_counts.shape}")
-
-    # Merge binary matrices
-    if all(hasattr(co, 'binary_count') and getattr(co, 'binary_count') is not None for co in cistopic_list):
-        print("✓ Merging binary matrices...")
-        binary_matrices = []
-        for co in cistopic_list:
-            if sparse.issparse(co.binary_count):
-                binary_matrices.append(co.binary_count)
-            else:
-                binary_matrices.append(sparse.csr_matrix(co.binary_count))
-        merged_binary = sparse.vstack(binary_matrices, format='csr')
-        print(f"  Binary matrix merged: {merged_binary.shape}")
-
-    # Merge nr_frag
-    if all(hasattr(co, 'nr_frag') and getattr(co, 'nr_frag') is not None for co in cistopic_list):
-        print("✓ Merging nr_frag...")
-        nr_frag_list = []
-        for co in cistopic_list:
-            nr_frag_list.append(co.nr_frag)
-        merged_nr_frag = np.concatenate(nr_frag_list)
-        print(f"  nr_frag merged: {merged_nr_frag.shape}")
-
-    # Merge nr_acc
-    if all(hasattr(co, 'nr_acc') and getattr(co, 'nr_acc') is not None for co in cistopic_list):
-        print("✓ Merging nr_acc...")
-        nr_acc_list = []
-        for co in cistopic_list:
-            nr_acc_list.append(co.nr_acc)
-        merged_nr_acc = np.concatenate(nr_acc_list)
-        print(f"  nr_acc merged: {merged_nr_acc.shape}")
-
-    # Handle path_to_fragments - combine if they exist
-    merged_path_to_fragments = None
-    fragment_paths = []
-    for co in cistopic_list:
-        if hasattr(co, 'path_to_fragments') and co.path_to_fragments is not None:
-            fragment_paths.append(co.path_to_fragments)
-    
-    if fragment_paths:
-        merged_path_to_fragments = fragment_paths[0] if len(fragment_paths) == 1 else fragment_paths
-        print(f"✓ Fragment paths: {merged_path_to_fragments}")
-
-    # Create new cisTopic object with required arguments
-    try:
-        from pycisTopic.cistopic_class import CistopicObject
+    def merge_matrix_fast(matrix_name):
+        """Fast matrix merging using column alignment"""
+        aligned_matrices = []
         
-        merged_obj = CistopicObject(
-            fragment_matrix=merged_counts,
-            binary_matrix=merged_binary,
-            cell_names=all_cell_names,
-            region_names=all_region_names,
-            cell_data=merged_df,
-            region_data=merged_region_data,
-            path_to_fragments=merged_path_to_fragments
-        )
-        
-        # Copy additional attributes if they exist
-        for attr in ['project']:
-            if hasattr(cistopic_list[0], attr):
-                setattr(merged_obj, attr, getattr(cistopic_list[0], attr))
+        for obj_idx, co in enumerate(cistopic_list):
+            print(f"  Processing {matrix_name} for object {obj_idx+1}...")
+            start_time = time.time()
+            
+            # Get the matrix
+            if matrix_name == "fragment_matrix":
+                mat = getattr(co, "fragment_matrix", None)
+            else:  # binary_matrix
+                mat = getattr(co, "binary_matrix", None)
+                if mat is None:
+                    # Create binary from fragment_matrix if needed
+                    mat_source = getattr(co, "fragment_matrix", None)
+                    if mat_source is not None:
+                        mat = (mat_source > 0).astype(int)
+            
+            if mat is None:
+                raise ValueError(f"CistopicObject has no {matrix_name}: {co}")
+            
+            mat = sparse.csr_matrix(mat)
+            print(f"    Original shape: {mat.shape}")
+            
+            # Create mapping from object regions to merged regions
+            obj_region_to_idx = {region: idx for idx, region in enumerate(co.region_data.index)}
+            
+            # Find which regions from this object exist in the merged set
+            valid_regions = [r for r in co.region_data.index if r in region_index_map]
+            print(f"    Found {len(valid_regions)}/{len(co.region_data.index)} regions in merged set")
+            
+            if not valid_regions:
+                print("    WARNING: No regions match between objects!")
+                # Create empty matrix as fallback
+                new_mat = sparse.csr_matrix((mat.shape[0], len(all_regions)))
+            else:
+                # Get column indices in both original and merged matrices
+                obj_col_indices = [obj_region_to_idx[r] for r in valid_regions]
+                merged_col_indices = [region_index_map[r] for r in valid_regions]
                 
-    except ImportError:
-        # Fallback: use the first object's class directly
-        merged_obj = cistopic_list[0].__class__(
-            fragment_matrix=merged_counts,
-            binary_matrix=merged_binary,
-            cell_names=all_cell_names,
-            region_names=all_region_names,
-            cell_data=merged_df,
-            region_data=merged_region_data,
-            path_to_fragments=merged_path_to_fragments
-        )
+                # Filter to valid column indices
+                valid_obj_indices = [idx for idx in obj_col_indices if idx < mat.shape[1]]
+                valid_merged_indices = [merged_col_indices[i] for i, idx in enumerate(obj_col_indices) if idx < mat.shape[1]]
+                
+                # Create new matrix efficiently
+                new_mat = sparse.lil_matrix((mat.shape[0], len(all_regions)))
+                
+                # Copy valid columns in batch
+                if valid_obj_indices:
+                    new_mat[:, valid_merged_indices] = mat[:, valid_obj_indices]
+            
+            aligned_matrices.append(new_mat.tocsr())
+            print(f"    ✓ Finished in {time.time() - start_time:.1f}s")
+        
+        # Stack all matrices
+        merged_matrix = sparse.vstack(aligned_matrices, format='csr')
+        print(f"✓ Merged {matrix_name} shape: {merged_matrix.shape}")
+        return merged_matrix
+
+    # Merge both matrices using fast method
+    merged_counts = merge_matrix_fast("fragment_matrix")
+    merged_binary = merge_matrix_fast("binary_matrix")
+
+    # Merge region_data
+    print("Merging region_data...")
+    merged_region_data = pd.DataFrame(index=all_regions)
+
+    # Merge path_to_fragments
+    merged_path_to_fragments = []
+    for co in cistopic_list:
+        if getattr(co, "path_to_fragments", None) is not None:
+            merged_path_to_fragments.append(co.path_to_fragments)
+    if len(merged_path_to_fragments) == 1:
+        merged_path_to_fragments = merged_path_to_fragments[0]
+
+    # Create new CistopicObject with matrices
+    print("Creating merged cisTopic object...")
+    merged_obj = CistopicObject(
+        fragment_matrix=merged_counts,
+        binary_matrix=merged_binary,
+        cell_names=all_cell_names,
+        region_names=all_regions,
+        cell_data=merged_cell_data,
+        region_data=merged_region_data,
+        path_to_fragments=merged_path_to_fragments
+    )
 
     # Save merged object
-    out_path = os.path.abspath(args.output)
-    os.makedirs(os.path.dirname(out_path) if os.path.dirname(out_path) else '.', exist_ok=True)
-    
-    with open(out_path, "wb") as f:
+    os.makedirs(os.path.dirname(args.output) or ".", exist_ok=True)
+    with open(args.output, "wb") as f:
         pickle.dump(merged_obj, f)
 
-    print(f"\n✅ Merge completed successfully!")
-    print(f"✓ Output: {out_path}")
+    print(f"\n✅ Merge completed. Output saved to {args.output}")
     print(f"✓ Total cells: {merged_obj.cell_data.shape[0]}")
-    print(f"✓ Cell_data columns: {list(merged_obj.cell_data.columns)}")
-    
-    # Show barcode overlap info
-    if len(cistopic_list) == 2:
-        barcodes1 = set(cistopic_list[0].cell_data.index)
-        barcodes2 = set(cistopic_list[1].cell_data.index)
-        shared = barcodes1.intersection(barcodes2)
-        print(f"✓ Barcode overlap between samples: {len(shared)} shared barcodes")
-        if len(shared) > 0:
-            print(f"  Examples: {list(shared)[:5]}")
-        print(f"  Unique to Sample1: {len(barcodes1 - barcodes2)}")
-        print(f"  Unique to Sample2: {len(barcodes2 - barcodes1)}")
+    print(f"✓ Total regions: {len(merged_obj.region_names)}")
+    print(f"✓ fragment_matrix shape: {merged_obj.fragment_matrix.shape}")
+    print(f"✓ binary_matrix shape: {merged_obj.binary_matrix.shape}")
 
 if __name__ == "__main__":
     main()

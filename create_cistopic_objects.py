@@ -3,7 +3,28 @@ import os
 import argparse
 import pickle
 import polars as pl
+import scipy.sparse as sp
 from pycisTopic.cistopic_class import create_cistopic_object_from_fragments
+
+def fix_transposed_matrices(cistopic_obj):
+    """
+    Fix transposed matrices in cisTopic object
+    """
+    print(f"  Checking matrix dimensions...")
+    
+    # Check and fix fragment_matrix
+    if hasattr(cistopic_obj, 'fragment_matrix'):
+        if cistopic_obj.fragment_matrix.shape[0] == len(cistopic_obj.region_names):
+            print(f"    Fixing fragment_matrix: {cistopic_obj.fragment_matrix.shape} -> {cistopic_obj.fragment_matrix.shape[1], cistopic_obj.fragment_matrix.shape[0]}")
+            cistopic_obj.fragment_matrix = cistopic_obj.fragment_matrix.T
+    
+    # Check and fix binary_matrix  
+    if hasattr(cistopic_obj, 'binary_matrix'):
+        if cistopic_obj.binary_matrix.shape[0] == len(cistopic_obj.region_names):
+            print(f"    Fixing binary_matrix: {cistopic_obj.binary_matrix.shape} -> {cistopic_obj.binary_matrix.shape[1], cistopic_obj.binary_matrix.shape[0]}")
+            cistopic_obj.binary_matrix = cistopic_obj.binary_matrix.T
+    
+    return cistopic_obj
 
 def main(fragments_dict_path, qc_results_pickle, regions_bed, blacklist_bed,
          qc_output_dir, output_pickle, n_cpu):
@@ -60,6 +81,19 @@ def main(fragments_dict_path, qc_results_pickle, regions_bed, blacklist_bed,
             project=sample_id,
             split_pattern="-"
         )
+
+        # FIX: Transpose matrices if they're in wrong orientation
+        print(f"  Checking and fixing matrix orientation...")
+        cistopic_obj = fix_transposed_matrices(cistopic_obj)
+        
+        # Verify dimensions are correct
+        if hasattr(cistopic_obj, 'fragment_matrix'):
+            expected_shape = (len(cistopic_obj.cell_names), len(cistopic_obj.region_names))
+            actual_shape = cistopic_obj.fragment_matrix.shape
+            if actual_shape == expected_shape:
+                print(f"    ✓ fragment_matrix shape correct: {actual_shape}")
+            else:
+                print(f"    ✗ fragment_matrix shape wrong: {actual_shape} vs expected {expected_shape}")
 
         # FIX BARCODES: Remove -TH1/-TH2 suffixes to match scRNA-seq format
         print(f"  Fixing barcodes for {sample_id}...")
