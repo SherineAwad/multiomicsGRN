@@ -191,7 +191,7 @@ Sample distribution:
 and
 
 ```
-scenicOuts/
+scenicResults200/
 └── consensus_peak_calling
     ├── bed_paths.tsv
     ├── bw_paths.tsv
@@ -249,22 +249,29 @@ This step generates a **BED file containing the transcription start sites (TSSs)
 
 > ## 🔹 5. QC check and plots 
 
-
-###  ⚠️  ⚠️  QC plots only includes fragments that overlap called peaks
+```
+python collect_qc_barcodes.py \
+    --fragments_dict scenicResults200/fragments_dict.pkl \
+    --qc_output_dir scenicResults200/QC \
+    --output_pickle scenicResults200/QC/qc_barcodes_thresholds.pkl \
+    --unique_fragments_threshold 200 \
+    --tss_enrichment_threshold 0.1 \
+    --frip_threshold 0
+```
 
 ### TH1
 - Barcode QC  
-  ![](scenicOuts/QC/TH1_barcode_qc.png)
+  ![](scenicResults200/QC/TH1_barcode_qc.png)
 
 - General QC  
-  ![](scenicOuts/QC/TH1_qc.png)
+  ![](scenicResults200/QC/TH1_qc.png)
 
 ### TH2
 - Barcode QC  
-  ![](scenicOuts/QC/TH2_barcode_qc.png)
+  ![](scenicResults200/QC/TH2_barcode_qc.png)
 
 - General QC  
-  ![](scenicOuts/QC/TH2_qc.png)
+  ![](scenicResults200/QC/TH2_qc.png)
 
 ## Comments on Graphs
 
@@ -283,6 +290,16 @@ This step generates a **BED file containing the transcription start sites (TSSs)
 - Before the Knee: The curve shows a sharp decline, indicating high-quality, informative barcodes with more unique and meaningful data.
 - After the Knee: The curve flattens or drops sharply, suggesting low-quality data or background noise (e.g., technical artifacts, duplicates, low-coverage barcodes).
 
+###### How PycisTopic Calculates the `unique_fragments_threshold`
+
+- PycisTopic determines the `unique_fragments_threshold` **per sample** based on the distribution of fragments per barcode.
+- The process roughly works as follows:
+  1. **Count unique fragments per barcode:** For each barcode in the ATAC-seq fragment file, count the number of distinct fragments mapped to the genome.
+  2. **Estimate a quality threshold:** Using the distribution of fragment counts, PycisTopic selects a threshold to filter out low-quality barcodes (likely empty droplets or background).
+     - This can be percentile-based or use heuristics on the fragment count distribution.
+  3. **Apply the threshold:** Barcodes with **unique fragments below this value** are removed from the dataset.
+
+
 
 > ## 🔹 6. Creating Cistopic Objects Step
 
@@ -292,15 +309,6 @@ This step creates a **cistopic object**, which is the central data structure use
 - It is essentially a **single-cell peak-by-cell matrix** stored in a Python pickle file, with metadata attached.  
 - This step is **critical** because it transforms raw and pseudobulk fragment data into a structured object suitable for all downstream pycisTopic analyses.
 
-## 🧫 Sample Overview
-
-###### ⚠️ Disclaimer: Cells with no fragments overlapping peaks is filtered out: Very low number of cells ==relax the minimum fragments overlapping peaks cutoof 
-
-| Sample | Cells | Regions | Fragment File |
-|--------|-------|---------|---------------|
-| **Control** | 294 cells | 163,474 regions |`TH1_atac_fragments.tsv.gz` |
-| **KO** | 258 cells | 163,375 regions |`TH2_atac_fragments.tsv.gz` |
-
 
 > ## 🔹 7. Merging Cistopic Objects Step
 
@@ -309,134 +317,17 @@ This step merges **one or more cistopic objects** into a single unified object.
 - In workflows with multiple samples, batches, or preprocessing runs, each cistopic object may represent a separate sample or subset of cells.  
 - Merging combines them into a **single cistopic object**, making downstream analyses (topic modeling, clustering, DAR analysis) easier and consistent across all cells.  
 
-## Merged CistopicObject Summary
 
-| Metric          | Value                     |
-|-----------------|---------------------------|
-| **Cell Data**  | All 552 cells with complete QC metrics (23 columns) |
-| **Total Regions** | 164,065                 |
-| **Region Data**| Unified genomic regions from both samples       |
+#### 📊 Sample Overview
 
+- **Sample 1**: 7,517 cells  
+- **Sample 2**: 7,675 cells  
 
+#### 📋 Summary Statistics
 
-##### Debuggging the low number of cells 
-```
-Using `check_fragments.py`
+- **Total number of cells**: 15,192  
+- **Total number of regions**: 164,077
 
-✅ Found 584491 unique barcodes in TH1_atac_fragments.tsv.gz
-   Average fragments per barcode: 416.81
-   Top 5 barcodes by fragment count:
-      CATGGCGGTATACTGG-1: 1263518 fragments
-      GGTTTGTAGGTCCACA-1: 1225892 fragments
-      GCATGAAAGTCATGCG-1: 1073890 fragments
-      AGCAGGTAGGTCCAAT-1: 1065719 fragments
-      CATTGTAAGTAACGGA-1: 862144 fragments
-
-Processing TH2_atac_fragments.tsv.gz ...
-✅ Found 572423 unique barcodes in TH2_atac_fragments.tsv.gz
-   Average fragments per barcode: 398.19
-   Top 5 barcodes by fragment count:
-      ACTTGTCGTGACATAT-1: 1358252 fragments
-      ACTTAGTCATCGTTCT-1: 803456 fragments
-      ACCTGGTCAGGCTACT-1: 624974 fragments
-      TGTGGCCAGATGGACA-1: 552221 fragments
-      GGTACTAGTGCTCCAC-1: 537775 fragments
-
-=== Summary of barcodes per fragment file ===
-                        file  n_barcodes  avg_fragments_per_barcode
-0  TH2_atac_fragments.tsv.gz      572423                 398.188153
-1  TH1_atac_fragments.tsv.gz      584491                 416.813467
-```
-
-###### How PycisTopic Calculates the `unique_fragments_threshold`
-
-- PycisTopic determines the `unique_fragments_threshold` **per sample** based on the distribution of fragments per barcode.  
-- The process roughly works as follows:
-  1. **Count unique fragments per barcode:** For each barcode in the ATAC-seq fragment file, count the number of distinct fragments mapped to the genome.  
-  2. **Estimate a quality threshold:** Using the distribution of fragment counts, PycisTopic selects a threshold to filter out low-quality barcodes (likely empty droplets or background).  
-     - This can be percentile-based or use heuristics on the fragment count distribution.  
-  3. **Apply the threshold:** Barcodes with **unique fragments below this value** are removed from the dataset.
-
-###### Inspecting cells and barcodes using default calculated filtering 
-
-```
-> 👀 👀 Inspecting QC pickle: scenicOuts/qc_barcodes_thresholds.pkl ===
-> Top-level keys: ['barcodes', 'thresholds']
-
-> === Number of barcodes per sample (after QC) ===
-> TH1: 294 barcodes
-> TH2: 258 barcodes
-
-> === QC thresholds per sample ===
-> TH1: {'unique_fragments_threshold': np.float64(1353.9226250681177), 'tss_enrichment_threshold': np.float64(1.71825), 'frip_threshold': 0}
-> TH2: {'unique_fragments_threshold': np.float64(1174.007653731433), 'tss_enrichment_threshold': np.float64(1.8663188118811882), 'frip_threshold': 0}
-```
-
-
-### Adjusting our object to specified cutoff 
-
-
-#### ✨✨✨✨✨
-```
-python check_pickle.py scenicResults/QC/qc_barcodes_thresholds.pkl
-=== Inspecting QC pickle: scenicResults/QC/qc_barcodes_thresholds.pkl ===
-Top-level keys: ['barcodes', 'thresholds']
-
-=== Number of barcodes per sample (after QC) ===
-TH1: 8580 barcodes
-TH2: 8834 barcodes
-
-=== QC thresholds per sample ===
-TH1: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 0.0, 'frip_threshold': 0.0}
-TH2: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 0.0, 'frip_threshold': 0.0}
-
-```
-
-#### ✨✨✨✨✨
-```
-=== Inspecting QC pickle: scenicResults/QC/qc_barcodes_thresholds.pkl ===
-Top-level keys: ['barcodes', 'thresholds']
-
-=== Number of barcodes per sample ===
-TH1: 514 barcodes
-TH2: 591 barcodes
-
-=== QC thresholds per sample ===
-TH1: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 1.5, 'frip_threshold': 0.0}
-TH2: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 1.5, 'frip_threshold': 0.0}
-```
-
-#### ✨✨✨✨✨ Selected Parameters 
-
-```
-python check_pickle.py scenicResults/QC/qc_barcodes_thresholds.pkl
-=== Inspecting QC pickle: scenicResults/QC/qc_barcodes_thresholds.pkl ===
-Top-level keys: ['barcodes', 'thresholds']
-
-=== Number of barcodes per sample ===
-TH1: 4113 barcodes
-TH2: 4096 barcodes
-
-=== QC thresholds per sample ===
-TH1: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 0.5, 'frip_threshold': 0.0}
-TH2: {'unique_fragments_threshold': 500, 'tss_enrichment_threshold': 0.5, 'frip_threshold': 0.0}
-```
-
-##### QC plots
-
-### TH1
-- Barcode QC
-  ![](scenicResults/QC/TH1_barcode_qc.png?v=5)
-
-- General QC
-  ![](scenicResults/QC/TH1_qc.png?v=5)
-
-### TH2
-- Barcode QC
-  ![](scenicResults/QC/TH2_barcode_qc.png?v=5)
-
-- General QC
-  ![](scenicResults/QC/TH2_qc.png?v=5)
 
 
 > ## 🔹 8. Adding scRNA-seq Metadata to Cistopic Objects
@@ -446,32 +337,18 @@ This step integrates **scRNA-seq-derived metadata** into the merged cistopic obj
 - Single-cell RNA-seq preprocessing (clustering, cell type annotation) provides **cell type labels, sample IDs, or other metadata**.  
 - Attaching this information to the cistopic object allows **linking chromatin accessibility topics to known cell types** for interpretation.  
 
-##### After merging and adding scRNA metadata 
+#### After merging 
 
-```
+#### 📊 Sample Overview
 
-=== Number of cells per sample ===
-TH2: 3776 cells | Total fragments: 333679438 | Unique fragments: 126727394
-TH1: 3772 cells | Total fragments: 388782996 | Unique fragments: 134826700
+- **Sample 1**: 6,537 cells  
+- **Sample 2**: 6,542 cells  
 
-🔍 region_data:
-  Shape: (164077, 8)
-  Columns: ['Chromosome', 'Start', 'End', 'Width', 'cisTopic_nr_frag', 'cisTopic_log_nr_frag', 'cisTopic_nr_acc', 'cisTopic_log_nr_acc']
-  First 5 regions: ['chr3:51159930-51160965', 'chr9:9444218-9444498', 'chr15:60811975-60812217', 'chr1:130979196-130979797', 'chr11:44546215-44546765']
+#### 📋 Summary Statistics
 
-📋 SUMMARY STATISTICS:
-  Number of cells: 8209
-  Number of regions: 164077
+- **Total number of cells**: 13,079  
+- **Total number of regions**: 164,077
 
-=== BARCODE DEBUG INFO ===
-ATAC barcodes (first 5): ['GTCCTCAGTTGGTGAC-1', 'CGCTCAGCAAACTGTT-1', 'GCTGTGATCTGCAAGT-1', 'AGGTACGCAGGAACTG-1', 'CTAGTGAGTTTACGTC-1']
-scRNA barcodes (first 5): ['AAACAGCCAGTTATGT-1', 'AAACAGCCATAAAGCA-1', 'AAACAGCCATAGCGGA-1', 'AAACAGCCATGGTTAT-1', 'AAACATGCAATGAGGT-1']
-ATAC shape: (8209, 23)
-scRNA shape: (18626, 1)
-Matched 7548 out of 8209 cells (91.95%)
-✓ Removed 661 cells with missing 'celltype' metadata
-
-``` 
 
 > ## 🔹 9. Topic Modeling with Mallet (run_mallet.py)
 
@@ -524,16 +401,16 @@ Modules help simplify complex GRNs by grouping together genes with coordinated a
 
 ``` 
 python run_mallet.py \
-  --cistopic_obj_pickle scenicOuts/merged_with_meta.pkl \
+  --cistopic_obj_pickle scenicResults200/merged_with_meta.pkl \
   --mallet_path /nfs/turbo/umms-thahoang/sherine/tools/Mallet-202108/bin/mallet \
-  --n_topics 15 20 25 30 \
+  --n_topics 5 15 25 45 55 \
   --n_cpu 12 \
   --n_iter 500 \
-  --tmp_path scenicOuts/TMP \
-  --save_path scenicOuts/MALLET \
+  --tmp_path scenicResults200/TMP \
+  --save_path scenicResults200/MALLET \
   --mallet_memory 300G \
   --random_state 555 \
-  --alpha 5 \
+  --alpha 1 \
   --alpha_by_topic \
   --eta 0.1 \
   --eta_by_topic
@@ -588,12 +465,12 @@ This step performs **dimensionality reduction and clustering** of cells based on
 
 ###### Cell-based level 
 
-![](scenicResults/umap_clusters/celltype_umap.png)
+![](scenicResults200/umap_clusters/celltype_umap.png)
 ###### Cluster-based level: More resolution more clusters more cell types as it is based on counting 
  
-![](scenicResults/umap_clusters/annotated_clusters_umap.png)
-![](scenicResults/umap_clusters/qc_metrics_umap.png)
-![](scenicResults/umap_clusters/topic_celltype_heatmap.png)
+![](scenicResults200/umap_clusters/annotated_clusters_umap.png)
+![](scenicResults200/umap_clusters/qc_metrics_umap.png)
+![](scenicResults200/umap_clusters/topic_celltype_heatmap.png)
 
 
 > ## 🔹 12. Binarizing Topics Step
@@ -606,7 +483,7 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 #### Binarisations output 
 
-![Cell Topic LI](scenicResults/topics/cell_topic_li.png?v=3)
+![Cell Topic LI](scenicResults200/topics/cell_topic_li.png?v=3)
 
 #### What the plots show
 
@@ -654,9 +531,9 @@ In this step, we try to find regions of the genome that are more accessible (ope
 
 #### DAR preliminary results
 
-- Number of highly variable regions: 71379
+- Number of highly variable regions: 75581 
 
-![Higly variable Regions](scenicOuts/DAR_results/highly_variable_regions.png?v=4)
+![Higly variable Regions](scenicResults200/DAR_results/highly_variable_regions.png?v=4)
 
 ### Interpretation of DAR Mean–Dispersion Plot
 
@@ -668,21 +545,25 @@ In this step, we try to find regions of the genome that are more accessible (ope
 ✅ Overall: The data contain a healthy number of accessible and variable regions, suitable for SCENIC+ analysis.
 
 
-![Imputed features](scenicOuts/DAR_results/imputed_features.png?v=4)
+![Imputed features](scenicResults200/DAR_results/highly_variable_regions.png)
+
 
 ## Number of DARs found using  --adjpval_thr 0.05 and  --log2fc_thr 0.5
 
-| Cell type   | DARs   |
-|-------------|--------|
-| AC          | 37,753 |
-| BC          | 33,504 |
-| Cones       | 0      |
-| MG          | 23,660 |
-| MGPC        | 13,113 |
-| Microglia   | 15,838 |
-| Rod         | 27,449 |
+## Number of DARs found
+
+| Cell Type   | DARs Found |
+|-------------|------------|
+| MGPC        | 8,535      |
+| AC          | 14,986     |
+| BC          | 35,141     |
+| Cones       | 28,307     |
+| MG          | 19,906     |
+| Microglia   | 18,403     |
+| Rod         | 21,095     |
 
 
+##### OLD results under update 
 > ## 🔹 14. Exporting Region Sets from DAR Results
 
 This step exports **lists of genomic regions (peaks) identified as DARs** into separate files for downstream analyses or external tools.  
@@ -713,7 +594,7 @@ They are essential for **motif enrichment analysis**, **regulatory network infer
 
 | chr10:100001588-100001754 | chr10:100004590-100004749 | chr10:100009729-100010013 | ... | chrY:9986285-9986625 | chrY:9992323-9992533 | motifs          |
 |----------------------------|---------------------------|---------------------------|-----|----------------------|----------------------|-----------------|
-| 635378                     | 961923                    | 81883                     | ... | 261962               | 1096188              | bergman__Su_H_  |
+| 6 35378                     | 961923                    | 81883                     | ... | 261962               | 1096188              | bergman__Su_H_  |
 | 294685                     | 79408                     | 809215                    | ... | 108758               | 747006               | bergman__croc   |
 | 577456                     | 435983                    | 23497                     | ... | 682309               | 706782               | bergman__tll    |
 | 976643                     | 795153                    | 810566                    | ... | 3809                 | 1018969              | c2h2_zfs__M0369 |
