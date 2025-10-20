@@ -614,7 +614,8 @@ Chromatin Accessibility  -->  Motif Enrichment  -->  Region-to-Gene Linking  -->
 
 ##### Full Snakemake DAG 
 
-![Snakemake DAG](dag.png?v=2)
+![DAG workflow](./dag.png)
+
 
 ### 1. Motif Enrichment (cisTarget step)
 
