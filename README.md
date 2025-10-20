@@ -518,10 +518,6 @@ In this step, we try to find regions of the genome that are more accessible (ope
 
 ✅ Overall: The data contain a healthy number of accessible and variable regions, suitable for SCENIC+ analysis.
 
-
-![Imputed features](scenicResults200/DAR_results/highly_variable_regions.png)
-
-
 ## Number of DARs found using  --adjpval_thr 0.05 and  --log2fc_thr 0.5
 
 ## Number of DARs found
