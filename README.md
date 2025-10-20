@@ -346,7 +346,7 @@ This step integrates **scRNA-seq-derived metadata** into the merged cistopic obj
 
 #### 📋 Summary Statistics
 
-- **Total number of cells**: 13,079  
+- **Total number of cells**: 13,079 (86.05% match) 
 - **Total number of regions**: 164,077
 
 
