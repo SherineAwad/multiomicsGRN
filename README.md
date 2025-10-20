@@ -425,35 +425,6 @@ LDA finds **patterns of coordinated accessibility** across cells:
 - For each cell, LDA measures the activity of each module.
   i.e. how much the cell shows the pattern of that module  
 
-
-```
-# 🧬 CisTopic Object Debug Summary  after running Mallet and adding LDA using the new thresholds
-
-### ✅ Status: Successfully loaded and consistent
-
-## 🧩 Object Integrity
-
-- **Type:** `<class 'pycisTopic.cistopic_class.CistopicObject'>`  
-- **Project:** `TH1_TH2_merged`  
-- **Fragments:**  
-  - `TH1_atac_fragments.tsv.gz`  
-  - `TH2_atac_fragments.tsv.gz`  
-- **Mallet Model:** Added successfully ✅
-
-
-## 📊 Data Structure Summary
-
-| Attribute | Shape | Description | Status |
-|------------|--------|-------------|---------|
-| `cell_data` | (17,414 × 24) | Cell-level QC metrics and metadata | ✅ |
-| `region_data` | (164,077 × 8) | Genomic region features and coverage | ✅ |
-| `topic_region` | (164,077 × 25) | Region–Topic weight matrix | ✅ |
-| `cell_topic` | (25 × 17,414) | Topic–Cell distribution matrix | ✅ |
-
-Everything matches the expected structure for a **trained CisTopic model**.
-
-```
-
 > ## 🔹 11. Clustering Cistopic Objects and UMAP Visualization
 
 This step performs **dimensionality reduction and clustering** of cells based on their **topic profiles**.  
@@ -466,11 +437,14 @@ This step performs **dimensionality reduction and clustering** of cells based on
 ###### Cell-based level 
 
 ![](scenicResults200/umap_clusters/celltype_umap.png)
-###### Cluster-based level: More resolution more clusters more cell types as it is based on counting 
  
-![](scenicResults200/umap_clusters/annotated_clusters_umap.png)
-![](scenicResults200/umap_clusters/qc_metrics_umap.png)
-![](scenicResults200/umap_clusters/topic_celltype_heatmap.png)
+![](scenicResults200/umap_clusters/topic_celltype_heatmap.png) 
+![](scenicResults200/umap_clusters/annotated_clusters_res_3.0.png)
+![](scenicResults200/umap_clusters/annotated_clusters_res_2.0.png)
+![](scenicResults200/umap_clusters/annotated_clusters_res_1.5.png)
+![](scenicResults200/umap_clusters/annotated_clusters_res_1.0.png)
+![](scenicResults200/umap_clusters/annotated_clusters_res_0.8.png)
+![](scenicResults200/umap_clusters/annotated_clusters_res_0.5.png)
 
 
 > ## 🔹 12. Binarizing Topics Step
