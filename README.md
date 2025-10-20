@@ -612,6 +612,8 @@ SCENIC+ builds on the outputs of **pycistopic** and **cistarget** to generate ge
 Chromatin Accessibility  -->  Motif Enrichment  -->  Region-to-Gene Linking  -->  TF Activity per Cell
 ```
 
+![](dag.png)
+
 ### 1. Motif Enrichment (cisTarget step)
 
 🔹 **cisTarget (ctx):**  
@@ -752,8 +754,6 @@ tf_to_gene                          1
 total                              13
 
 ```
-
-![](dag.png)
 
 
 ```
