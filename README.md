@@ -669,6 +669,33 @@ summarizes **motif enrichment** across region sets (e.g., topics or DARs), helpi
 📄 The **DEM output** 
 reports **differential motif activity** across cell groups or conditions, highlighting motifs with cluster- or condition-specific accessibility patterns.
 
+
+## 🐛 Debugging / Logs
+
+### Example Regions
+These are some of the genomic regions being analyzed:
+
+| Region |
+|--------|
+| chr10:100009435-100010639 |
+| chr10:100015388-100016745 |
+| chr10:100017719-100018025 |
+| chr10:100021901-100022856 |
+
+### Feather File Format
+The feather file contains **region counts** per genomic bin (integer values):
+
+| Region | Data Type |
+|--------|-----------|
+| chr10:100001588-100001754 | int32 |
+| chr10:100004590-100004749 | int32 |
+| chr10:100009729-100010013 | int32 |
+| chr10:100010349-100010586 | int32 |
+
+**✅ Note:** This format is compatible with SCENIC+ and can be used for region-to-gene inference.
+
+= 228 TFs detected
+
 ---
 
 ### 2. Link Regions to Genes
