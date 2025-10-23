@@ -457,7 +457,7 @@ This step **converts continuous topic distributions into binary accessibility ma
 
 #### Binarisations output 
 
-![Cell Topic LI](scenicResults200/topics/cell_topic_li.png?v=3)
+![Cell Topic LI](scenicResults200/topics/cell_topic_li.png?v=4)
 
 #### What the plots show
 
@@ -505,35 +505,21 @@ In this step, we try to find regions of the genome that are more accessible (ope
 
 #### DAR preliminary results
 
-- Number of highly variable regions: 75581 
-
-![Higly variable Regions](scenicResults200/DAR_results/highly_variable_regions.png?v=4)
-
-### Interpretation of DAR Mean–Dispersion Plot
-
-* **Accessible regions:** The plot shows a large number of features, indicating plenty of accessible regions in the dataset.
-* **Mean accessibility:** Most features have low mean accessibility (common in ATAC-seq), with some highly accessible peaks likely corresponding to promoters.
-* **Dispersion:** A strong subset of features (yellow) are highly variable, suggesting good biological variability.
-* **QC check:** The presence of many variable peaks (yellow) means the dataset has rich information for downstream DAR and regulatory network analysis.
-
-✅ Overall: The data contain a healthy number of accessible and variable regions, suitable for SCENIC+ analysis.
-
 ## Number of DARs found using  --adjpval_thr 0.05 and  --log2fc_thr 0.5
 
 ## Number of DARs found
 
-| Cell Type   | DARs Found |
-|-------------|------------|
-| MGPC        | 8,535      |
-| AC          | 14,986     |
-| BC          | 35,141     |
-| Cones       | 28,307     |
-| MG          | 19,906     |
-| Microglia   | 18,403     |
-| Rod         | 21,095     |
+| Cell Type  | Number of DARs |
+|------------|----------------|
+| AC         | 14,986         |
+| BC         | 35,141         |
+| Cones      | 28,307         |
+| MG         | 19,906         |
+| MGPC       | 8,535          |
+| Microglia  | 18,403         |
+| Rod        | 21,095         |
 
 
-##### OLD results under update 
 > ## 🔹 14. Exporting Region Sets from DAR Results
 
 This step exports **lists of genomic regions (peaks) identified as DARs** into separate files for downstream analyses or external tools.  
@@ -677,10 +663,10 @@ transfac_pro__M08895  <img src="https://motifcollections.aertslab.or...  DARs_ce
 ```
 
 
-📄 The **ctx output** — [`ctx_results.html`](Snakemake/workflow/ctx_results.html) —  
+📄 The **ctx output** 
 summarizes **motif enrichment** across region sets (e.g., topics or DARs), helping identify transcription factors whose motifs are overrepresented in accessible regions.
 
-📄 The **DEM output** — [`dem_results.html`](Snakemake/workflow/dem_results.html) —  
+📄 The **DEM output** 
 reports **differential motif activity** across cell groups or conditions, highlighting motifs with cluster- or condition-specific accessibility patterns.
 
 ---
@@ -710,8 +696,6 @@ reports **differential motif activity** across cell groups or conditions, highli
 * **Distance:** distance from region to the gene TSS (bp); negative = upstream, positive = downstream.
 * “Distance = 0” = region overlaps the gene’s promoter (very likely a direct regulatory link). 
 ---
-
-### ⏳ In Progress / Pending 
 
 ### 3. Build Regulatory Networks
 - Combine **TF–region links** (from motif enrichment) with **region–gene links**.  
@@ -759,51 +743,6 @@ total                              13
 ```
 
 
-```
-> ❗ 👀 👀 AssertionError: An AUC threshold of 0.600000 corresponds to 666393 top ranked genes/regions in the database. Please increase the rank threshold or decrease the AUC threshold.
-
-> ❗ 👀 👀 AssertionError: An AUC threshold of 0.550000 corresponds to 610860 top ranked genes/regions in the database. Please increase the rank threshold or decrease the AUC threshold.
-
-> ❗ 👀 👀 AssertionError: An AUC threshold of 0.450000 corresponds to 499795 top ranked genes/regions in the database. Please increase the rank threshold or decrease the AUC threshold.
-
-```
-
-##### Current parameters  
-
-```
-  ctx_nes_threshold: 1.0
-  ctx_auc_threshold: 0.25
-  ctx_rank_threshold: 0.5
-``` 
-
-```
-2025-10-16 10:10:28,218 cisTarget    INFO     Reading cisTarget database
-^MRunning using 8 cores:   0%|          | 16/19194 [00:16<6:34:42,  1.23s/it]2025-10-16 10:10:37,419 cisTarget    INFO     Running cisTarget for Topics_top_3k_Topic19 which has 6148 regions
-^MRunning using 8 cores:   0%|          | 24/19194 [00:18<4:05:26,  1.30it/s]^MRunning using 8 cores:   0%|          | 32/19194 [00:20<2:53:28,  1.84it/s]2025-10-16 10:10:40,676 cisTarget    INFO     Running cisTarget for Topics_top_3k_Topic17 whi
-ch has 6063 regions
-^MRunning using 8 cores:   0%|          | 40/19194 [00:21<2:13:15,  2.40it/s]2025-10-16 10:10:43,157 cisTarget    INFO     Running cisTarget for Topics_top_3k_Topic3 which has 6019 regions
-^MRunning using 8 cores:   0%|          | 48/19194 [00:23<1:55:16,  2.77it/s]2025-10-16 10:10:43,509 cisTarget    INFO     Running cisTarget for Topics_top_3k_Topic10 which has 8935 regions
-^MRunning using 8 cores:   0%|          | 56/19194 [00:24<1:33:32,  3.41it/s]^MRunning using 8 cores:   0%|          | 64/19194 [00:25<1:15:18,  4.23it/s]^MRunning using 8 cores:   0%|          | 72/19194 [00:26<1:00:20,  5.28it/s]^MRunning using 
-8 cores:   0%|          | 80/19194 [00:27<50:41,  6.29it/s]  ^MRunning using 8 cores:   0%|          | 88/19194 [00:27<40:29,  7.86it/s]^MRunning using 8 cores:   1%|          | 96/19194 [00:28<34:38,  9.19it/s]^MRunning using 8 cores:   1%|          | 104/19194 [00:28<29:12, 10.90it/s]2025-10-16 10:10:48,440 cisTarget    INFO     Running cisTarget for Topics_top_3k_Topic11 which has 8022 regions
-^MRunning using 8 cores:   1%|          | 112/19194 [00:29<25:12, 12.62it/s]^MRunning using 8 cores:   1%|          | 120/19194 [00:29<22:52, 13.90it/s]^MRunning using 8 cores:   1%|          | 128/19194 [00:30<22:58, 13.83it/s]^MRunning using 8 cores:   1%|          | 136/19194 [00:30<21:32, 14.75it/s]^MRunning using 8 cores:   1%|          | 144/19194 [00:30<18:49, 16.86it/s]^MRunning using 8 cores:   1%|          | 152/19194 [00:31<19:18, 16.43it/s]2025-10-16 10:10:51,472 cisTarget    INFO     Running cisTarget for Topics_top_3k_Topic6 which has 4591 regions
-^MRunning using 8 cores:   1%|          | 160/19194 [00:31<19:14, 16.49it/s]^MRunning using 8 cores:   1%|          | 168/19194 [00:32<18:34, 17.07it/s]^MRunning using 8 cores:   1%|          | 176/19194 [00:32<16:54, 18.74it/s]2025-10-16 10:10:52,679 cisTarget    INFO     Running cisTarget for Topics_top_3k_Topic18 which has 5314 regions
-^MRunning using 8 cores:   1%|          | 184/19194 [00:33<18:23, 17.23it/s]^MRunning using 8 cores:   1%|          | 192/19194 [00:33<17:40, 17.92it/s]^MRunning using 8 cores:   1%|          | 200/19194 [00:33<16:46, 18.87it/s]^MRunning using 8 cores:   1%|          | 208/19194 [00:34<17:48, 17.78it/s]^MRunning using 8 cores:   1%|          | 216/19194 [00:34<17:24, 18.17it/s]^MRunning using 8 cores:   1%|          | 224/19194 [00:35<17:06, 18.48it/s]^MRunning using 8 cores:   1%|          | 232/19194 [00:35<16:59, 18.60it/s]^MRunning using 8 cores:   1%|▏         | 240/19194 [00:36<16:03, 19.67it/s]^MRunning using 8 cores:   1%|▏         | 248/19194 [00:36<15:58, 19.76it/s]^MRunning using 8 cores:   1%|▏         | 256/19194 [00:36<15:41, 20.11it/s]^MRunning using 8 cores:   1%|▏         | 264/19194 [00:37<13:52, 22.74it/s]^MRunning using 8 cores:   1%|▏         | 272/19194 [00:37<13:58, 22.56it/s]^MRunning using 8 cores:   1%|▏         | 280/19194 [00:37<14:15, 22.11it/s]^MRunning using 8 cores:   2%|▏         | 288/19194 [00:38<14:42, 21.42it/s]^MRunning using 8 cores:   2%|▏         | 296/19194 [00:38<14:20, 21.95it/s]^MRunning using 8 cores:   2%|▏         | 304/19194 [00:38<13:05, 24.06it/s]^MRunning using 8 cores:   2%|▏         | 312/19194 [00:39<13:52, 22.69it/s]^MRunning using 8 cores:   2%|▏         | 320/19194 [00:39<14:15, 22.07it/s]^MRunning using 8 cores:   2%|▏         | 328/19194 [00:40<14:36, 21.52it/s]^MRunning using 8 cores:   2%|▏         | 336/19194 [00:40<14:35, 21.55it/s]^MRunning using 8 cores:   2%|▏         | 344/19194 [00:40<14:59, 20.97it/s]^MRunning using 8 cores:   2%|▏         | 352/19194 [00:41<14:42, 21.34it/s]^MRunning using 8 cores:   2%|▏         | 360/19194 [00:41<13:33, 23.14it/s]^MRunning using 8 cores:   2%|▏         | 368/19194 [00:41<14:12, 22.09it/s]^MRunning using 8 cores:   2%|▏         | 376/19194 [00:42<14:26, 21.71it/s]^MRunning using 8 cores:   2%|▏         | 384/19194 [00:42<13:48, 22.72it/s]^MRunning using 8 cores:   2%|▏         | 392/19194 [00:42<13:28, 23.25it/s]^MRunning using 8 cores:   2%|▏         | 400/19194 [00:43<14:05, 22.24it/s]^MRunning using 8 cores:   2%|▏         | 408/19194 [00:43<14:24, 21.73it/s]^MRunning using 8 cores:   2%|▏         | 416/19194 [00:44<14:59, 20.88it/s]^MRunning using 8 cores:   2%|▏         | 424/19194 [00:44<14:42, 21.26it/s]^MRunning using 8 cores:   2%|▏         | 432/19194 [00:44<14:57, 20.90it/s]^MRunning using 8 cores:   2%|▏         | 440/19194 [00:45<16:00, 19.52it/s]^MRunning using 8 cores:   2%|▏         | 448/19194 [00:45<16:11, 19.30it/s]^MRunning using 8 cores:   2%|▏         | 456/19194 [00:46<17:22, 17.98it/s]^MRunning using 8 cores:   2%|▏         | 464/19194 [00:46<16:17, 19.16it/s]^MRunning using 8 cores:   2%|▏         | 472/19194 [00:47<16:46, 18.60it/s]^MRunning using 8 cores:   3%|▎         | 480/19194 [00:47<16:16, 19.16it/s]^MRunning using 8 cores:   3%|▎         | 488/19194 [00:47<15:40, 19.89it/s]^MRunning using 8 cores:   3%|▎         | 496/19194 [00:48<16:05, 19.36it/s]^MRunning using 8 cores:   3%|▎         | 504/19194 [00:48<14:09, 22.00it/s]^MRunning using 8 cores:   3%|▎         | 512/19194 [00:48<14:31, 21.43it/s]^MRunning using 8 cores:   3%|▎         | 520/19194 [00:49<14:53, 20.90it/s]^MRunning using 8 cores:   3%|▎         | 528/19194 [00:49<14:04, 22.10it/s]^MRunning using 8 cores:   3%|▎         | 536/19194 [00:50<14:59, 20.74it/s]^MRunning using 8 cores:   3%|▎         | 544/19194 [00:50<14:39, 21.19it/s]^MRunning using 8 cores:   3%|▎         | 552/19194 [00:50<14:32, 21.36it/s]^MRunning using 8 cores:   3%|▎         | 560/19194 [00:51<15:52, 19.57it/s]^MRunning using 8 cores:   3%|▎         | 568/19194 [00:51<16:42, 18.58it/s]^MRunning using 8 cores:   3%|▎         | 576/19194 [00:52<16:02, 19.34it/s]^MRunning using 8 cores:   3%|▎         | 584/19194 [00:52<16:23, 18.92it/s]^MRunning using 8 cores:   3%|▎         | 592/19194 [00:52<16:16, 19.04it/s]^MRunning using 8 cores:   3%|▎         | 600/19194 [00:53<16:00, 19.36it/s]^MRunning using 8 cores:   3%|▎         | 608/19194 [00:53<16:42, 18.54it/s]^MRunning using 8 cores:   3%|▎         | 616/19194 [00:54<16:29, 18.77it/s]^MRunning using 8 cores:   3%|▎         | 624/19194 [00:54<17:12, 17.98it/s]2025-10-16 10:11:14,609 cisTarget    INFO     Running cisTarget for Topics_top_3k_Topic16 which has 8259 regions
-^MRunning using 8 cores:   3%|▎         | 632/19194 [00:55<16:21, 18.92it/s]^MRunning using 8 cores:   3%|▎         | 640/19194 [00:55<16:55, 18.27it/s]^MRunning using 8 cores:   3%|▎         | 648/19194 [00:56<18:25, 16.77it/s]^MRunning using 8 cores:   3%|▎         | 656/19194 [00:56<18:05, 17.08it/s]^MRunning using 8 cores:   3%|▎         | 664/19194 [00:57<18:36, 16.60it/s]^MRunning using 8 cores:   4%|▎         | 672/19194 [00:57<17:19, 17.82it/s]^MRunning using 8 cores:   4%|▎         | 680/19194 [00:57<16:58, 18.18it/s]^MRunning using 8 cores:   4%|▎         | 688/19194 [00:58<17:47, 17.34it/s]^MRunning using 8 cores:   4%|▎         | 696/19194 [00:58<17:48, 17.31it/s]^MRunning using 8 cores:   4%|▎         | 704/19194 [00:59<18:50, 16.36it/s]^MRunning using 8 cores:   4%|▎         | 712/19194 [00:59<18:34, 16.58it/s]^MRunning using 8 cores:   4%|▍         | 720/19194 [01:00<17:28, 17.62it/s]^MRunning using 8 cores:   4%|▍         | 728/19194 [01:00<17:34, 17.52it/s]^MRunning using 8 cores:   4%|▍         | 736/19194 [01:01<16:34, 18.55it/s]^MRunning using 8 cores:   4%|▍         | 744/19194 [01:01<15:57, 19.27it/s]^MRunning using 8 cores:   4%|▍         | 752/19194 [01:01<15:34, 19.73it/s]^MRunning using 8 cores:   4%|▍         | 760/19194 [01:02<15:01, 20.45it/s]^MRunning using 8 cores:   4%|▍         | 768/19194 [01:02<14:09, 21.70it/s]^MRunning using 8 cores:   4%|▍         | 776/19194 [01:02<13:49, 22.20it/s]^MRunning using 8 cores:   4%|▍         | 784/19194 [01:03<13:10, 23.30it/s]^MRunning using 8 cores:   4%|▍         | 792/19194 [01:03<14:00, 21.89it/s]^MRunning using 8 cores:   4%|▍         | 800/19194 [01:03<12:59, 23.59it/s]^MRunning using 8 cores:   4%|▍         | 808/19194 [01:04<13:23, 22.89it/s]^MRunning using 8 cores:   4%|▍         | 816/19194 [01:04<12:31, 24.45it/s]^MRunning using 8 cores:   4%|▍         | 824/19194 [01:04<12:55, 23.70it/s]^MRunning using 8 cores:   4%|▍         | 832/19194 [01:05<13:06, 23.34it/s]^MRunning using 8 cores:   4%|▍         | 840/19194 [01:05<13:30, 22.64it/s]^MRunning using 8 cores:   4%|▍         | 848/19194 [01:05<12:41, 24.09it/s]^MRunning using 8 cores:   4%|▍         | 856/19194 [01:06<13:02, 23.43it/s]^MRunning using 8 cores:   5%|▍         | 864/19194 [01:06<13:18, 22.96it/s]^MRunning using 8 cores:   5%|▍         | 872/19194 [01:07<13:43, 22.24it/s]^MRunning using 8 cores:   5%|▍         | 880/19194 [01:07<13:10, 23.17it/s]^MRunning using 8 cores:   5%|▍         | 888/19194 [01:07<14:51, 20.53it/s]^MRunning using 8 cores:   5%|▍         | 896/19194 [01:08<13:22, 22.79it/s]^MRunning using 8 cores:   5%|▍         | 904/19194 [01:08<14:04, 21.65it/s]^MRunning using 8 cores:   5%|▍         | 912/19194 [01:08<14:13, 21.43it/s]^MRunning using 8 cores:   5%|▍         | 920/19194 [01:09<14:03, 21.67it/s]^MRunning using 8 cores:   5%|▍         | 928/19194 [01:09<14:26, 21.09it/s]^MRunning using 8 cores:   5%|▍         | 936/19194 [01:09<12:59, 23.42it/s]^MRunning using 8 cores:   5%|▍         | 944/19194 [01:10<14:07, 21.54it/s]^MRunning using 8 cores:   5%|▍         | 952/19194 [01:10<13:40, 22.24it/s]^MRunning using 8 cores:   5%|▌         | 960/19194 [01:11<14:48, 20.52it/s]^MRunning using 8 cores:   5%|▌         | 968/19194 [01:11<15:30, 19.59it/s]^MRunning using 8 cores:   5%|▌         | 976/19194 [01:11<14:37, 20.76it/s]^MRunning using 8 cores:   5%|▌         | 984/19194 [01:12<14:13, 21.34it/s]^MRunning using 8 cores:   5%|▌         | 992/19194 [01:12<14:41, 20.65it/s]^MRunning using 8 cores:   5%|▌         | 1000/19194 [01:13<14:23, 21.07it/s]^MRunning using 8 cores:   5%|▌         | 1008/19194 [01:13<13:30, 22.45it/s]^MRunning using 8 cores:   5%|▌         | 1016/19194 [0:
-
-
-
-
-....
-
-
-2025-10-16 10:52:26,847 cisTarget    INFO     Running cisTarget for Topics_otsu_Topic7 which has 13145 regions
-2025-10-16 10:52:32,784 cisTarget    INFO     Getting cistromes for Topics_otsu_Topic3
-2025-10-16 10:53:25,286 cisTarget    INFO     Running cisTarget for Topics_otsu_Topic5 which has 12035 regions
-2025-10-16 10:53:53,554 cisTarget    INFO     Getting cistromes for Topics_otsu_Topic12
-2025-10-16 10:54:05,382 cisTarget    INFO     Reading cisTarget database
-2025-10-16 10:54:06,576 cisTarget    INFO     Getting cistromes for Topics_otsu_Topic4
-
-```
 ---
 
 
