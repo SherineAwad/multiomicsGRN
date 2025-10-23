@@ -1,0 +1,57 @@
+# Paths
+paths:
+  results_dir: "scenicResults200"
+  fragments_dir: "."
+  scrna_csv: "scRNA_barcodes.csv"
+  blacklist_bed: "mm10-blacklist.v2.bed"
+  mallet_path: "/nfs/turbo/umms-thahoang/sherine/tools/Mallet-202108/bin/mallet"
+
+# Input fragments
+fragments:
+  th1: "TH1_atac_fragments.tsv.gz"
+  th2: "TH2_atac_fragments.tsv.gz"
+
+# CPU / Memory settings
+resources:
+  default_cpu: 4
+  default_mem: "80G"
+  pycistopic_n_cpu: 8
+  mallet_n_cpu: 12
+  dar_n_cpu: 4
+
+# Mallet parameters
+mallet:
+  n_topics: 5
+  n_iter: 500
+  alpha: 0.1
+  alpha_by_topic: true
+  eta: 0.01
+  eta_by_topic: true
+  tmp_path: "scenicResults/TMP"
+  save_path: "scenicResults/MALLET"
+  random_state: 555
+  mallet_memory: "80G"
+
+# QC thresholds
+qc:
+  unique_fragments_threshold: 200
+  tss_enrichment_threshold: 0.1
+  frip_threshold: 0
+
+# DAR parameters
+dar:
+  scale_impute: 1e7
+  scale_norm: 1e4
+  adjpval_thr: 0.05
+  log2fc_thr: 0.5
+
+# Clustering
+clustering:
+  resolutions: [0.5, 0.8, 1, 1.5, 2, 3]
+  k: 30
+
+# Binarization
+binarize:
+  n: 3000
+  s: 1e4
+

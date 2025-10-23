@@ -1,20 +1,17 @@
 #!/usr/bin/env python3
-import os
-import argparse
+"""
+FIXED VERSION - Add scRNA metadata to cisTopicObject with proper barcode handling
+"""
+
 import pickle
 import pandas as pd
 import re
 import scipy.sparse as sp
+import argparse
 
-def add_scrna_metadata(cistopic_pickle, scrna_csv, output_pickle):
+def add_scrna_metadata_fixed(cistopic_pickle, scrna_csv, output_pickle):
     """
-    Add scRNA metadata (celltype) to a merged cisTopicObject.
-    Includes:
-      - Barcode cleaning and alignment
-      - Metadata join
-      - Removal of unmatched cells
-      - Synchronization of matrices with filtered cells
-      - Optional cleanup of weird suffixes (-TH1___TH1 etc.)
+    FIXED VERSION: Add scRNA metadata with consistent barcode handling
     """
     print(f"🔹 Loading cisTopic object: {cistopic_pickle}")
     with open(cistopic_pickle, "rb") as f:
@@ -27,93 +24,149 @@ def add_scrna_metadata(cistopic_pickle, scrna_csv, output_pickle):
     if 'barcode' not in scrna_meta.columns or 'celltype' not in scrna_meta.columns:
         raise ValueError("❌ scRNA CSV must contain 'barcode' and 'celltype' columns")
 
+    # Clean scRNA barcodes
     scrna_meta['barcode'] = scrna_meta['barcode'].astype(str).str.strip()
     scrna_meta['barcode_clean'] = scrna_meta['barcode'].str.replace('-1$', '', regex=True)
-    scrna_meta.set_index('barcode_clean', inplace=True)
+    scrna_meta.set_index('barcode', inplace=True)
 
     # --- Prepare ATAC barcodes ---
-    atac_barcodes = pd.Series(cistopic_obj.cell_data.index.astype(str), name='barcode')
-    atac_barcodes_clean = atac_barcodes.str.replace('-1$', '', regex=True)
-    
-    # Store original index and add clean barcodes
-    original_index = cistopic_obj.cell_data.index
+    original_barcodes = cistopic_obj.cell_data.index
     cistopic_obj.cell_data = cistopic_obj.cell_data.copy()
-    cistopic_obj.cell_data['barcode'] = atac_barcodes.values
-    cistopic_obj.cell_data['barcode_clean'] = atac_barcodes_clean.values
-    cistopic_obj.cell_data.set_index('barcode_clean', inplace=True, drop=False)
 
-    # --- Debug info ---
-    print("\n=== BARCODE DEBUG INFO ===")
-    print(f"ATAC total cells: {len(atac_barcodes)}")
+    # Add clean barcodes as a column, but keep original index
+    cistopic_obj.cell_data['barcode_clean'] = original_barcodes.str.replace('-1$', '', regex=True)
+    cistopic_obj.cell_data['orig_barcode'] = original_barcodes  # Keep original barcodes
+
+    # --- COMPREHENSIVE BARCODE DEBUG ---
+    print("\n" + "="*80)
+    print("COMPREHENSIVE BARCODE DEBUG")
+    print("="*80)
+
+    print(f"ATAC total cells: {len(original_barcodes)}")
     print(f"scRNA total cells: {len(scrna_meta)}")
-    print(f"ATAC example barcodes: {atac_barcodes.head(5).tolist()}")
-    print(f"scRNA example barcodes: {scrna_meta.index[:5].tolist()}")
-    overlap = len(set(cistopic_obj.cell_data.index).intersection(scrna_meta.index))
-    print(f"Shared barcodes (after cleaning): {overlap}")
 
-    # --- Join scRNA metadata ---
-    cistopic_obj.cell_data = cistopic_obj.cell_data.join(scrna_meta[['celltype']], how='inner')  # Use inner join to only keep matches
+    # Check for duplicates in original index
+    duplicate_mask = original_barcodes.duplicated(keep=False)
+    duplicate_count = duplicate_mask.sum()
+    if duplicate_count > 0:
+        print(f"❌ FOUND DUPLICATE BARCODES IN ORIGINAL INDEX: {duplicate_count}")
+        print("Sample duplicates:")
+        # Convert to list and show first 10 unique duplicates
+        duplicate_values = original_barcodes[duplicate_mask].unique()[:10]
+        for i, barcode in enumerate(duplicate_values):
+            print(f"  {i+1}: '{barcode}'")
+
+        # Show how many times each duplicate appears
+        duplicate_freq = original_barcodes.value_counts()
+        duplicate_freq = duplicate_freq[duplicate_freq > 1]
+        print(f"\nDuplicate frequency:")
+        for barcode, count in duplicate_freq.head(5).items():
+            print(f"  '{barcode}': {count} times")
+
+        # FIX: Handle duplicates by making them unique while preserving format
+        print("\n🔧 Making duplicate barcodes unique...")
+        seen = {}
+        new_barcodes = []
+        for barcode in original_barcodes:
+            if barcode not in seen:
+                seen[barcode] = 1
+                new_barcodes.append(barcode)
+            else:
+                seen[barcode] += 1
+                new_barcodes.append(f"{barcode}_dup{seen[barcode]}")
+        
+        # Update the index with unique barcodes
+        cistopic_obj.cell_data.index = new_barcodes
+        cistopic_obj.cell_data['barcode'] = new_barcodes
+        print(f"✅ Made barcodes unique while preserving format")
+
+    # --- Join scRNA metadata using clean barcodes ---
+    scrna_clean_to_celltype = dict(zip(scrna_meta['barcode_clean'], scrna_meta['celltype']))
+    cistopic_obj.cell_data['celltype'] = cistopic_obj.cell_data['barcode_clean'].map(scrna_clean_to_celltype)
 
     # --- Report match statistics ---
     n_matched = cistopic_obj.cell_data['celltype'].notna().sum()
     total_cells = cistopic_obj.cell_data.shape[0]
-    print(f"\n✅ Matched {n_matched} / {len(original_index)} cells ({n_matched / len(original_index) * 100:.2f}%)")
+    print(f"\n✅ Matched {n_matched} / {total_cells} cells ({n_matched / total_cells * 100:.2f}%)")
 
     # --- Filter matrices to only keep matched cells ---
-    print("Filtering matrices to match cell data...")
-    
-    # Get indices of cells that passed the filter
-    keep_cell_indices = []
-    original_cell_names = list(original_index)
-    for i, cell_name in enumerate(original_cell_names):
-        clean_name = re.sub('-1$', '', str(cell_name))
-        if clean_name in cistopic_obj.cell_data.index:
-            keep_cell_indices.append(i)
-    
-    print(f"Keeping {len(keep_cell_indices)} cells in matrices")
-    
-    # Filter fragment_matrix
+    print("\nFiltering matrices to match cell data...")
+    keep_cell_indices = cistopic_obj.cell_data['celltype'].notna()
+    print(f"Keeping {keep_cell_indices.sum()} cells in matrices")
+
+    # Filter cell_data
+    cistopic_obj.cell_data = cistopic_obj.cell_data[keep_cell_indices]
+
+    # Filter matrices
     if hasattr(cistopic_obj, 'fragment_matrix') and cistopic_obj.fragment_matrix is not None:
         if sp.issparse(cistopic_obj.fragment_matrix):
             cistopic_obj.fragment_matrix = cistopic_obj.fragment_matrix[keep_cell_indices, :]
         else:
             cistopic_obj.fragment_matrix = cistopic_obj.fragment_matrix[keep_cell_indices, :]
         print(f"✓ Filtered fragment_matrix to shape: {cistopic_obj.fragment_matrix.shape}")
-    
-    # Filter binary_matrix
+
     if hasattr(cistopic_obj, 'binary_matrix') and cistopic_obj.binary_matrix is not None:
         if sp.issparse(cistopic_obj.binary_matrix):
             cistopic_obj.binary_matrix = cistopic_obj.binary_matrix[keep_cell_indices, :]
         else:
             cistopic_obj.binary_matrix = cistopic_obj.binary_matrix[keep_cell_indices, :]
         print(f"✓ Filtered binary_matrix to shape: {cistopic_obj.binary_matrix.shape}")
-    
-    # --- Fix barcode suffixes like '-TH1___TH1' (optional) ---
-    cistopic_obj.cell_data['barcode'] = cistopic_obj.cell_data['barcode'].apply(
-        lambda x: re.sub(r'-TH\d+___TH\d+', '', str(x))
-    )
 
-    # --- Synchronize .cell_names with filtered cells ---
+    # --- FIXED: KEEP ORIGINAL BARCODES - DO NOT REPLACE WITH cell_000000 ---
+    print("\n" + "="*80)
+    print("PRESERVING ORIGINAL BARCODES")
+    print("="*80)
+    
+    # Synchronize cell_names with the (potentially deduplicated) cell_data index
     cistopic_obj.cell_names = cistopic_obj.cell_data.index.tolist()
+    
+    print(f"✅ Preserved original barcode format")
+    print(f"Sample barcodes: {cistopic_obj.cell_names[:5]}")
+
+    # --- FINAL VERIFICATION ---
+    print("\n" + "="*80)
+    print("FINAL VERIFICATION")
+    print("="*80)
+
+    print(f"cell_data shape: {cistopic_obj.cell_data.shape}")
+    print(f"cell_data index unique: {cistopic_obj.cell_data.index.is_unique}")
+    print(f"cell_names length: {len(cistopic_obj.cell_names)}")
+    print(f"cell_data index matches cell_names: {cistopic_obj.cell_data.index.tolist() == cistopic_obj.cell_names}")
+
+    if hasattr(cistopic_obj, 'fragment_matrix'):
+        print(f"fragment_matrix shape: {cistopic_obj.fragment_matrix.shape}")
+        print(f"Matrix rows match cell_data: {cistopic_obj.fragment_matrix.shape[0] == cistopic_obj.cell_data.shape[0]}")
+
+    if hasattr(cistopic_obj, 'binary_matrix'):
+        print(f"binary_matrix shape: {cistopic_obj.binary_matrix.shape}")
+        print(f"Binary matrix rows match cell_data: {cistopic_obj.binary_matrix.shape[0] == cistopic_obj.cell_data.shape[0]}")
+
+    # Check celltype distribution
+    celltype_counts = cistopic_obj.cell_data['celltype'].value_counts()
+    print(f"\n📊 FINAL CELLTYPE DISTRIBUTION:")
+    for celltype, count in celltype_counts.items():
+        print(f"  {celltype}: {count} cells")
 
     # --- Save cleaned object ---
     with open(output_pickle, "wb") as f:
         pickle.dump(cistopic_obj, f)
 
-    print("\n💾 Updated and cleaned CistopicObject saved to:", output_pickle)
+    print("\n💾 UPDATED AND CLEANED CistopicObject saved to:", output_pickle)
     print(f"📊 Final cell_data shape: {cistopic_obj.cell_data.shape}")
     if hasattr(cistopic_obj, 'fragment_matrix'):
         print(f"📊 Final fragment_matrix shape: {cistopic_obj.fragment_matrix.shape}")
     if hasattr(cistopic_obj, 'binary_matrix'):
         print(f"📊 Final binary_matrix shape: {cistopic_obj.binary_matrix.shape}")
-    print(f"📋 Columns: {list(cistopic_obj.cell_data.columns)}")
+    print(f"📊 Barcodes preserved: {cistopic_obj.cell_names[:3]}")
+
+    print("🎉 SUCCESS: Object is now properly formatted for topic modeling!")
     print("✅ Done.")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Add scRNA metadata to merged CistopicObject (with cleanup)")
+    parser = argparse.ArgumentParser(description="FIXED: Add scRNA metadata to merged CistopicObject")
     parser.add_argument("--cistopic_pickle", required=True, help="Merged cisTopic pickle file")
     parser.add_argument("--scrna_csv", required=True, help="scRNA CSV with 'barcode' and 'celltype'")
     parser.add_argument("--output_pickle", required=True, help="Output path for updated pickle")
     args = parser.parse_args()
 
-    add_scrna_metadata(args.cistopic_pickle, args.scrna_csv, args.output_pickle)
+    add_scrna_metadata_fixed(args.cistopic_pickle, args.scrna_csv, args.output_pickle)

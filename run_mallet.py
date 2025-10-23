@@ -44,7 +44,13 @@ def run_mallet_on_object(cistopic_obj, mallet_path, n_topics, n_cpu, n_iter,
     # Select best model by log likelihood
     best_model = max(models, key=lambda m: getattr(m, 'log_likelihood', -1e10))
 
-    # Add model to CistopicObject
+    # Save best model immediately
+    best_model_file = os.path.join(sample_save_path, "best_model.pkl")
+    with open(best_model_file, "wb") as f:
+        pickle.dump(best_model, f)
+    print(f"[INFO] Saved best LDA model -> {best_model_file}")
+
+    # Attach best model to object
     cistopic_obj.add_LDA_model(best_model)
     cistopic_obj.selected_model = best_model
 
@@ -52,8 +58,8 @@ def run_mallet_on_object(cistopic_obj, mallet_path, n_topics, n_cpu, n_iter,
     return cistopic_obj
 
 def main(cistopic_obj_pickle, mallet_path, n_topics, n_cpu, n_iter,
-         tmp_path, save_path, mallet_memory="250G", random_state=555,
-         alpha=50, alpha_by_topic=True, eta=0.1, eta_by_topic=False):
+         tmp_path, save_path, mallet_memory="300G", random_state=555,
+         alpha=5.0, alpha_by_topic=True, eta=0.1, eta_by_topic=True):
 
     # Load merged CistopicObject
     with open(cistopic_obj_pickle, "rb") as f:
@@ -87,17 +93,17 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run MALLET topic modeling on a merged CistopicObject")
     parser.add_argument("--cistopic_obj_pickle", required=True)
     parser.add_argument("--mallet_path", required=True)
-    parser.add_argument("--n_topics", type=int, nargs="+", required=True)  # Made required
+    parser.add_argument("--n_topics", type=int, nargs="+", required=True)
     parser.add_argument("--n_cpu", type=int, default=12)
     parser.add_argument("--n_iter", type=int, default=500)
     parser.add_argument("--tmp_path", required=True)
     parser.add_argument("--save_path", required=True)
-    parser.add_argument("--mallet_memory", default="300G")  # Updated to match your param
+    parser.add_argument("--mallet_memory", default="300G")
     parser.add_argument("--random_state", type=int, default=555)
-    parser.add_argument("--alpha", type=float, default=5.0)  # Updated to match your param
+    parser.add_argument("--alpha", type=float, default=5.0)
     parser.add_argument("--alpha_by_topic", action="store_true", default=True)
     parser.add_argument("--eta", type=float, default=0.1)
-    parser.add_argument("--eta_by_topic", action="store_true", default=True)  # Fixed boolean
+    parser.add_argument("--eta_by_topic", action="store_true", default=True)
     args = parser.parse_args()
 
     main(
@@ -115,3 +121,4 @@ if __name__ == "__main__":
         eta=args.eta,
         eta_by_topic=args.eta_by_topic
     )
+
