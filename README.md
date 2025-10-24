@@ -753,44 +753,58 @@ total                              13
 
 ## First output: eRegulon_Direct.tsv
 
-# SCENIC+ eRegulon Direct File (`eRegulon_direct.tsv`) Explanation
+# SCENIC+ `eRegulon_direct.tsv` – Overview
 
-The `eRegulon_direct.tsv` file describes direct links between regulatory regions, transcription factors (TFs), and their target genes inferred by SCENIC+. Each row represents a **region-gene-TF triplet**. Below is a breakdown of each column:
+The `eRegulon_direct.tsv` file captures **direct regulatory links** between genomic regions, transcription factors (TFs), and their target genes. Each row represents a **triplet**:  
 
-| Column | Description |
-|--------|-------------|
-| `Region` | Genomic coordinates of the regulatory region (e.g., enhancer or promoter), in `chr:start-end` format. |
-| `Gene` | The target gene associated with the region. |
-| `importance_R2G` | Importance score of the **Region-to-Gene link**, measuring how strongly the region predicts the target gene’s activity. |
-| `rho_R2G` | Correlation coefficient (Spearman's rho) between the region's activity and the target gene’s expression. |
-| `importance_x_rho` | Product of `importance_R2G` × `rho_R2G`, used as a combined metric of influence. |
-| `importance_x_abs_rho` | Product of `importance_R2G` × absolute value of `rho_R2G`, reflecting strength regardless of direction. |
-| `TF` | Transcription factor predicted to regulate the target gene via this region. |
-| `is_extended` | Boolean indicating whether the eRegulon includes **extended regions** (True/False). |
-| `eRegulon_name` | Name of the eRegulon (TF-centered regulatory module). |
-| `Gene_signature_name` | Name of the **gene signature** used for the eRegulon (subset of genes directly linked to TF). |
-| `Region_signature_name` | Name of the **region signature** used for the eRegulon (subset of regulatory regions). |
-| `importance_TF2G` | Importance score of the **TF-to-Gene link**, quantifying TF’s contribution to target gene regulation. |
-| `regulation` | Indicates whether the TF is activating (`1`) or repressing (`-1`) the target gene. |
-| `rho_TF2G` | Correlation coefficient (Spearman's rho) between TF expression/activity and target gene expression. |
-| `triplet_rank` | Rank of the TF-region-gene triplet within the eRegulon based on combined importance metrics. |
+**Region → TF → Gene**
 
-## Key Points
+---
 
-- Each row corresponds to a **triplet**: **Region → TF → Gene**.  
-- Metrics like `importance_R2G`, `rho_R2G`, and `importance_TF2G` allow prioritizing **strong regulatory links**.  
-- `is_extended = False` usually indicates only the core regulatory regions are considered.  
-- `eRegulon_name` groups all target genes and regions regulated by the same TF.  
-- `triplet_rank` helps identify the **most influential regulatory connections** in the eRegulon.
+## Column Descriptions
 
-## Example Row
+| Column | Meaning |
+|--------|---------|
+| **Region** | Genomic coordinates of the regulatory element (`chr:start-end`). |
+| **Gene** | Target gene associated with the region. |
+| **importance_R2G** | Importance of the **Region → Gene** link (higher = stronger influence). |
+| **rho_R2G** | Spearman correlation between region activity and gene expression. |
+| **importance_x_rho** | Combined metric: `importance_R2G × rho_R2G`. |
+| **importance_x_abs_rho** | Combined metric with absolute correlation: `importance_R2G × |rho_R2G|`. |
+| **TF** | Transcription factor predicted to regulate the gene via this region. |
+| **is_extended** | Indicates whether the eRegulon includes extended regions (`True/False`). |
+| **eRegulon_name** | Name of the TF-centered eRegulon module. |
+| **Gene_signature_name** | Name of the **gene signature** subset linked to the TF. |
+| **Region_signature_name** | Name of the **region signature** subset linked to the TF. |
+| **importance_TF2G** | Importance of the **TF → Gene** regulation. |
+| **regulation** | TF effect on gene: `1 = activating`, `-1 = repressing`. |
+| **rho_TF2G** | Spearman correlation between TF activity/expression and target gene. |
+| **triplet_rank** | Rank of the TF-Region-Gene triplet within the eRegulon (lower = higher priority). |
 
-| Region | Gene | importance_R2G | rho_R2G | importance_x_rho | importance_x_abs_rho | TF | is_extended | eRegulon_name | Gene_signature_name | Region_signature_name | importance_TF2G | regulation | rho_TF2G | triplet_rank |
-|--------|------|----------------|---------|-----------------|---------------------|----|------------|---------------|-------------------|---------------------|----------------|-----------|-----------|--------------|
-| chr2:71980454-71981615 | Rapgef4 | 0.067 | 0.111 | 0.0075 | 0.0075 | Alx1 | False | Alx1_direct_+/+ | Alx1_direct_+/+_(4g) | Alx1_direct_+/+_(5r) | 3.21 | 1 | 0.243 | 10464 |
+---
 
-This indicates that the region `chr2:71980454-71981615` likely regulates **Rapgef4** under the influence of **TF Alx1**, with moderate correlation and importance scores.
+## How to Interpret a Row
 
+| Region | Gene | TF | R2G importance | R2G rho | TF2G importance | Regulation | Triplet rank |
+|--------|------|----|----------------|---------|----------------|-----------|--------------|
+| chr2:71980454-71981615 | Rapgef4 | Alx1 | 0.067 | 0.111 | 3.21 | 1 (activating) | 10464 |
+
+**Explanation:**  
+- Region `chr2:71980454-71981615` is likely regulating **Rapgef4**.  
+- **Alx1** is the TF controlling this regulation.  
+- Both the region-to-gene and TF-to-gene links have moderate importance and correlation.  
+- Triplet rank indicates relative strength within the eRegulon.
+
+---
+
+### Key Takeaways
+
+1. Each row links **one region, one TF, and one target gene**.  
+2. Metrics (`importance`, `rho`) help prioritize **strong regulatory relationships**.  
+3. `is_extended` and signature columns provide context on **which regions/genes are considered core vs extended**.  
+4. Triplets with **higher importance and lower rank** are likely the most biologically relevant.
+
+---
 
 
 ## References
