@@ -723,6 +723,7 @@ The feather file contains **region counts** per genomic bin (integer values):
   - Motif enrichment plots  
   - Network diagrams of TFs and targets  
 
+--- 
 
 #### Snakefile rules
 
