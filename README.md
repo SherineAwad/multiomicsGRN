@@ -800,6 +800,19 @@ In other words:
 - The structure of the UMAP can reveal **transitions or relationships** between cell states — e.g., progenitor to mature cell trajectories.
 
 
+#### UMAP of SCENIC+ eRegulon Activity: Top Features
+
+This UMAP visualization represents the activity of the top regulatory features (eRegulons) across cells in our dataset, as inferred from SCENIC+.  
+
+- Each point corresponds to a single cell.  
+- Cells are colored based on the activity of selected top features: either the top 2 features per cell type from the `rss` ranking, or the top 10 most variable features if `rss` was not available.  
+- Clustering patterns reflect similarities in regulatory activity rather than gene expression alone, highlighting potential cell type–specific regulatory programs.  
+- This graph helps identify which eRegulons are most influential in driving cell type identity and can guide downstream analyses such as marker identification or regulatory network inference.
+
+
+![UMAP of Top Features](SnakemakeFast/workflow/figures/umap_top_features.png)
+
+
 #### SCENIC+ eRegulon Specificity Score (RSS) Plot
 
 ![SCENIC+ eRegulon Specificity Score (RSS) Plot](SnakemakeFast/workflow/RSS_plot.png)
