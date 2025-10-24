@@ -727,7 +727,6 @@ The feather file contains **region counts** per genomic bin (integer values):
 
 #### Snakefile rules
 
-```
 | Job                             | Count |
 |---------------------------------|-------|
 | AUCell_direct                    | 1     |
@@ -744,8 +743,6 @@ The feather file contains **region counts** per genomic bin (integer values):
 | scplus_mudata                    | 1     |
 | tf_to_gene                       | 1     |
 | total                            | 13    |
-
-```
 
 
 ## First output: eRegulon_Direct.tsv
