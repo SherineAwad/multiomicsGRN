@@ -826,20 +826,6 @@ Example:
 The **higher** a regulon appears, the more **specific** and **enriched** it is in that cell type.  
 These top TFs are likely the *key transcriptional regulators* defining each cell population.
 
-### 🧩 Biological interpretation
-| Cell Type | Top Enriched Regulons | Biological Interpretation |
-|------------|----------------------|----------------------------|
-| **AC (Amacrine Cells)** | *Emx1*, *Nhlh1*, *Bhlhe22* | Neurogenic and interneuron subtype TFs — consistent with amacrine identity. |
-| **BC (Bipolar Cells)** | *Neurod1*, *Neurod2*, *Lhx4* | Classic neuronal differentiation TFs; *Lhx4* marks ON bipolar cells. |
-| **Cones** | *Etv3*, *Erl1*, *Pbx3* | Possible secondary or subtype regulators downstream of *Crx/Thrb*. |
-| **MG (Müller Glia)** | *Otx2*, *Crx*, *Rax* | Canonical retinal and glial identity TFs — perfectly consistent. |
-| **MGPC (Müller Glia Progenitor Cells)** | *Frem1*, *Emx1*, *Irx4* | Reactivation of developmental or progenitor-like programs. |
-| **Microglia** | *Irf5*, *Tal1*, *Elf4* | Immune-related TFs — hallmark microglial regulators. |
-| **Rod Photoreceptors** | *E2f5*, *E2f6*, *Pbx3* | Possible late-stage or maintenance regulators in rods. |
-
-### ✅ Summary
-This plot highlights the **key transcription factors** that are **most enriched and specific** for each retinal cell type, revealing both canonical regulators (like *Otx2*, *Neurod1*, *Irf5*) and potentially novel, condition-specific TFs (like *Frem1* or *E2f5*).  
-Together, these eRegulon specificity profiles provide a clear view of the **cell-type–specific transcriptional programs** active in your dataset.
 
 ## References
 
