@@ -744,16 +744,12 @@ region_to_gene                      1
 scplus_mudata                       1
 tf_to_gene                          1
 total                              13
-
 ```
-
-
----
 
 
 ## First output: eRegulon_Direct.tsv
 
-# SCENIC+ `eRegulon_direct.tsv` – Overview
+### SCENIC+ `eRegulon_direct.tsv` 
 
 The `eRegulon_direct.tsv` file captures **direct regulatory links** between genomic regions, transcription factors (TFs), and their target genes. Each row represents a **triplet**:  
 
